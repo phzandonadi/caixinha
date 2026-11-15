@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Caixinha - Configurações</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{text-decoration:none}
+button{font-family:'Nunito',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+
+<div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px">
+<a href="Menu.dc.html" aria-label="Voltar ao menu" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</a>
+<h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Configurações</h1>
+</div>
+
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px 16px 28px 16px; display: flex; flex-direction: column; gap: 22px">
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0 4px; font-size: 14px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #5C3A24">Notificações</h2>
+<div style="background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; overflow: hidden">
+<sc-for list="{{toggles}}" as="t" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 2px solid #F6EADC">
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; font-weight: 800; color: #2E1203">{{t.title}}</span>
+<span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">{{t.desc}}</span>
+</span>
+<button type="button" role="switch" aria-checked="{{t.on}}" aria-label="{{t.title}}" onClick="{{t.flip}}" style="position: relative; width: 56px; height: 44px; flex: none; border: 0; background: transparent; cursor: pointer; padding: 0">
+<span style="position: absolute; left: 0; top: 8px; width: 56px; height: 28px; border-radius: 14px; background: {{t.track}}"></span>
+<span style="position: absolute; left: {{t.knob}}px; top: 11px; width: 22px; height: 22px; border-radius: 11px; background: #FFFFFF; box-shadow: 0 1px 4px rgba(46, 18, 3, 0.35)"></span>
+</button>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0 4px; font-size: 14px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #5C3A24">Estoque</h2>
+<div style="background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 10px">
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; font-weight: 800; color: #2E1203">Limite de estoque baixo</span>
+<span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">Itens com {{limit}} unidades ou menos aparecem como “Estoque baixo”.</span>
+</span>
+<button type="button" onClick="{{dec}}" aria-label="Diminuir limite" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 22px; background: #F3DFCB; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4A1F05" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg>
+</button>
+<span style="width: 32px; text-align: center; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 24px; font-weight: 800; color: #4A1F05">{{limit}}</span>
+<button type="button" onClick="{{inc}}" aria-label="Aumentar limite" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 22px; background: {{accent}}; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+</button>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0 4px; font-size: 14px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #5C3A24">Geral</h2>
+<div style="background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; overflow: hidden">
+<button type="button" style="display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; box-sizing: border-box; padding: 8px 14px; border: 0; border-bottom: 2px solid #F6EADC; background: transparent; cursor: pointer; text-align: left">
+<span style="flex: 1; font-size: 16px; font-weight: 800; color: #2E1203">Idioma</span>
+<span style="font-size: 15px; font-weight: 700; color: #5C3A24">Português (Brasil)</span>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#7A5C48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+<button type="button" style="display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; box-sizing: border-box; padding: 8px 14px; border: 0; background: transparent; cursor: pointer; text-align: left">
+<span style="flex: 1; font-size: 16px; font-weight: 800; color: #2E1203">Sincronizar dados</span>
+<span style="font-size: 15px; font-weight: 700; color: #5C3A24">Automático</span>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#7A5C48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+const st = this.state || {};
+const on = st.on || { baixo: true, sem: true, mov: false };
+const limit = st.limit === undefined ? 10 : st.limit;
+const defs = [
+{ id: 'baixo', title: 'Estoque baixo', desc: 'Avisar quando um item chegar ao limite de estoque baixo.' },
+{ id: 'sem', title: 'Sem estoque', desc: 'Avisar quando um item zerar em alguma loja.' },
+{ id: 'mov', title: 'Movimentações', desc: 'Avisar quando outro usuário adicionar ou alterar itens.' }
+];
+return {
+accent: accent,
+limit: String(limit),
+toggles: defs.map((d) => {
+const v = !!on[d.id];
+return {
+title: d.title, desc: d.desc, on: v,
+track: v ? accent : '#D9BFA6',
+knob: v ? 30 : 4,
+flip: () => {
+const cur = this.state && this.state.on ? this.state.on : { baixo: true, sem: true, mov: false };
+this.setState({ on: Object.assign({}, cur, { [d.id]: !cur[d.id] }) });
+}
+};
+}),
+dec: () => this.setState({ limit: Math.max(1, limit - 1) }),
+inc: () => this.setState({ limit: Math.min(99, limit + 1) })
+};
+}
+}
+</script>
+</body>
+</html>
