@@ -178,7 +178,7 @@ const st = this.state || {};
 const EDIT = false;
 const itId = Number((CX.hash() || '').replace(/\D/g, '')) || 0;
 const it = EDIT ? (CX.item(itId) || CX.get().items[0]) : null;
-let base = { nome: '', cod: '', cat: 'Roupas', unid: 'un', min: '10', preco: '', custo: '', terms: [], qty: { centro: 0, shopping: 0, norte: 0 } };
+let base = { nome: '', cod: '', cat: 'Roupas', unid: 'un', min: String(CX.get().defMin || 10), preco: '', custo: '', terms: [], qty: { centro: 0, shopping: 0, norte: 0 } };
 if (it) base = { nome: it.name, cod: it.cod, cat: it.cat, unid: it.unid, min: String(it.min), preco: it.preco, custo: it.custo, terms: it.apelidos ? it.apelidos.split(',').map((s) => s.trim()).filter(Boolean) : [], qty: Object.assign({}, it.q) };
 const nome = st.nome !== undefined ? st.nome : base.nome;
 const cod = st.cod !== undefined ? st.cod : base.cod;
@@ -229,11 +229,7 @@ addVar: () => setVars(vars.concat([{ label: '', sku: '', qty: '0' }])),
 codLabel: useVars ? 'Código base do produto' : 'Código do produto (SKU)', minLabel: useVars ? 'Estoque mínimo (de cada variação)' : 'Estoque mínimo'
 };
 const draft = st.draft || '';
-const storeList = [
-{ id: 'centro', name: 'Loja Centro' },
-{ id: 'shopping', name: 'Loja Shopping' },
-{ id: 'norte', name: 'Loja Norte' }
-];
+const storeList = CX.stores();
 const setQty = (id, delta) => {
 const cur = this.state && this.state.qty ? this.state.qty : base.qty;
 const next = Object.assign({}, cur);

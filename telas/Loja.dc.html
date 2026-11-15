@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Caixinha - Perfil da loja</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
@@ -28,7 +29,7 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 
 <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 16px; background: #FFE9D2">
 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path></svg>
-<span style="font-size: 14px; font-weight: 700; line-height: 1.35; color: #4A1F05">Só administradores podem editar a loja e as unidades.</span>
+<span style="font-size: 14px; font-weight: 700; line-height: 1.35; color: #4A1F05">{{permText}}</span>
 </div>
 
 <div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
@@ -45,17 +46,19 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 <div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome da loja</label>
-<input id="nome" type="text" value="Moda Express" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+<input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="cnpj" style="font-size: 14px; font-weight: 700; color: #4A1F05">CNPJ</label>
-<input id="cnpj" type="text" inputmode="numeric" value="00.000.000/0001-00" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+<input id="cnpj" type="text" inputmode="numeric" value="{{cnpj}}" onChange="{{onCnpj}}" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="endereco" style="font-size: 14px; font-weight: 700; color: #4A1F05">Endereço da sede</label>
-<input id="endereco" type="text" value="Rua das Flores, 123 – Centro, São Paulo/SP" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+<input id="endereco" type="text" value="{{endereco}}" onChange="{{onEnd}}" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
 </div>
-<button type="button" style="height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer; margin-top: 2px">Salvar alterações</button>
+<sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if>
+<sc-if value="{{ hasOk }}" hint-placeholder-val="{{ false }}"><p role="status" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #DDEFD8; color: #1F4D1A; font-size: 14px; font-weight: 700">Alterações salvas.</p></sc-if>
+<button type="button" onClick="{{save}}" style="height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer; margin-top: 2px">Salvar alterações</button>
 </div>
 
 <div style="display: flex; flex-direction: column; gap: 10px">
@@ -81,7 +84,7 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 <span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">{{u.address}}</span>
 <span style="font-size: 13px; font-weight: 800; color: {{accent}}">{{u.items}}</span>
 </div>
-<a href="EditarLoja.dc.html" aria-label="Editar {{u.name}}" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #F3DFCB; display: flex; align-items: center; justify-content: center">
+<a href="{{u.href}}" aria-label="Editar {{u.name}}" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #F3DFCB; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4A1F05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>
 </a>
 </div>
@@ -94,15 +97,31 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
 renderVals() {
-const units = [
-{ name: 'Loja Centro', address: 'Rua das Flores, 123 – Centro', items: '4 itens' },
-{ name: 'Loja Shopping', address: 'Av. Brasil, 1500 – Shopping Plaza, piso 2', items: '3 itens' },
-{ name: 'Loja Norte', address: 'Rua Norte, 45 – Zona Norte', items: '3 itens' }
-];
+const st = this.state || {};
+const cs = CX.get();
+const cnt = (id) => { const ps = {}; cs.items.forEach((i) => { if ((i.q[id] || 0) > 0) ps[i.prod] = 1; }); return Object.keys(ps).length; };
+const addr = { centro: 'Rua das Flores, 123 – Centro', shopping: 'Av. Brasil, 1500 – Shopping Plaza, piso 2', norte: 'Rua Norte, 45 – Zona Norte' };
+const units = CX.stores().map((x) => ({ href: 'EditarLoja.dc.html#' + x.id, name: x.name, address: addr[x.id], items: cnt(x.id) + (cnt(x.id) === 1 ? ' produto' : ' produtos') }));
+const me = cs.users[0];
+const nome = st.nome !== undefined ? st.nome : (cs.shopName || '');
+const cnpj = st.cnpj !== undefined ? st.cnpj : (cs.cnpj || '00.000.000/0001-00');
+const endereco = st.end !== undefined ? st.end : (cs.endereco || 'Rua das Flores, 123 – Centro, São Paulo/SP');
+const set = (o) => this.setState(Object.assign({ err: '', ok: false }, o));
 return {
 accent: this.props.accent ?? '#9C430C',
-units: units,
-countLabel: units.length + ' unidades'
+units: units, countLabel: units.length + ' unidades',
+permText: me.role === 'adm' ? 'Você é administrador, então pode editar a loja e as unidades.' : 'Só administradores podem editar a loja. Peça a um administrador para fazer a mudança.',
+nome: nome, cnpj: cnpj, endereco: endereco,
+onNome: (e) => set({ nome: e.target.value }), onCnpj: (e) => set({ cnpj: e.target.value }), onEnd: (e) => set({ end: e.target.value }),
+hasErr: !!st.err, err: st.err || '', hasOk: !!st.ok,
+save: () => {
+if (me.role !== 'adm') { this.setState({ err: 'Só administradores podem salvar mudanças na loja.', ok: false }); return; }
+if (!nome.trim()) { this.setState({ err: 'Digite o nome da loja.', ok: false }); return; }
+const dg = cnpj.replace(/\D/g, '');
+if (dg.length !== 14) { this.setState({ err: 'O CNPJ precisa ter 14 números, como 12.345.678/0001-90.', ok: false }); return; }
+cs.shopName = nome.trim(); cs.cnpj = cnpj.trim(); cs.endereco = endereco.trim(); CX.save();
+this.setState({ err: '', ok: true });
+}
 };
 }
 }

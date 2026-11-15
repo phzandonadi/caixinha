@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Caixinha - Perfil</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
@@ -44,20 +45,19 @@ Administrador
 <div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome</label>
-<input id="nome" type="text" value="Maria Souza" autocomplete="name" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+<input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" autocomplete="name" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="email" style="font-size: 14px; font-weight: 700; color: #4A1F05">E-mail</label>
-<input id="email" type="email" value="maria@sualoja.com" autocomplete="email" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+<input id="email" type="email" value="{{email}}" onChange="{{onEmail}}" autocomplete="email" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
 </div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<label for="senha" style="font-size: 14px; font-weight: 700; color: #4A1F05">Senha</label>
-<div style="display: flex; align-items: center; height: 48px; box-sizing: border-box; padding: 0 4px 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF">
-<input id="senha" type="{{pwType}}" value="minhasenha123" autocomplete="current-password" style="flex: 1; min-width: 0; height: 44px; border: 0; outline: none; background: transparent; font-size: 16px; color: #2E1203">
-<button type="button" onClick="{{togglePw}}" aria-label="{{pwLabel}}" style="width: 40px; height: 40px; flex: none; border: 0; border-radius: 20px; background: transparent; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
-<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5C3A24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-</button>
-</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<button type="button" onClick="{{togglePwBox}}" aria-expanded="{{pwOpen}}" style="height: 48px; border: 2px solid {{accent}}; border-radius: 12px; background: transparent; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer">{{pwBtn}}</button>
+<sc-if value="{{ pwOpen }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="atual" style="font-size: 14px; font-weight: 700; color: #4A1F05">Senha atual</label><input id="atual" type="password" value="{{pwOld}}" onChange="{{onOld}}" autocomplete="current-password" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="nova" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nova senha</label><input id="nova" type="password" value="{{pwNew}}" onChange="{{onNew}}" autocomplete="new-password" placeholder="Pelo menos 8 caracteres" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="conf" style="font-size: 14px; font-weight: 700; color: #4A1F05">Repita a nova senha</label><input id="conf" type="password" value="{{pwConf}}" onChange="{{onConf}}" autocomplete="new-password" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"></div>
+</sc-if>
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <span style="font-size: 14px; font-weight: 700; color: #4A1F05">Cargo</span>
@@ -70,7 +70,9 @@ Administrador
 </div>
 
 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 4px">
-<button type="button" style="height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer">Salvar alterações</button>
+<sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if>
+<sc-if value="{{ hasOk }}" hint-placeholder-val="{{ false }}"><p role="status" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #DDEFD8; color: #1F4D1A; font-size: 14px; font-weight: 700">{{ok}}</p></sc-if>
+<button type="button" onClick="{{save}}" style="height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer">Salvar alterações</button>
 <a href="Main.dc.html" style="height: 52px; box-sizing: border-box; border: 2px solid {{accent}}; border-radius: 16px; color: {{accent}}; font-size: 17px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4M16 8l4 4-4 4M20 12H9"></path></svg>
 Sair da conta
@@ -92,12 +94,30 @@ Sair da conta
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
 renderVals() {
-const show = !!(this.state && this.state.show);
+const st = this.state || {};
+const u = CX.get().users[0];
+const nome = st.nome !== undefined ? st.nome : u.nome;
+const email = st.email !== undefined ? st.email : u.email;
+const set = (o) => this.setState(Object.assign({ err: '', ok: '' }, o));
 return {
 accent: this.props.accent ?? '#9C430C',
-pwType: show ? 'text' : 'password',
-pwLabel: show ? 'Ocultar senha' : 'Mostrar senha',
-togglePw: () => this.setState({ show: !show })
+nome: nome, email: email, pwOpen: !!st.pwOpen, pwBtn: st.pwOpen ? 'Cancelar troca de senha' : 'Alterar senha',
+pwOld: st.old || '', pwNew: st.nw || '', pwConf: st.conf || '',
+onNome: (e) => set({ nome: e.target.value }), onEmail: (e) => set({ email: e.target.value }),
+onOld: (e) => set({ old: e.target.value }), onNew: (e) => set({ nw: e.target.value }), onConf: (e) => set({ conf: e.target.value }),
+togglePwBox: () => set({ pwOpen: !st.pwOpen, old: '', nw: '', conf: '' }),
+hasErr: !!st.err, err: st.err || '', hasOk: !!st.ok, ok: st.ok || '',
+save: () => {
+if (!nome.trim()) { this.setState({ err: 'Digite o seu nome.', ok: '' }); return; }
+if (email.indexOf('@') < 1 || email.indexOf('.', email.indexOf('@')) < 0) { this.setState({ err: 'Digite um e-mail válido, como maria@sualoja.com.', ok: '' }); return; }
+if (st.pwOpen) {
+if (!st.old) { this.setState({ err: 'Digite a senha atual para trocar a senha.', ok: '' }); return; }
+if ((st.nw || '').length < 8) { this.setState({ err: 'A nova senha precisa ter pelo menos 8 caracteres.', ok: '' }); return; }
+if (st.nw !== st.conf) { this.setState({ err: 'As duas senhas novas não são iguais.', ok: '' }); return; }
+}
+const s = CX.get(); u.nome = nome.trim(); u.email = email.trim(); s.userName = u.nome.split(' ')[0]; CX.save();
+this.setState({ err: '', ok: st.pwOpen ? 'Dados e senha salvos.' : 'Alterações salvas.', pwOpen: false, old: '', nw: '', conf: '' });
+}
 };
 }
 }

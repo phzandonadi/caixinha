@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Caixinha - Editar unidade</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
@@ -73,10 +74,11 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 </sc-if>
 </div>
 
-<button type="button" style="height: 52px; border: 2px solid #B3261E; border-radius: 16px; background: transparent; color: #B3261E; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px">
+<button type="button" onClick="{{askRemove}}" style="height: 52px; border: 2px solid #B3261E; border-radius: 16px; background: transparent; color: #B3261E; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#B3261E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>
 Remover unidade
 </button>
+<sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if>
 </div>
 
 <div style="flex: none; padding: 12px 20px 24px 20px; background: #FFF6EC; border-top: 2px solid #F0DCC8; display: flex; gap: 10px">
@@ -87,6 +89,11 @@ Salvar alterações
 </a>
 </div>
 
+<sc-if value="{{ confirm }}" hint-placeholder-val="{{ false }}"><div role="dialog" aria-modal="true" aria-label="Remover unidade" style="position: absolute; z-index: 9; left: 0; top: 0; right: 0; bottom: 0; background: rgba(46, 18, 3, 0.6); display: flex; align-items: center; justify-content: center; padding: 24px">
+<div style="width: 100%; background: #FFF6EC; border-radius: 24px; padding: 22px; display: flex; flex-direction: column; gap: 14px"><h2 style="margin: 0; font-size: 20px; font-weight: 800; line-height: 1.25; color: #2E1203">Remover {{storeName}}?</h2>
+<p style="margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: #5C3A24">{{confirmText}}</p>
+<sc-if value="{{ hasStock }}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{dests}}" as="d" hint-placeholder-count="2"><button type="button" onClick="{{d.pick}}" aria-pressed="{{d.on}}" style="min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid {{d.bd}}; background: {{d.bg}}; color: {{d.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{d.label}}</button></sc-for></div></sc-if>
+<div style="display: flex; gap: 10px"><button type="button" onClick="{{keep}}" style="flex: 1; height: 52px; border: 2px solid {{accent}}; border-radius: 16px; background: transparent; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer">Cancelar</button><button type="button" onClick="{{doRemove}}" style="flex: 1; height: 52px; border: 0; border-radius: 16px; background: #B3261E; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer">Remover</button></div></div></div></sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
@@ -94,13 +101,25 @@ class Component extends DCLogic {
 renderVals() {
 const accent = this.props.accent ?? '#9C430C';
 const same = !(this.state && this.state.same === false);
+const st = this.state || {};
+const sid = (CX.hash() || 'centro').replace(/[^a-z]/g, '') || 'centro';
+const others = CX.stores().filter((x) => x.id !== sid);
+const stock = CX.get().items.reduce((a, it) => a + (it.q[sid] || 0), 0);
+const dest = st.dest || (others[0] && others[0].id);
 return {
 accent: accent,
 sameCnpj: same,
 ownCnpj: !same,
 track: same ? accent : '#D9BFA6',
 knob: same ? 30 : 4,
-flip: () => this.setState({ same: !same })
+flip: () => this.setState({ same: !same }),
+storeName: CX.storeName(sid), confirm: !!st.confirm, hasStock: stock > 0,
+confirmText: stock > 0 ? 'Esta unidade tem ' + stock + ' unidades em estoque. Escolha para qual unidade levar tudo. A transferência fica no histórico.' : 'Esta unidade não tem estoque. Ela some da lista de lojas.',
+dests: others.map((o) => ({ label: o.name, on: dest === o.id, bg: dest === o.id ? accent : '#FFFFFF', fg: dest === o.id ? '#FFFFFF' : '#2E1203', bd: dest === o.id ? accent : '#E2C9B2', pick: () => this.setState({ dest: o.id }) })),
+hasErr: !!st.err, err: st.err || '',
+askRemove: () => { if (others.length === 0) { this.setState({ err: 'Você precisa manter pelo menos uma unidade.' }); return; } this.setState({ confirm: true, err: '' }); },
+keep: () => this.setState({ confirm: false }),
+doRemove: () => { const r = CX.removeStore(sid, dest); if (!r.ok) { this.setState({ confirm: false, err: r.erro }); return; } CX.go('Loja.dc.html'); }
 };
 }
 }

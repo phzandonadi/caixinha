@@ -234,11 +234,7 @@ addVar: () => setVars(vars.concat([{ label: '', sku: '', qty: '0' }])),
 codLabel: useVars ? 'Código base do produto' : 'Código do produto (SKU)', minLabel: useVars ? 'Estoque mínimo (de cada variação)' : 'Estoque mínimo'
 };
 const draft = st.draft || '';
-const storeList = [
-{ id: 'centro', name: 'Loja Centro' },
-{ id: 'shopping', name: 'Loja Shopping' },
-{ id: 'norte', name: 'Loja Norte' }
-];
+const storeList = CX.stores();
 const setQty = (id, delta) => {
 const cur = this.state && this.state.qty ? this.state.qty : base.qty;
 const next = Object.assign({}, cur);

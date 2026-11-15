@@ -74,7 +74,7 @@
     return d[m][n];
   }
   var CX = {
-    stores: function () { return STORES; },
+    stores: function () { var r = (load().removed || []); return STORES.filter(function (x) { return r.indexOf(x.id) < 0; }); },
     storeName: function (id) { for (var i = 0; i < STORES.length; i++) if (STORES[i].id === id) return STORES[i].name; return id; },
     get: function () { return load(); },
     save: save,
@@ -114,7 +114,7 @@
       return first;
     },
     item: function (id) { var s = load(); for (var i = 0; i < s.items.length; i++) if (s.items[i].id === Number(id)) return s.items[i]; return null; },
-    total: function (it) { return (it.q.centro || 0) + (it.q.shopping || 0) + (it.q.norte || 0); },
+    total: function (it) { var t = 0; for (var k in it.q) t += it.q[k] || 0; return t; },
     status: function (it) { var t = CX.total(it); return t === 0 ? 'zero' : (t <= it.min ? 'baixo' : 'ok'); },
     chip: function (st) {
       if (st === 'zero') return { t: 'Sem estoque', bg: '#FAD2CB', fg: '#7A1E10' };
@@ -197,6 +197,19 @@
       s.mov.unshift({ t: Date.now(), tipo: 'ajuste', item: it.id, qtd: Math.abs(dif), sinal: dif >= 0 ? 1 : -1, loja: loja, motivo: motivo || 'Contagem', quem: s.userName || 'Você' });
     },
     addItem: function (o) { return CX.addProduto(o); },
+    removeStore: function (id, dest) {
+      var s = load();
+      if (CX.stores().length < 2) return { ok: false, erro: 'Você precisa manter pelo menos uma unidade.' };
+      var n = 0;
+      s.items.forEach(function (it) { var q = it.q[id] || 0; if (q > 0) { if (!dest) return; it.q[dest] = (it.q[dest] || 0) + q; it.q[id] = 0; n += q; s.mov.unshift({ t: Date.now(), tipo: 'transf', item: it.id, qtd: q, de: id, para: dest, motivo: 'Unidade removida', quem: s.userName || 'Você' }); } });
+      var left = s.items.some(function (it) { return (it.q[id] || 0) > 0; });
+      if (left) return { ok: false, erro: 'Escolha para onde levar o estoque desta unidade.' };
+      s.removed = (s.removed || []).concat(id);
+      s.users.forEach(function (u) { u.lojas = u.lojas.filter(function (l) { return l !== id; }); if (!u.lojas.length && dest) u.lojas = [dest]; });
+      s.sel = (s.sel || []).filter(function (l) { return l !== id; });
+      CX.setToast('Unidade removida: ' + CX.storeName(id) + (n ? '. ' + n + ' un. foram para ' + CX.storeName(dest) + '.' : '.'), false);
+      save(); return { ok: true };
+    },
     takeLast: function () { var s = load(), l = s.lastId; if (l) { s.lastId = null; save(); } return l; },
     sel: function () { var s = load(); return s.sel && s.sel.length ? s.sel : ['centro', 'shopping', 'norte']; },
     setSel: function (a) { var s = load(); s.sel = a; save(); },

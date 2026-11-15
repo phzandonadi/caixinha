@@ -63,7 +63,7 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 </div>
 <div style="display: flex; gap: 8px">
 <a href="Estatisticas.dc.html" style="flex: 1; height: 40px; box-sizing: border-box; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center">Abrir em Estatísticas</a>
-<button type="button" style="height: 40px; padding: 0 14px; border: 2px solid {{accent}}; border-radius: 12px; background: transparent; color: {{accent}}; font-size: 14px; font-weight: 800; cursor: pointer">Salvar</button>
+<button type="button" onClick="{{saveAnalysis}}" aria-pressed="{{analysisSaved}}" style="height: 40px; padding: 0 14px; border: 2px solid {{accent}}; border-radius: 12px; background: transparent; color: {{accent}}; font-size: 14px; font-weight: 800; cursor: pointer">{{saveLabel}}</button>
 </div>
 </div>
 
@@ -88,9 +88,9 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 </span>
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
 <span style="font-size: 15px; font-weight: 800; color: #2E1203">saidas-ontem.xlsx</span>
-<span style="font-size: 12px; font-weight: 700; color: #5C3A24">12 produtos · 14 KB</span>
+<span style="font-size: 12px; font-weight: 700; color: #5C3A24">{{dlText}}</span>
 </span>
-<button type="button" aria-label="Baixar planilha" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 22px; background: {{accent}}; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
+<button type="button" onClick="{{download}}" aria-label="Baixar planilha" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 22px; background: {{accent}}; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
 </button>
 </div>
@@ -120,7 +120,7 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 <sc-if value="{{ notConfirmed }}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; gap: 8px">
 <button type="button" onClick="{{confirmEntry}}" style="flex: 1; height: 40px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-size: 14px; font-weight: 800; cursor: pointer">Confirmar entrada</button>
-<button type="button" style="height: 40px; padding: 0 14px; border: 2px solid {{accent}}; border-radius: 12px; background: transparent; color: {{accent}}; font-size: 14px; font-weight: 800; cursor: pointer">Corrigir</button>
+<button type="button" onClick="{{fixEntry}}" style="height: 40px; padding: 0 14px; border: 2px solid {{accent}}; border-radius: 12px; background: transparent; color: {{accent}}; font-size: 14px; font-weight: 800; cursor: pointer">Corrigir</button>
 </div>
 </sc-if>
 <sc-if value="{{ confirmed }}" hint-placeholder-val="{{ false }}">
@@ -370,6 +370,9 @@ this.setState({ extra: (this.state.extra || []).concat([{ text: t }]), draft: ''
 startRec: () => this.setState({ rec: true }),
 cancelRec: () => this.setState({ rec: false }),
 sendRec: () => this.setState({ rec: false, extra: (this.state.extra || []).concat([{ text: 'Mensagem de voz · 0:04' }]) }),
+saveAnalysis: () => this.setState({ saved: !st.saved }), analysisSaved: !!st.saved, saveLabel: st.saved ? 'Salvo ✓' : 'Salvar',
+download: () => this.setState({ dl: true }), dlText: st.dl ? 'Baixado (nesta demonstração o arquivo não é gerado)' : '12 produtos · 14 KB',
+fixEntry: () => this.setState({ draft: 'Corrige: foram ' }),
 newChat: () => this.setState({ extra: [], draft: '', rec: false })
 };
 }

@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Caixinha - Configurações</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
@@ -49,7 +50,7 @@ button{font-family:'Nunito',system-ui,sans-serif}
 <div style="background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 10px">
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
 <span style="font-size: 16px; font-weight: 800; color: #2E1203">Limite de estoque baixo</span>
-<span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">Itens com {{limit}} unidades ou menos aparecem como “Estoque baixo”.</span>
+<span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">Limite padrão dos produtos novos: com {{limit}} unidades ou menos aparece “Estoque baixo”. Cada produto pode ter o próprio mínimo no cadastro.</span>
 </span>
 <button type="button" onClick="{{dec}}" aria-label="Diminuir limite" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 22px; background: #F3DFCB; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4A1F05" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg>
@@ -86,9 +87,9 @@ renderVals() {
 const accent = this.props.accent ?? '#9C430C';
 const st = this.state || {};
 const on = st.on || { baixo: true, sem: true, mov: false };
-const limit = st.limit === undefined ? 10 : st.limit;
+const limit = st.limit === undefined ? (CX.get().defMin || 10) : st.limit;
 const defs = [
-{ id: 'baixo', title: 'Estoque baixo', desc: 'Avisar quando um item chegar ao limite de estoque baixo.' },
+{ id: 'baixo', title: 'Estoque baixo', desc: 'Avisar quando uma variação chegar ao mínimo dela.' },
 { id: 'sem', title: 'Sem estoque', desc: 'Avisar quando um item zerar em alguma loja.' },
 { id: 'mov', title: 'Movimentações', desc: 'Avisar quando outro usuário adicionar ou alterar itens.' }
 ];
@@ -107,8 +108,8 @@ this.setState({ on: Object.assign({}, cur, { [d.id]: !cur[d.id] }) });
 }
 };
 }),
-dec: () => this.setState({ limit: Math.max(1, limit - 1) }),
-inc: () => this.setState({ limit: Math.min(99, limit + 1) })
+dec: () => { const v = Math.max(1, limit - 1); CX.get().defMin = v; CX.save(); this.setState({ limit: v }); },
+inc: () => { const v = Math.min(99, limit + 1); CX.get().defMin = v; CX.save(); this.setState({ limit: v }); }
 };
 }
 }
