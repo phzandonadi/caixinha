@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Caixinha - Entrar ou cadastrar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#9C430C}a:hover{color:#6E2D06}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: {{accent}}; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+
+<div style="display: flex; flex-direction: column; align-items: center; padding: 44px 28px 0 28px; text-align: center">
+<svg viewBox="0 0 170 180" width="150" height="159" role="img" aria-label="Mascote do app: uma caixa laranja sorridente piscando um olho">
+<circle cx="85" cy="92" r="82" fill="#B05318"></circle>
+<g transform="translate(0,-4)">
+<polygon points="48,64 122,64 116,42 54,42" fill="#F5A05A" stroke="#2E1203" stroke-width="3" stroke-linejoin="round"></polygon>
+<polygon points="36,78 134,78 122,64 48,64" fill="#7A2A06" stroke="#2E1203" stroke-width="3" stroke-linejoin="round"></polygon>
+<polygon points="36,78 48,64 24,50 12,64" fill="#FFB878" stroke="#2E1203" stroke-width="3" stroke-linejoin="round"></polygon>
+<polygon points="134,78 122,64 146,50 158,64" fill="#FFB878" stroke="#2E1203" stroke-width="3" stroke-linejoin="round"></polygon>
+<rect x="36" y="78" width="98" height="72" rx="3" fill="#FA9445" stroke="#2E1203" stroke-width="3"></rect>
+<circle cx="68" cy="110" r="5.5" fill="#2E1203"></circle>
+<circle cx="69.8" cy="108" r="1.8" fill="#FFFFFF"></circle>
+<path d="M92 111 Q99 103 106 111" fill="none" stroke="#2E1203" stroke-width="3.5" stroke-linecap="round"></path>
+<circle cx="56" cy="126" r="5" fill="#F2672A"></circle>
+<circle cx="114" cy="126" r="5" fill="#F2672A"></circle>
+<path d="M72 126 Q85 141 98 126" fill="none" stroke="#2E1203" stroke-width="3.5" stroke-linecap="round"></path>
+</g>
+</svg>
+<h1 style="margin: 6px 0 0 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.1; color: #FFF1E2">Caixinha</h1>
+<p style="margin: 2px 0 0 0; font-size: 17px; font-weight: 800; color: #FFD9B0; width: 366px">Seu estoque na palma da mão.</p>
+<p style="margin: 8px 0 0 0; font-size: 14px; line-height: 1.45; font-weight: 600; color: #FFF1E2; width: 381px">O app de inventário para lojas: cadastre produtos, controle entradas e saídas e saiba sempre o que tem na prateleira.</p>
+</div>
+
+<div style="flex: 1; margin-top: 24px; background: #FFF6EC; border-radius: 32px 32px 0 0; padding: 24px 24px 28px 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px">
+
+<div style="display: flex; gap: 4px; padding: 4px; background: #F3DFCB; border-radius: 16px">
+<button type="button" onClick="{{showLogin}}" style="flex: 1; height: 44px; border: 0; border-radius: 12px; cursor: pointer; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; background: {{loginBg}}; color: {{loginFg}}">Entrar</button>
+<button type="button" onClick="{{showSignup}}" style="flex: 1; height: 44px; border: 0; border-radius: 12px; cursor: pointer; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; background: {{signupBg}}; color: {{signupFg}}">Cadastre-se</button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<sc-if value="{{ isSignup }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome</label>
+<input id="nome" type="text" placeholder="Como podemos te chamar?" autocomplete="name" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="email" style="font-size: 14px; font-weight: 700; color: #4A1F05">E-mail</label>
+<input id="email" type="email" placeholder="voce@sualoja.com" autocomplete="email" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="senha" style="font-size: 14px; font-weight: 700; color: #4A1F05">Senha</label>
+<input id="senha" type="password" placeholder="Mínimo de 8 caracteres" autocomplete="current-password" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+</div>
+</div>
+
+<a href="Home.dc.html" style="height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none">{{ctaLabel}}</a>
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+<a href="#esqueci" style="text-align: center; font-size: 14px; font-weight: 700">Esqueci minha senha</a>
+</sc-if>
+<sc-if value="{{ isSignup }}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; text-align: center; font-size: 13px; line-height: 1.4; color: #5C3A24">Ao criar a conta, você concorda com os Termos de Uso e a Política de Privacidade.</p>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+const login = !!(this.state && this.state.mode === 'login');
+return {
+accent: accent,
+isLogin: login,
+isSignup: !login,
+ctaLabel: login ? 'Entrar' : 'Criar minha conta',
+loginBg: login ? '#FFFFFF' : 'transparent',
+loginFg: login ? accent : '#5C3A24',
+signupBg: login ? 'transparent' : '#FFFFFF',
+signupFg: login ? '#5C3A24' : accent,
+showLogin: () => this.setState({ mode: 'login' }),
+showSignup: () => this.setState({ mode: 'signup' })
+};
+}
+}
+</script>
+</body>
+</html>

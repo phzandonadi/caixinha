@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Caixinha - Importar planilha</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{text-decoration:none}
+button{font-family:'Nunito',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+
+<div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px">
+<a href="Adicionar.dc.html" aria-label="Voltar" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</a>
+<h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Importar planilha</h1>
+</div>
+
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px 20px 24px 20px; display: flex; flex-direction: column; gap: 18px">
+
+<p style="margin: 0 4px; font-size: 15px; font-weight: 600; line-height: 1.5; color: #5C3A24">Cadastre vários itens de uma vez com uma planilha do Excel (arquivo .xlsx).</p>
+
+<sc-if value="{{ empty }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px; padding: 16px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 20px">
+<div style="display: flex; gap: 12px">
+<span style="width: 30px; height: 30px; flex: none; border-radius: 15px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center">1</span>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 16px; font-weight: 800; line-height: 1.3; color: #2E1203">Baixe o modelo</span>
+<span style="font-size: 14px; font-weight: 600; line-height: 1.4; color: #5C3A24">Ele já vem com as colunas certas.</span>
+<button type="button" style="align-self: flex-start; height: 44px; padding: 0 16px; border: 2px solid {{accent}}; border-radius: 14px; background: transparent; color: {{accent}}; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
+Baixar modelo .xlsx
+</button>
+</div>
+</div>
+<div style="display: flex; gap: 12px">
+<span style="width: 30px; height: 30px; flex: none; border-radius: 15px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center">2</span>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 16px; font-weight: 800; line-height: 1.3; color: #2E1203">Preencha uma linha por item</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{columns}}" as="c" hint-placeholder-count="7">
+<span style="padding: 4px 10px; border-radius: 12px; background: #FFE3C8; color: #4A1F05; font-size: 13px; font-weight: 800">{{c}}</span>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="display: flex; gap: 12px">
+<span style="width: 30px; height: 30px; flex: none; border-radius: 15px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; font-weight: 800; line-height: 1.3; color: #2E1203">Envie o arquivo</span>
+<span style="font-size: 14px; font-weight: 600; line-height: 1.4; color: #5C3A24">Você confere tudo antes de importar.</span>
+</div>
+</div>
+</div>
+
+<button type="button" onClick="{{pick}}" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 150px; border: 2px dashed #C98A5B; border-radius: 22px; background: #FFE9D2; cursor: pointer; padding: 16px">
+<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V5M7 9l5-5 5 5M5 20h14"></path></svg>
+<span style="font-size: 17px; font-weight: 800; color: {{accent}}">Escolher arquivo</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">Formato .xlsx</span>
+</button>
+</sc-if>
+
+<sc-if value="{{ picked }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px">
+<span style="width: 48px; height: 48px; flex: none; border-radius: 14px; background: #DDEFD8; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#1F4D1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M3 15h18M9 4v16"></path></svg>
+</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; font-weight: 800; color: #2E1203; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">estoque-novembro.xlsx</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">44 linhas · 1 aba</span>
+</span>
+<button type="button" onClick="{{clear}}" aria-label="Remover arquivo" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 22px; background: #F3DFCB; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#4A1F05" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+</button>
+</div>
+
+<div style="display: flex; gap: 10px">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 18px; background: #DDEFD8">
+<span style="font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 30px; font-weight: 800; line-height: 1.1; color: #1F4D1A">42</span>
+<span style="font-size: 14px; font-weight: 800; color: #1F4D1A">prontos para importar</span>
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 18px; background: #FFE0A3">
+<span style="font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 30px; font-weight: 800; line-height: 1.1; color: #5A3A00">2</span>
+<span style="font-size: 14px; font-weight: 800; color: #5A3A00">com problema</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0 4px; font-size: 15px; font-weight: 800; color: #4A1F05">Problemas encontrados</h2>
+<sc-for list="{{problems}}" as="p" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F2CF8A; border-radius: 16px">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 4l9 16H3z"></path><path d="M12 10v4M12 17h.01"></path></svg>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 800; color: #2E1203">{{p.title}}</span>
+<span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">{{p.text}}</span>
+</span>
+</div>
+</sc-for>
+<span style="margin: 2px 4px 0 4px; font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">Linhas com problema são ignoradas. Corrija a planilha e importe de novo.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0 4px; font-size: 15px; font-weight: 800; color: #4A1F05">Prévia dos itens</h2>
+<sc-for list="{{preview}}" as="r" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px">
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 800; color: #2E1203">{{r.name}}</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{r.meta}}</span>
+</span>
+<span style="flex: none; font-size: 14px; font-weight: 800; color: #4A1F05">{{r.qty}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px">
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 800; color: #2E1203">Atualizar itens que já existem</span>
+<span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">Se o ID já estiver cadastrado, atualiza em vez de duplicar.</span>
+</span>
+<button type="button" role="switch" aria-checked="{{upd}}" aria-label="Atualizar itens que já existem" onClick="{{flip}}" style="position: relative; width: 56px; height: 44px; flex: none; border: 0; background: transparent; cursor: pointer; padding: 0">
+<span style="position: absolute; left: 0; top: 8px; width: 56px; height: 28px; border-radius: 14px; background: {{track}}"></span>
+<span style="position: absolute; left: {{knob}}px; top: 11px; width: 22px; height: 22px; border-radius: 11px; background: #FFFFFF; box-shadow: 0 1px 4px rgba(46, 18, 3, 0.35)"></span>
+</button>
+</div>
+</sc-if>
+
+</div>
+
+<div style="flex: none; padding: 12px 20px 24px 20px; background: #FFF6EC; border-top: 2px solid #F0DCC8; display: flex; gap: 10px">
+<a href="Adicionar.dc.html" style="flex: none; height: 52px; box-sizing: border-box; padding: 0 20px; border: 2px solid {{accent}}; border-radius: 16px; color: {{accent}}; font-size: 16px; font-weight: 800; display: flex; align-items: center">Cancelar</a>
+<button type="button" aria-disabled="{{empty}}" style="flex: 1; height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer; opacity: {{ctaOpacity}}">{{ctaLabel}}</button>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+const st = this.state || {};
+const picked = !!st.picked;
+const upd = st.upd === undefined ? true : !!st.upd;
+return {
+accent: accent,
+picked: picked,
+empty: !picked,
+upd: upd,
+track: upd ? accent : '#D9BFA6',
+knob: upd ? 30 : 4,
+ctaLabel: picked ? 'Importar 42 itens' : 'Escolha um arquivo',
+ctaOpacity: picked ? 1 : 0.45,
+columns: ['Nome', 'ID', 'Categoria', 'Termos de busca', 'Loja Centro', 'Loja Shopping', 'Loja Norte'],
+problems: [
+{ title: 'Linha 8: ID repetido', text: 'O ID CAM-0042 aparece duas vezes na planilha.' },
+{ title: 'Linha 15: categoria vazia', text: 'Preencha Roupas, Calçados, Acessórios ou outra categoria.' }
+],
+preview: [
+{ name: 'Camiseta básica branca M', meta: 'Roupas · CAM-0042', qty: '84 un.' },
+{ name: 'Calça jeans slim 42', meta: 'Roupas · CAL-0107', qty: '16 un.' },
+{ name: 'Tênis casual preto 40', meta: 'Calçados · TEN-0031', qty: '22 un.' }
+],
+pick: () => this.setState({ picked: true }),
+clear: () => this.setState({ picked: false }),
+flip: () => this.setState({ upd: !upd })
+};
+}
+}
+</script>
+</body>
+</html>

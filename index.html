@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caixinha - protótipo</title>
+<style>
+html,body{margin:0;height:100%}
+body{background:#2E1203;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.phone{width:390px;height:844px;border-radius:36px;overflow:hidden;background:#FFF6EC;box-shadow:0 0 0 10px #1A0A02,0 20px 60px rgba(0,0,0,.5)}
+iframe{width:390px;height:844px;border:0;display:block}
+p{margin:0;color:#FFD9B0;font-size:14px}
+@media (max-width:430px),(max-height:900px){
+  body{display:block;background:#FFF6EC}
+  .wrap{display:block}.phone{width:100%;height:100vh;border-radius:0;box-shadow:none}
+  iframe{width:100%;height:100vh}
+  p{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="phone"><iframe src="telas/Main.dc.html" title="Protótipo do Caixinha"></iframe></div>
+<p>Protótipo do Caixinha: clique nos botões para navegar.</p>
+</div>
+</body>
+</html>

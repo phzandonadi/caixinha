@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Caixinha - Novo usuário</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{text-decoration:none}
+button,input{font-family:'Nunito',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+
+<div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px">
+<a href="Usuarios.dc.html" aria-label="Voltar para usuários" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</a>
+<h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Novo usuário</h1>
+</div>
+
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 24px 20px 24px 20px; display: flex; flex-direction: column; gap: 20px">
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome</label>
+<input id="nome" type="text" placeholder="Nome da pessoa" autocomplete="off" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="email" style="font-size: 14px; font-weight: 700; color: #4A1F05">E-mail</label>
+<input id="email" type="email" placeholder="pessoa@sualoja.com" autocomplete="off" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 14px; font-weight: 700; color: #4A1F05">Cargo</span>
+<sc-for list="{{roles}}" as="r" hint-placeholder-count="3">
+<button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 16px; border: 2px solid {{r.border}}; background: {{r.bg}}; cursor: pointer; text-align: left">
+<span style="width: 26px; height: 26px; flex: none; box-sizing: border-box; border-radius: 13px; border: 2px solid {{r.dotBorder}}; background: #FFFFFF; display: flex; align-items: center; justify-content: center">
+<span style="width: 12px; height: 12px; border-radius: 6px; background: {{r.dot}}"></span>
+</span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; font-weight: 800; color: #2E1203">{{r.name}}</span>
+<span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">{{r.desc}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+
+<div style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 16px; background: #FFE9D2">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 1px"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+<span style="font-size: 14px; font-weight: 700; line-height: 1.4; color: #4A1F05">A pessoa recebe um convite por e-mail para criar a própria senha.</span>
+</div>
+
+</div>
+
+<div style="flex: none; padding: 12px 20px 24px 20px; background: #FFF6EC; border-top: 2px solid #F0DCC8; display: flex; gap: 10px">
+<a href="Usuarios.dc.html" style="flex: none; height: 52px; box-sizing: border-box; padding: 0 20px; border: 2px solid {{accent}}; border-radius: 16px; color: {{accent}}; font-size: 16px; font-weight: 800; display: flex; align-items: center">Cancelar</a>
+<a href="Usuarios.dc.html" style="flex: 1; height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"></path></svg>
+Enviar convite
+</a>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+const sel = (this.state && this.state.role) || 'est';
+const defs = [
+{ id: 'adm', name: 'Administrador', desc: 'Acesso total: gerencia usuários, lojas, itens e configurações.' },
+{ id: 'ger', name: 'Gerente', desc: 'Gerencia itens e estoque de todas as lojas, sem mexer nos usuários.' },
+{ id: 'est', name: 'Estoquista', desc: 'Adiciona itens e atualiza as quantidades em estoque.' }
+];
+return {
+accent: accent,
+roles: defs.map((d) => {
+const on = sel === d.id;
+return {
+name: d.name, desc: d.desc, on: on,
+bg: on ? '#FFE9D2' : '#FFFFFF',
+border: on ? accent : '#E2C9B2',
+dotBorder: on ? accent : '#B58E72',
+dot: on ? accent : 'transparent',
+pick: () => this.setState({ role: d.id })
+};
+})
+};
+}
+}
+</script>
+</body>
+</html>

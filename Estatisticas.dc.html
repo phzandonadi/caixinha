@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Caixinha - Estatísticas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{text-decoration:none}
+button,input{font-family:'Nunito',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+
+<div style="flex: none; background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 20px; display: flex; align-items: center; gap: 10px">
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.15; color: #FFF1E2">Estatísticas</h1>
+<span style="font-size: 13px; font-weight: 700; color: #FFD9B0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{scopeLabel}}</span>
+</div>
+<button type="button" onClick="{{openSheet}}" aria-label="Nova análise" style="flex: none; height: 46px; padding: 0 16px 0 12px; border: 0; border-radius: 23px; background: #FA9445; color: #2E1203; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(46, 18, 3, 0.3)">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2E1203" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+Nova análise
+</button>
+</div>
+
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 16px 16px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{periodChips}}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="height: 40px; padding: 0 16px; border: 0; border-radius: 20px; background: {{c.bg}}; color: {{c.fg}}; font-size: 14px; font-weight: 800; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{ isCustom }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 10px; padding: 12px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px">
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<label for="de" style="font-size: 13px; font-weight: 700; color: #5C3A24">De</label>
+<input id="de" type="date" value="{{from}}" onChange="{{onFrom}}" style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 10px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 15px; color: #2E1203">
+</div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<label for="ate" style="font-size: 13px; font-weight: 700; color: #5C3A24">Até</label>
+<input id="ate" type="date" value="{{to}}" onChange="{{onTo}}" style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 10px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 15px; color: #2E1203">
+</div>
+</div>
+</sc-if>
+</div>
+
+<button type="button" onClick="{{openSheet}}" aria-label="Editar produtos e lojas da análise" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border: 2px solid #F0DCC8; border-radius: 16px; background: #FFFFFF; cursor: pointer; text-align: left">
+<span style="width: 40px; height: 40px; flex: none; border-radius: 12px; background: #FFE3C8; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8z"></path></svg>
+</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 15px; font-weight: 800; color: #2E1203; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{filterTitle}}</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{filterSub}}</span>
+</span>
+<span style="flex: none; font-size: 14px; font-weight: 800; color: {{accent}}">Editar</span>
+</button>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 20px; background: {{accent}}">
+<span style="font-size: 14px; font-weight: 700; color: #FFD9B0">Lucro no período</span>
+<span style="font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 38px; font-weight: 800; line-height: 1.05; color: #FFF1E2">{{profTotal}}</span>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+<span style="padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 800; background: {{deltaBg}}; color: {{deltaFg}}">{{deltaLabel}}</span>
+<span style="font-size: 13px; font-weight: 700; color: #FFE9D2">{{marginLabel}}</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 10px">
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding: 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px">
+<span style="font-size: 13px; font-weight: 700; color: #5C3A24">Faturamento</span>
+<span style="font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 24px; font-weight: 800; line-height: 1.15; color: #4A1F05">{{revTotal}}</span>
+<span style="font-size: 12px; font-weight: 600; color: #5C3A24">o que entrou</span>
+</div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding: 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px">
+<span style="font-size: 13px; font-weight: 700; color: #5C3A24">Itens vendidos</span>
+<span style="font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 24px; font-weight: 800; line-height: 1.15; color: #4A1F05">{{unitsTotal}}</span>
+<span style="font-size: 12px; font-weight: 600; color: #5C3A24">unidades</span>
+</div>
+</div>
+
+<button type="button" onClick="{{openExport}}" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 52px; border: 2px solid {{accent}}; border-radius: 16px; background: #FFFFFF; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 12l5 6M14 12l-5 6"></path></svg>
+Exportar planilha
+</button>
+
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #4A1F05">{{chartTitle}}</h2>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<sc-for list="{{metricChips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 17px; background: {{c.bg}}; color: {{c.fg}}; font-size: 13px; font-weight: 800; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 8px; height: 168px">
+<sc-for list="{{bars}}" as="b" hint-placeholder-count="7">
+<div style="flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px">
+<span style="font-size: 11px; font-weight: 800; color: {{b.valFg}}; white-space: nowrap">{{b.value}}</span>
+<div style="width: 100%; flex: none; display: flex; align-items: flex-end; gap: 2px; height: 120px">
+<div style="display: {{prevDisplay}}; flex: 1; height: {{b.prevH}}px; border-radius: 6px 6px 0 0; background: #E8C9AA"></div>
+<div style="flex: 1; height: {{b.h}}px; border-radius: 6px 6px 0 0; background: {{b.color}}"></div>
+</div>
+<span style="font-size: 12px; font-weight: 700; color: #5C3A24; white-space: nowrap">{{b.label}}</span>
+</div>
+</sc-for>
+</div>
+<button type="button" onClick="{{toggleCmp}}" role="switch" aria-checked="{{cmpChecked}}" style="display: flex; align-items: center; gap: 12px; width: 100%; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; text-align: left">
+<span style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 700; color: #2E1203">Comparar com o período anterior</span>
+<span style="display: {{legendDisplay}}; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; color: #5C3A24"><span style="display: flex; align-items: center; gap: 4px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #E8C9AA"></span>Anterior</span><span style="display: flex; align-items: center; gap: 4px"><span style="width: 10px; height: 10px; border-radius: 3px; background: {{accent}}"></span>Atual</span></span></span>
+<span style="width: 50px; height: 30px; flex: none; box-sizing: border-box; border-radius: 15px; background: {{cmpBg}}; padding: 3px; display: flex; justify-content: {{cmpAlign}}">
+<span style="width: 24px; height: 24px; border-radius: 12px; background: #FFFFFF"></span>
+</span>
+</button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #4A1F05">{{rankTitle}}</h2>
+<span style="font-size: 13px; font-weight: 700; color: #5C3A24">{{metricName}}</span>
+</div>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<sc-for list="{{groupChips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 17px; background: {{c.bg}}; color: {{c.fg}}; font-size: 13px; font-weight: 800; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+<sc-for list="{{ranking}}" as="r" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 5px">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px">
+<span style="font-size: 15px; font-weight: 700; color: #2E1203">{{r.pos}}. {{r.name}}</span>
+<span style="flex: none; font-size: 15px; font-weight: 800; color: #4A1F05">{{r.value}}</span>
+</div>
+<div style="height: 10px; border-radius: 5px; background: #F3DFCB">
+<div style="width: {{r.w}}%; height: 10px; border-radius: 5px; background: {{accent}}"></div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #4A1F05">Minhas análises</h2>
+<button type="button" onClick="{{openSheet}}" style="border: 0; background: transparent; cursor: pointer; padding: 6px 0; font-size: 14px; font-weight: 800; color: {{accent}}">+ Criar</button>
+</div>
+<sc-for list="{{saved}}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{s.apply}}" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border: 2px solid #F0DCC8; border-radius: 16px; background: #FFFFFF; cursor: pointer; text-align: left">
+<span style="width: 40px; height: 40px; flex: none; border-radius: 12px; background: #FFE3C8; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"></path></svg>
+</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 15px; font-weight: 800; color: #2E1203">{{s.name}}</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{s.sub}}</span>
+</span>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4A1F05" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+</button>
+</sc-for>
+</div>
+
+<a href="Caixinha.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 18px; background: #FFE9D2">
+<span style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: {{accent}}; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><path d="M7 19L2 10l15 3 1 6z" fill="#FFB36B"></path><path d="M41 19l5-9-15 3-1 6z" fill="#FFB36B"></path><rect x="7" y="18" width="34" height="25" rx="5" fill="#FA9445"></rect><rect x="7" y="18" width="34" height="6" rx="3" fill="#D9701F"></rect><circle cx="17" cy="31" r="2.3" fill="#2E1203"></circle><path d="M27 31q3-3.2 6 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path><path d="M18 37q6 4.5 12 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path></svg>
+</span>
+<span style="flex: 1; display: flex; flex-direction: column">
+<span style="font-size: 15px; font-weight: 800; color: #4A1F05">Prefere pedir?</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">Peça a análise ao Caixinha, por texto ou por voz.</span>
+</span>
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#4A1F05" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+</a>
+
+</div>
+
+<nav aria-label="Navegação principal" style="flex: none; position: relative; z-index: 1; height: 80px; box-sizing: border-box; background: #FFFFFF; border-top: 2px solid #F0DCC8; display: flex; align-items: flex-start; padding: 8px 6px 0 6px">
+<a href="Home.dc.html" aria-label="Estoque" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v9l-8 4-8-4z"></path><path d="M4 8l8 4 8-4"></path><path d="M12 12v9"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Estoque</span></a>
+<a href="Estatisticas.dc.html" aria-label="Estatísticas" aria-current="page" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: #FFE9D2; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="{{accent}}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: {{accent}}">Estatísticas</span></a>
+<a href="Caixinha.dc.html" aria-label="Caixinha, assistente" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: -30px; text-decoration: none"><span style="width: 66px; height: 66px; box-sizing: border-box; border-radius: 33px; background: {{accent}}; border: 4px solid #FFF6EC; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 14px rgba(46, 18, 3, 0.35)"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><path d="M7 19L2 10l15 3 1 6z" fill="#FFB36B"></path><path d="M41 19l5-9-15 3-1 6z" fill="#FFB36B"></path><rect x="7" y="18" width="34" height="25" rx="5" fill="#FA9445"></rect><rect x="7" y="18" width="34" height="6" rx="3" fill="#D9701F"></rect><circle cx="17" cy="31" r="2.3" fill="#2E1203"></circle><path d="M27 31q3-3.2 6 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path><path d="M18 37q6 4.5 12 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: {{accent}}">Caixinha</span></a>
+<a href="PontoDeVenda.dc.html" aria-label="Vendas" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Vendas</span></a>
+<a href="Perfil.dc.html" aria-label="Perfil" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="4"></circle><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Perfil</span></a>
+</nav>
+
+
+<sc-if value="{{ sheet }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{closeSheet}}" aria-label="Fechar nova análise" style="position: absolute; z-index: 5; left: 0; top: 0; width: 100%; height: 100%; border: 0; padding: 0; background: rgba(46, 18, 3, 0.5); cursor: default"></button>
+<div role="dialog" aria-label="Nova análise" style="position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; max-height: 90%; display: flex; flex-direction: column; background: #FFF6EC; border-radius: 28px 28px 0 0; box-shadow: 0 -8px 28px rgba(46, 18, 3, 0.35)">
+
+<div style="flex: none; display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 10px 20px">
+<h2 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 24px; font-weight: 800; color: #4A1F05">Nova análise</h2>
+<button type="button" onClick="{{closeSheet}}" aria-label="Fechar" style="width: 40px; height: 40px; border: 0; border-radius: 20px; background: #F3DFCB; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4A1F05" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+</button>
+</div>
+
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 4px 20px 16px 20px; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="aname" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome da análise (opcional)</label>
+<input id="aname" type="text" value="{{aname}}" onChange="{{onName}}" placeholder="Ex.: Camisetas de outubro" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; font-weight: 700; color: #4A1F05">O que você quer ver?</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{metricChips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="height: 40px; padding: 0 16px; border: 0; border-radius: 20px; background: {{c.bg}}; color: {{c.fg}}; font-size: 14px; font-weight: 800; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; font-weight: 700; color: #4A1F05">Período</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{periodChips}}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="height: 40px; padding: 0 16px; border: 0; border-radius: 20px; background: {{c.bg}}; color: {{c.fg}}; font-size: 14px; font-weight: 800; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{ isCustom }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 10px">
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<label for="de2" style="font-size: 13px; font-weight: 700; color: #5C3A24">De</label>
+<input id="de2" type="date" value="{{from}}" onChange="{{onFrom}}" style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 10px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 15px; color: #2E1203">
+</div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<label for="ate2" style="font-size: 13px; font-weight: 700; color: #5C3A24">Até</label>
+<input id="ate2" type="date" value="{{to}}" onChange="{{onTo}}" style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 10px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 15px; color: #2E1203">
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: baseline; justify-content: space-between">
+<span style="font-size: 14px; font-weight: 700; color: #4A1F05">Quais produtos entram na conta?</span>
+<button type="button" onClick="{{selectAllProds}}" style="border: 0; background: transparent; cursor: pointer; padding: 6px 0; font-size: 14px; font-weight: 800; color: {{accent}}">{{allProdsLabel}}</button>
+</div>
+<div style="display: flex; flex-direction: column; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px; padding: 4px 6px">
+<sc-for list="{{prodRows}}" as="r" hint-placeholder-count="8">
+<button type="button" onClick="{{r.toggle}}" role="checkbox" aria-checked="{{r.checked}}" style="display: flex; align-items: center; gap: 12px; width: 100%; height: 48px; box-sizing: border-box; padding: 0 8px; border: 0; border-radius: 12px; background: transparent; cursor: pointer; text-align: left">
+<span style="width: 24px; height: 24px; flex: none; box-sizing: border-box; border-radius: 8px; border: 2px solid {{r.border}}; background: {{r.bg}}; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="{{r.check}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+</span>
+<span style="flex: 1; min-width: 0; font-size: 15px; font-weight: 700; color: #2E1203; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</span>
+<span style="flex: none; font-size: 13px; font-weight: 700; color: #5C3A24">{{r.price}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; font-weight: 700; color: #4A1F05">Quais lojas?</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{storeChips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="height: 40px; padding: 0 16px; border: 0; border-radius: 20px; background: {{c.bg}}; color: {{c.fg}}; font-size: 14px; font-weight: 800; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<button type="button" onClick="{{toggleCmp}}" role="switch" aria-checked="{{cmpChecked}}" style="display: flex; align-items: center; gap: 12px; width: 100%; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; text-align: left">
+<span style="flex: 1; font-size: 15px; font-weight: 700; color: #2E1203">Comparar com o período anterior</span>
+<span style="width: 50px; height: 30px; flex: none; box-sizing: border-box; border-radius: 15px; background: {{cmpBg}}; padding: 3px; display: flex; justify-content: {{cmpAlign}}">
+<span style="width: 24px; height: 24px; border-radius: 12px; background: #FFFFFF"></span>
+</span>
+</button>
+
+<sc-if value="{{ justSaved }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; background: #DDEFD8; color: #1F4D1A; font-size: 14px; font-weight: 800">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1F4D1A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+Análise salva em "Minhas análises".
+</div>
+</sc-if>
+
+</div>
+
+<div style="flex: none; padding: 12px 20px 24px 20px; background: #FFF6EC; border-top: 2px solid #F0DCC8; display: flex; gap: 10px">
+<button type="button" onClick="{{saveAnalysis}}" style="flex: 1; height: 52px; border: 2px solid {{accent}}; border-radius: 16px; background: transparent; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer">Salvar</button>
+<button type="button" onClick="{{closeSheet}}" style="flex: 2; height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer">Ver análise</button>
+</div>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ exportSheet }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{closeExport}}" aria-label="Fechar exportação" style="position: absolute; z-index: 9; left: 0; top: 0; width: 100%; height: 100%; border: 0; padding: 0; background: rgba(46, 18, 3, 0.5); cursor: default"></button>
+<div role="dialog" aria-label="Exportar planilha" style="position: absolute; z-index: 10; left: 0; right: 0; bottom: 0; max-height: 90%; display: flex; flex-direction: column; background: #FFF6EC; border-radius: 28px 28px 0 0; box-shadow: 0 -8px 28px rgba(46, 18, 3, 0.35)">
+
+<div style="flex: none; display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 10px 20px">
+<h2 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 24px; font-weight: 800; color: #4A1F05">Exportar planilha</h2>
+<button type="button" onClick="{{closeExport}}" aria-label="Fechar" style="width: 40px; height: 40px; border: 0; border-radius: 20px; background: #F3DFCB; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4A1F05" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+</button>
+</div>
+
+<sc-if value="{{ notExported }}" hint-placeholder-val="{{ true }}">
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 4px 20px 16px 20px; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px">
+<span style="width: 40px; height: 40px; flex: none; border-radius: 12px; background: #FFE3C8; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"></path></svg>
+</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 13px; font-weight: 700; color: #5C3A24">Análise atual</span>
+<span style="font-size: 15px; font-weight: 800; color: #2E1203">{{filterTitle}}</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{filterSub}}</span>
+</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; font-weight: 700; color: #4A1F05">Formato do arquivo</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{fmtChips}}" as="c" hint-placeholder-count="2">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="height: 40px; padding: 0 16px; border: 0; border-radius: 20px; background: {{c.bg}}; color: {{c.fg}}; font-size: 14px; font-weight: 800; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+<span style="font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">{{fmtHint}}</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; font-weight: 700; color: #4A1F05">O que vai na planilha</span>
+<div style="display: flex; flex-direction: column; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px; padding: 4px 6px">
+<sc-for list="{{incRows}}" as="r" hint-placeholder-count="3">
+<button type="button" onClick="{{r.toggle}}" role="checkbox" aria-checked="{{r.checked}}" style="display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; box-sizing: border-box; padding: 6px 8px; border: 0; border-radius: 12px; background: transparent; cursor: pointer; text-align: left">
+<span style="width: 24px; height: 24px; flex: none; box-sizing: border-box; border-radius: 8px; border: 2px solid {{r.border}}; background: {{r.bg}}; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="{{r.check}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 15px; font-weight: 800; color: #2E1203">{{r.title}}</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{r.hint}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 14px; background: #FFE9D2">
+<span style="font-size: 13px; font-weight: 700; color: #5C3A24">Nome do arquivo</span>
+<span style="font-size: 15px; font-weight: 800; color: #4A1F05; word-break: break-all">{{fileName}}</span>
+</div>
+
+</div>
+<div style="flex: none; padding: 12px 20px 24px 20px; background: #FFF6EC; border-top: 2px solid #F0DCC8; display: flex; gap: 10px">
+<button type="button" onClick="{{closeExport}}" style="flex: 1; height: 52px; border: 2px solid {{accent}}; border-radius: 16px; background: transparent; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer">Cancelar</button>
+<button type="button" onClick="{{doExport}}" style="flex: 2; height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer">Exportar</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ exported }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 4px 20px 28px 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; background: #DDEFD8; color: #1F4D1A; font-size: 15px; font-weight: 800">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1F4D1A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+Planilha pronta!
+</div>
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 2px solid #F0DCC8; border-radius: 16px; background: #FFFFFF">
+<span style="width: 48px; height: 48px; flex: none; border-radius: 12px; background: #DDEFD8; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#1F4D1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11l5 6M14 11l-5 6"></path></svg>
+</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<span style="font-size: 15px; font-weight: 800; color: #2E1203; word-break: break-all">{{fileName}}</span>
+<span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{fileInfo}}</span>
+</span>
+</div>
+<div style="display: flex; gap: 10px">
+<button type="button" style="flex: 1; height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
+Baixar
+</button>
+<button type="button" style="flex: 1; height: 52px; border: 2px solid {{accent}}; border-radius: 16px; background: transparent; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M7 8l5-5 5 5M5 14v6h14v-6"></path></svg>
+Enviar
+</button>
+</div>
+<button type="button" onClick="{{closeExport}}" style="height: 48px; border: 0; background: transparent; color: #4A1F05; font-size: 16px; font-weight: 800; cursor: pointer">Fechar</button>
+</div>
+</sc-if>
+
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+const st = this.state || {};
+const PRODS = [
+{ id: 'cam', name: 'Camiseta básica branca M', cat: 'Roupas', share: 0.24, price: 79.9, cost: 32 },
+{ id: 'meia', name: 'Meias esportivas (par)', cat: 'Roupas', share: 0.19, price: 19.9, cost: 7 },
+{ id: 'tenis', name: 'Tênis casual preto 40', cat: 'Calçados', share: 0.16, price: 249.9, cost: 130 },
+{ id: 'polo', name: 'Camiseta polo azul G', cat: 'Roupas', share: 0.12, price: 119.9, cost: 55 },
+{ id: 'jeans', name: 'Calça jeans slim 42', cat: 'Roupas', share: 0.09, price: 189.9, cost: 95 },
+{ id: 'mochila', name: 'Mochila escolar azul', cat: 'Acessórios', share: 0.08, price: 159.9, cost: 70 },
+{ id: 'bone', name: 'Boné aba reta', cat: 'Acessórios', share: 0.07, price: 59.9, cost: 22 },
+{ id: 'cinto', name: 'Cinto de couro marrom', cat: 'Acessórios', share: 0.05, price: 89.9, cost: 35 }
+];
+const STORES = [
+{ id: 'centro', name: 'Loja Centro', share: 0.45 },
+{ id: 'shopping', name: 'Loja Shopping', share: 0.33 },
+{ id: 'norte', name: 'Loja Norte', share: 0.22 }
+];
+const ALLP = PRODS.map((p) => p.id);
+const ALLS = STORES.map((s) => s.id);
+const DEFAULT = { metric: 'profit', period: '30', from: '2026-10-01', to: '2026-10-31', prods: ALLP, stores: ALLS, cmp: false, group: 'produto' };
+const cfg = Object.assign({}, DEFAULT, st.cfg || {});
+const patch = (o) => this.setState({ cfg: Object.assign({}, cfg, o), justSaved: false });
+const periods = {
+'7': { label: '7 dias', title: 'Vendas por dia', labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], cur: [18, 24, 15, 30, 42, 55, 38], prev: [16, 20, 18, 25, 36, 48, 35] },
+'30': { label: '30 dias', title: 'Vendas por semana', labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'], cur: [182, 205, 191, 248], prev: [170, 176, 190, 201] },
+'90': { label: '3 meses', title: 'Vendas por mês', labels: ['Ago', 'Set', 'Out'], cur: [720, 810, 846], prev: [650, 700, 780] }
+};
+const pad = (n) => (n < 10 ? '0' : '') + n;
+const fmtDay = (ms) => { const d = new Date(ms); return pad(d.getUTCDate()) + '/' + pad(d.getUTCMonth() + 1); };
+const isCustom = cfg.period === 'custom';
+let p = periods[cfg.period];
+if (isCustom) {
+const d0 = Date.parse(cfg.from + 'T00:00:00Z');
+const d1 = Date.parse(cfg.to + 'T00:00:00Z');
+const okRange = !isNaN(d0) && !isNaN(d1) && d1 >= d0;
+const days = okRange ? Math.round((d1 - d0) / 864e5) + 1 : 7;
+const start = okRange ? d0 : Date.parse('2026-10-01T00:00:00Z');
+const n = Math.min(7, Math.max(2, Math.ceil(days / 7)));
+const per = days / n;
+const wob = [1.05, 0.92, 1.1, 0.98, 1.2, 0.95, 1.08];
+p = {
+label: fmtDay(start) + ' a ' + fmtDay(start + (days - 1) * 864e5),
+title: 'Vendas no período',
+labels: [], cur: [], prev: []
+};
+for (let i = 0; i < n; i++) {
+p.labels.push(fmtDay(start + Math.round(i * per) * 864e5));
+p.cur.push(Math.max(1, Math.round(per * 28 * wob[i])));
+p.prev.push(Math.max(1, Math.round(per * 26 * wob[(i + 3) % 7])));
+}
+}
+const selP = PRODS.filter((x) => cfg.prods.includes(x.id));
+const selS = STORES.filter((x) => cfg.stores.includes(x.id));
+const sum = (a) => a.reduce((x, y) => x + y, 0);
+const pShare = sum(selP.map((x) => x.share));
+const sShare = sum(selS.map((x) => x.share));
+const unitF = pShare * sShare;
+const revF = sShare * sum(selP.map((x) => x.share * x.price));
+const profF = sShare * sum(selP.map((x) => x.share * (x.price - x.cost)));
+const mf = cfg.metric === 'units' ? unitF : (cfg.metric === 'revenue' ? revF : profF);
+const nf = (n) => Math.round(n).toLocaleString('pt-BR');
+const compact = (n) => n >= 1000 ? (n / 1000).toFixed(1).replace('.', ',') + ' mil' : String(Math.round(n));
+const money = (n) => 'R$ ' + nf(n);
+const fmt = (n) => cfg.metric === 'units' ? compact(n) : 'R$ ' + compact(n);
+const fmtFull = (n) => cfg.metric === 'units' ? nf(n) + ' un.' : money(n);
+const metricName = { units: 'Unidades', revenue: 'Faturamento', profit: 'Lucro' }[cfg.metric];
+const tot = sum(p.cur);
+const prevTot = sum(p.prev);
+const maxV = Math.max.apply(null, p.cur.concat(p.prev));
+const best = Math.max.apply(null, p.cur);
+const bars = p.cur.map((v, i) => ({
+label: p.labels[i],
+value: fmt(v * mf),
+valFg: v === best ? accent : '#4A1F05',
+color: v === best ? accent : '#FFC48A',
+h: Math.max(4, Math.round(v / maxV * 100)),
+prevH: Math.max(4, Math.round(p.prev[i] / maxV * 100))
+}));
+const delta = Math.round((tot / prevTot - 1) * 100);
+const profTot = tot * profF;
+const revTot = tot * revF;
+const margin = revTot > 0 ? Math.round(profTot / revTot * 100) : 0;
+const val = (units, x) => cfg.metric === 'units' ? units : (cfg.metric === 'revenue' ? units * x.price : units * (x.price - x.cost));
+let rows = [];
+if (cfg.group === 'produto') {
+rows = selP.map((x) => [x.name, val(tot * sShare * x.share, x)]);
+} else if (cfg.group === 'categoria') {
+const cats = {};
+selP.forEach((x) => { cats[x.cat] = (cats[x.cat] || 0) + val(tot * sShare * x.share, x); });
+rows = Object.keys(cats).map((k) => [k, cats[k]]);
+} else {
+const perUnit = cfg.metric === 'units' ? pShare : (cfg.metric === 'revenue' ? sum(selP.map((x) => x.share * x.price)) : sum(selP.map((x) => x.share * (x.price - x.cost))));
+rows = selS.map((s) => [s.name, tot * s.share * perUnit]);
+}
+rows.sort((a, b) => b[1] - a[1]);
+rows = rows.slice(0, 6);
+const maxRow = rows.length ? rows[0][1] || 1 : 1;
+const ranking = rows.map((r, i) => ({ pos: String(i + 1), name: r[0], value: fmtFull(r[1]), w: Math.max(3, Math.round(r[1] / maxRow * 100)) }));
+const chip = (list, curr, fn) => list.map((o) => ({
+label: o[1],
+pressed: String(curr === o[0]),
+bg: curr === o[0] ? accent : '#F3DFCB',
+fg: curr === o[0] ? '#FFFFFF' : '#4A1F05',
+pick: () => fn(o[0])
+}));
+const allP = selP.length === PRODS.length;
+const allS = selS.length === STORES.length;
+const prodsLabel = allP ? 'Todos os produtos' : (selP.length === 1 ? selP[0].name : selP.length + ' produtos');
+const storesLabel = allS ? 'Todas as lojas' : (selS.length === 1 ? selS[0].name : selS.length + ' lojas');
+const metricChips = chip([['profit', 'Lucro'], ['revenue', 'Faturamento'], ['units', 'Unidades']], cfg.metric, (k) => patch({ metric: k }));
+const periodChips = chip([['7', '7 dias'], ['30', '30 dias'], ['90', '3 meses'], ['custom', 'Escolher datas']], cfg.period, (k) => patch({ period: k }));
+const groupChips = chip([['produto', 'Produto'], ['categoria', 'Categoria'], ['loja', 'Loja']], cfg.group, (k) => patch({ group: k }));
+const storeChips = STORES.map((s) => {
+const on = cfg.stores.includes(s.id);
+return {
+label: s.name,
+pressed: String(on),
+bg: on ? accent : '#F3DFCB',
+fg: on ? '#FFFFFF' : '#4A1F05',
+pick: () => {
+if (on && cfg.stores.length === 1) return;
+patch({ stores: on ? cfg.stores.filter((x) => x !== s.id) : cfg.stores.concat(s.id) });
+}
+};
+});
+const prodRows = PRODS.map((x) => {
+const on = cfg.prods.includes(x.id);
+return {
+name: x.name,
+price: 'R$ ' + x.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
+checked: String(on),
+bg: on ? accent : '#FFFFFF',
+border: on ? accent : '#C9A98F',
+check: on ? '#FFFFFF' : 'transparent',
+toggle: () => {
+if (on && cfg.prods.length === 1) return;
+patch({ prods: on ? cfg.prods.filter((y) => y !== x.id) : cfg.prods.concat(x.id) });
+}
+};
+});
+const presets = [
+{ name: 'Camisetas no último mês', sub: 'Lucro · 30 dias · 2 produtos', cfg: { metric: 'profit', period: '30', prods: ['cam', 'polo'], cmp: true } },
+{ name: 'Calçados na Loja Shopping', sub: 'Faturamento · 3 meses · Loja Shopping', cfg: { metric: 'revenue', period: '90', prods: ['tenis'], stores: ['shopping'] } },
+{ name: 'Semana toda em unidades', sub: 'Unidades · 7 dias · todos os produtos', cfg: { metric: 'units', period: '7' } }
+];
+const xfmt = st.xfmt || 'xlsx';
+const inc = Object.assign({ resumo: true, periodo: true, ranking: true }, st.xinc || {});
+const incCount = [inc.resumo, inc.periodo, inc.ranking].filter(Boolean).length;
+const incList = [
+{ id: 'resumo', title: 'Resumo', hint: 'Lucro, faturamento, unidades e margem' },
+{ id: 'periodo', title: 'Vendas por período', hint: 'Os valores de cada barra do gráfico' },
+{ id: 'ranking', title: 'Ranking', hint: 'Produtos, categorias ou lojas, conforme a tela' }
+];
+const saved = presets.concat(st.saved || []).map((s) => ({
+name: s.name,
+sub: s.sub,
+apply: () => this.setState({ cfg: Object.assign({}, DEFAULT, s.cfg), justSaved: false })
+}));
+return {
+accent: accent,
+scopeLabel: storesLabel + ' · ' + p.label,
+filterTitle: prodsLabel + ' · ' + storesLabel,
+filterSub: metricName + ' · ' + p.label,
+periodChips: periodChips,
+metricChips: metricChips,
+groupChips: groupChips,
+storeChips: storeChips,
+prodRows: prodRows,
+allProdsLabel: allP ? 'Todos selecionados' : 'Selecionar todos',
+selectAllProds: () => patch({ prods: ALLP.slice() }),
+isCustom: isCustom,
+from: cfg.from,
+to: cfg.to,
+onFrom: (e) => { if (e.target.value) patch({ from: e.target.value }); },
+onTo: (e) => { if (e.target.value) patch({ to: e.target.value }); },
+cmpChecked: String(cfg.cmp),
+cmpBg: cfg.cmp ? accent : '#C9A98F',
+cmpAlign: cfg.cmp ? 'flex-end' : 'flex-start',
+toggleCmp: () => patch({ cmp: !cfg.cmp }),
+legendDisplay: cfg.cmp ? 'flex' : 'none',
+prevDisplay: cfg.cmp ? 'block' : 'none',
+profTotal: money(profTot),
+revTotal: money(revTot),
+unitsTotal: nf(tot * unitF),
+marginLabel: 'Margem de ' + margin + '%',
+deltaLabel: (delta >= 0 ? '+' : '') + delta + '% vs. período anterior',
+deltaBg: delta >= 0 ? '#DDEFD8' : '#FAD2CB',
+deltaFg: delta >= 0 ? '#1F4D1A' : '#7A1E10',
+chartTitle: p.title,
+metricName: metricName,
+bars: bars,
+rankTitle: cfg.group === 'produto' ? 'Produtos que mais renderam' : (cfg.group === 'categoria' ? 'Por categoria' : 'Por loja'),
+ranking: ranking,
+saved: saved,
+exportSheet: !!st.xs,
+exported: !!st.xdone,
+notExported: !st.xdone,
+fmtChips: chip([['xlsx', 'Excel (.xlsx)'], ['csv', 'CSV (.csv)']], xfmt, (k) => this.setState({ xfmt: k })),
+fmtHint: xfmt === 'xlsx' ? 'Abre no Excel, no Google Planilhas e no Numbers.' : 'Arquivo simples, abre em qualquer programa de planilhas.',
+incRows: incList.map((r) => ({
+title: r.title,
+hint: r.hint,
+checked: String(inc[r.id]),
+bg: inc[r.id] ? accent : '#FFFFFF',
+border: inc[r.id] ? accent : '#C9A98F',
+check: inc[r.id] ? '#FFFFFF' : 'transparent',
+toggle: () => {
+if (inc[r.id] && incCount === 1) return;
+this.setState({ xinc: Object.assign({}, inc, { [r.id]: !inc[r.id] }) });
+}
+})),
+fileName: 'caixinha-estatisticas-' + ({ '7': '7-dias', '30': '30-dias', '90': '3-meses' }[cfg.period] || p.label.replace(/\//g, '-').replace(' a ', '_a_')) + '.' + xfmt,
+fileInfo: (3 + (inc.resumo ? 3 : 0) + (inc.periodo ? p.labels.length : 0) + (inc.ranking ? rows.length : 0)) + ' linhas · ' + (4 + Math.round((inc.resumo ? 1 : 0) + (inc.periodo ? p.labels.length * 0.5 : 0) + (inc.ranking ? rows.length * 0.7 : 0))) + ' KB',
+openExport: () => this.setState({ xs: true, xdone: false }),
+closeExport: () => this.setState({ xs: false, xdone: false }),
+doExport: () => this.setState({ xdone: true }),
+sheet: !!st.sheet,
+justSaved: !!st.justSaved,
+aname: st.aname || '',
+onName: (e) => this.setState({ aname: e.target.value }),
+openSheet: () => this.setState({ sheet: true, justSaved: false }),
+closeSheet: () => this.setState({ sheet: false }),
+saveAnalysis: () => {
+const list = st.saved || [];
+const name = (st.aname || '').trim() || 'Análise ' + (list.length + 1);
+const sub = metricName + ' · ' + p.label + ' · ' + prodsLabel.toLowerCase();
+this.setState({ saved: list.concat([{ name: name, sub: sub, cfg: cfg }]), aname: '', justSaved: true });
+}
+};
+}
+}
+</script>
+</body>
+</html>
