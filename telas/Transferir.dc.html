@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caixinha - Transferir</title>
+<script src="./support.js"></script>
+<script src="./cx.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+html,body{margin:0;height:100%}
+x-dc{display:block;height:100%}
+a{text-decoration:none}
+button,input,select{font-family:'Nunito',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="flex: none; position: relative; z-index: 3; background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px"><a href="{{backHref}}" aria-label="Voltar" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center; text-decoration: none"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a><div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 12px; font-weight: 700; color: #FFD9B0; line-height: 1.1">{{nome}}</span><h1 style="margin: 0; font-size: 20px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Transferir entre lojas</h1></div></div>
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 16px 16px 24px 16px; display: flex; flex-direction: column; gap: 14px">
+<span style="font-size: 13px; font-weight: 800; color: #5C3A24; text-transform: uppercase; letter-spacing: 0.04em">Sai de qual loja?</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{de}}" as="c" hint-placeholder-count="3"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{c.label}}</button></sc-for></div>
+<span style="font-size: 13px; font-weight: 800; color: #5C3A24; text-transform: uppercase; letter-spacing: 0.04em">Vai para qual loja?</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{para}}" as="c" hint-placeholder-count="3"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{c.label}}</button></sc-for></div>
+<span style="font-size: 13px; font-weight: 800; color: #5C3A24; text-transform: uppercase; letter-spacing: 0.04em">Quantas unidades?</span>
+<div style="display: flex; align-items: center; justify-content: center; gap: 12px; background: #FFFFFF; border: 2px solid {{accent}}; border-radius: 18px; padding: 10px"><button type="button" onClick="{{dec}}" aria-label="Diminuir quantidade" style="width: 52px; height: 52px; flex: none; border: 0; border-radius: 26px; background: #FFE9D2; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#9C430C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button><label for="qtd" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Quantidade</label><input id="qtd" type="text" inputmode="numeric" autocomplete="off" value="{{qtdStr}}" onChange="{{onQtd}}" placeholder="0" style="width: 120px; min-width: 0; height: 52px; box-sizing: border-box; border: 0; background: transparent; text-align: center; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 38px; font-weight: 800; color: #2E1203"><button type="button" onClick="{{inc}}" aria-label="Aumentar quantidade" style="width: 52px; height: 52px; flex: none; border: 0; border-radius: 26px; background: #FFE9D2; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#9C430C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button></div>
+<sc-if value="{{ hasPreview }}" hint-placeholder-val="{{ true }}">
+<div style="padding: 10px 14px; border-radius: 12px; background: {{prevBg}}; color: {{prevFg}}; font-size: 15px; font-weight: 800; text-align: center; line-height: 1.4">{{preview}}</div>
+</sc-if>
+<sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if>
+</div>
+<div style="flex: none; padding: 12px 16px 24px 16px; background: #FFF6EC; border-top: 2px solid #F0DCC8">
+<button type="button" onClick="{{confirmar}}" style="height: 56px; width: 100%; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer">Confirmar transferência</button>
+</div>
+
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+
+const id = Number((CX.hash() || '1').replace(/\D/g, '')) || 1;
+const it = CX.item(id) || CX.get().items[0];
+const st = this.state || {};
+const stores = CX.stores();
+let best = stores[0].id; stores.forEach((s) => { if ((it.q[s.id] || 0) > (it.q[best] || 0)) best = s.id; });
+const de = st.de || best;
+const para = st.para || (stores.find((s) => s.id !== de) || stores[0]).id;
+const qtdStr = st.qtd === undefined ? '' : String(st.qtd);
+const qtd = Math.floor(Number(qtdStr.replace(/\D/g, ''))) || 0;
+const a = it.q[de] || 0, b = it.q[para] || 0;
+const bad = qtd > a || de === para;
+const pill = (on) => ({ bg: on ? accent : '#FFFFFF', fg: on ? '#FFFFFF' : '#4A1F05', bd: on ? accent : '#E2C9B2' });
+return {
+accent: accent, nome: it.name, backHref: 'Item.dc.html#' + id, qtdStr: qtdStr,
+onQtd: (e) => this.setState({ qtd: String(e.target.value).replace(/\D/g, '').slice(0, 5), err: '' }),
+dec: () => this.setState({ qtd: String(Math.max(0, qtd - 1)), err: '' }),
+inc: () => this.setState({ qtd: String(qtd + 1), err: '' }),
+de: stores.map((s) => Object.assign({ label: s.short + ' · ' + (it.q[s.id] || 0), on: s.id === de, pick: () => this.setState({ de: s.id, err: '' }) }, pill(s.id === de))),
+para: stores.map((s) => Object.assign({ label: s.short + ' · ' + (it.q[s.id] || 0), on: s.id === para, pick: () => this.setState({ para: s.id, err: '' }) }, pill(s.id === para))),
+hasPreview: qtd > 0 || de === para,
+preview: de === para ? 'Escolha lojas diferentes' : (qtd > a ? 'Só há ' + a + ' ' + it.unid + ' na ' + CX.storeName(de) : CX.storeName(de) + ': ' + a + ' → ' + (a - qtd) + '  ·  ' + CX.storeName(para) + ': ' + b + ' → ' + (b + qtd)),
+prevBg: bad ? '#FAD2CB' : '#DDEFD8', prevFg: bad ? '#7A1E10' : '#1F4D1A',
+hasErr: !!st.err, err: st.err || '',
+confirmar: () => {
+const r = CX.transfer({ id: id, de: de, para: para, qtd: qtd });
+if (!r.ok) { this.setState({ err: r.erro }); return; }
+CX.go('Item.dc.html#' + id);
+}
+};
+
+}
+}
+</script>
+</body>
+</html>

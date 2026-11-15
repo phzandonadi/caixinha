@@ -4,17 +4,18 @@
 <meta charset="utf-8">
 <title>Caixinha - Entrar ou cadastrar</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+body{margin:0;background:#FFF6EC}
 a{color:#9C430C}a:hover{color:#6E2D06}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: {{accent}}; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: {{accent}}; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div style="display: flex; flex-direction: column; align-items: center; padding: 44px 28px 0 28px; text-align: center">
 <svg viewBox="0 0 170 180" width="150" height="159" role="img" aria-label="Mascote do app: uma caixa laranja sorridente piscando um olho">
@@ -34,8 +35,8 @@ a{color:#9C430C}a:hover{color:#6E2D06}
 </g>
 </svg>
 <h1 style="margin: 6px 0 0 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.1; color: #FFF1E2">Caixinha</h1>
-<p style="margin: 2px 0 0 0; font-size: 17px; font-weight: 800; color: #FFD9B0; width: 366px">Seu estoque na palma da mão.</p>
-<p style="margin: 8px 0 0 0; font-size: 14px; line-height: 1.45; font-weight: 600; color: #FFF1E2; width: 381px">O app de inventário para lojas: cadastre produtos, controle entradas e saídas e saiba sempre o que tem na prateleira.</p>
+<p style="margin: 2px 0 0 0; font-size: 17px; font-weight: 800; color: #FFD9B0; max-width: 100%">Seu estoque na palma da mão.</p>
+<p style="margin: 8px 0 0 0; font-size: 14px; line-height: 1.45; font-weight: 600; color: #FFF1E2; max-width: 100%">O app de inventário para lojas: cadastre produtos, controle entradas e saídas e saiba sempre o que tem na prateleira.</p>
 </div>
 
 <div style="flex: 1; margin-top: 24px; background: #FFF6EC; border-radius: 32px 32px 0 0; padding: 24px 24px 28px 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px">
@@ -49,23 +50,25 @@ a{color:#9C430C}a:hover{color:#6E2D06}
 <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome</label>
-<input id="nome" type="text" placeholder="Como podemos te chamar?" autocomplete="name" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+<input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" placeholder="Como podemos te chamar?" autocomplete="name" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
 </div>
 </sc-if>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="email" style="font-size: 14px; font-weight: 700; color: #4A1F05">E-mail</label>
-<input id="email" type="email" placeholder="voce@sualoja.com" autocomplete="email" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+<input id="email" type="email" value="{{email}}" onChange="{{onEmail}}" placeholder="voce@sualoja.com" autocomplete="email" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="senha" style="font-size: 14px; font-weight: 700; color: #4A1F05">Senha</label>
-<input id="senha" type="password" placeholder="Mínimo de 8 caracteres" autocomplete="current-password" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+<input id="senha" type="password" value="{{senha}}" onChange="{{onSenha}}" placeholder="Mínimo de 8 caracteres" autocomplete="current-password" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
 </div>
 </div>
 
-<a href="Home.dc.html" style="height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none">{{ctaLabel}}</a>
+<sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if>
+<sc-if value="{{ hasInfo }}" hint-placeholder-val="{{ false }}"><p role="status" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #DDEFD8; color: #1F4D1A; font-size: 14px; font-weight: 700">{{info}}</p></sc-if>
+<button type="button" onClick="{{submit}}" style="height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none; border: 0; cursor: pointer">{{ctaLabel}}</button>
 
 <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
-<a href="#esqueci" style="text-align: center; font-size: 14px; font-weight: 700">Esqueci minha senha</a>
+<button type="button" onClick="{{forgot}}" style="align-self: center; min-height: 44px; padding: 0 12px; border: 0; background: transparent; color: {{accent}}; font-size: 14px; font-weight: 700; text-decoration: underline; cursor: pointer">Esqueci minha senha</button>
 </sc-if>
 <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ true }}">
 <p style="margin: 0; text-align: center; font-size: 13px; line-height: 1.4; color: #5C3A24">Ao criar a conta, você concorda com os Termos de Uso e a Política de Privacidade.</p>
@@ -78,7 +81,8 @@ a{color:#9C430C}a:hover{color:#6E2D06}
 class Component extends DCLogic {
 renderVals() {
 const accent = this.props.accent ?? '#9C430C';
-const login = !!(this.state && this.state.mode === 'login');
+const st = this.state || {};
+const login = !!(st.mode === 'login');
 return {
 accent: accent,
 isLogin: login,
@@ -88,8 +92,29 @@ loginBg: login ? '#FFFFFF' : 'transparent',
 loginFg: login ? accent : '#5C3A24',
 signupBg: login ? 'transparent' : '#FFFFFF',
 signupFg: login ? '#5C3A24' : accent,
-showLogin: () => this.setState({ mode: 'login' }),
-showSignup: () => this.setState({ mode: 'signup' })
+showLogin: () => this.setState({ mode: 'login', err: '', info: '' }),
+showSignup: () => this.setState({ mode: 'signup', err: '', info: '' }),
+nome: st.nome || '', email: st.email || '', senha: st.senha || '',
+onNome: (e) => this.setState({ nome: e.target.value, err: '' }),
+onEmail: (e) => this.setState({ email: e.target.value, err: '' }),
+onSenha: (e) => this.setState({ senha: e.target.value, err: '' }),
+hasErr: !!st.err, err: st.err || '', hasInfo: !!st.info, info: st.info || '',
+forgot: () => {
+const em = (st.email || '').trim();
+if (em.indexOf('@') < 1) { this.setState({ err: 'Digite seu e-mail no campo acima e toque de novo em “Esqueci minha senha”.', info: '' }); return; }
+this.setState({ err: '', info: 'Se existir uma conta com ' + em + ', o link para criar uma nova senha chega em alguns minutos. Nesta demonstração, nenhum e-mail é enviado.' });
+},
+submit: () => {
+const em = (st.email || '').trim(), pw = st.senha || '', nm = (st.nome || '').trim();
+const fail = (m) => this.setState({ err: m, info: '' });
+if (!login && !nm) return fail('Digite seu nome para criar a conta.');
+if (em.indexOf('@') < 1 || em.indexOf('.', em.indexOf('@')) < 0) return fail('Digite um e-mail válido, como voce@sualoja.com.');
+if (login && !pw) return fail('Digite a sua senha.');
+if (!login && pw.length < 8) return fail('A senha precisa ter pelo menos 8 caracteres.');
+if (login) { CX.reset(); CX.go('Home.dc.html'); return; }
+const s = CX.reset(); s.userName = nm; s.vazio = true; s.items = []; s.mov = []; s.shopName = 'Minha loja'; CX.save();
+CX.go('BoasVindas.dc.html');
+}
 };
 }
 }

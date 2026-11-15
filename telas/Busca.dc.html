@@ -4,17 +4,18 @@
 <meta charset="utf-8">
 <title>Caixinha - Buscar itens</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+body{margin:0;background:#FFF6EC}
 button{font-family:'Nunito',system-ui,sans-serif}
 </style>
 </helmet>
-<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 8px">
 <a href="Home.dc.html" aria-label="Voltar" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; text-decoration: none; display: flex; align-items: center; justify-content: center">
@@ -22,8 +23,9 @@ button{font-family:'Nunito',system-ui,sans-serif}
 </a>
 <div style="flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border-radius: 24px; background: #FFF6EC; padding: 0 4px 0 14px; display: flex; align-items: center; gap: 8px">
 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
-<label for="busca" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Buscar item pelo nome</label>
-<input id="busca" type="text" value="{{query}}" onChange="{{onSearch}}" placeholder="Buscar item pelo nome" style="flex: 1; min-width: 0; height: 44px; border: 0; background: transparent; outline: none; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+<label for="busca" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Buscar item por nome, apelido ou código</label>
+<input id="busca" type="text" value="{{query}}" onChange="{{onSearch}}" placeholder="Nome, apelido ou código" style="flex: 1; min-width: 0; height: 44px; border: 0; background: transparent; outline: none; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+<button type="button" onClick="{{scan}}" aria-label="Ler código de barras" style="width: 40px; height: 40px; flex: none; border-radius: 20px; border: 0; background: transparent; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"></path><path d="M7 9v6M11 9v6M15 9v6M18 9v6" stroke-width="1.6"></path></svg></button>
 <button type="button" onClick="{{toggleMic}}" aria-pressed="{{listening}}" aria-label="Buscar por voz" style="width: 40px; height: 40px; flex: none; border-radius: 20px; border: 0; background: {{micBg}}; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{micStroke}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3M9 21h6"></path></svg>
 </button>
@@ -31,6 +33,7 @@ button{font-family:'Nunito',system-ui,sans-serif}
 </div>
 
 <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px 16px 24px 16px; display: flex; flex-direction: column; gap: 10px">
+<sc-if value="{{ hasPick }}" hint-placeholder-val="{{ false }}"><p style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FFE9D2; color: #4A1F05; font-size: 15px; font-weight: 800">{{pickText}}</p></sc-if>
 
 <sc-if value="{{ listening }}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 24px 12px 0 12px">
@@ -63,25 +66,16 @@ Parar
 
 <h2 style="margin: 16px 4px 0 4px; font-size: 15px; font-weight: 800; color: #4A1F05">Experimente dizer</h2>
 <div style="display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px">
-<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3M9 21h6"></path></svg>
-<span style="font-size: 15px; font-weight: 700; color: #2E1203">“Mostre as roupas com estoque baixo”</span>
-</div>
-<div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px">
-<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3M9 21h6"></path></svg>
-<span style="font-size: 15px; font-weight: 700; color: #2E1203">“Quais itens estão sem estoque?”</span>
-</div>
-<div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px">
-<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3M9 21h6"></path></svg>
-<span style="font-size: 15px; font-weight: 700; color: #2E1203">“Procurar tênis na Loja Centro”</span>
-</div>
+<button type="button" onClick="{{try1}}" style="display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px; cursor: pointer; text-align: left"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3M9 21h6"></path></svg><span style="font-size: 15px; font-weight: 700; color: #2E1203">“Mostre as roupas com estoque baixo”</span></button>
+<button type="button" onClick="{{try2}}" style="display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px; cursor: pointer; text-align: left"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3M9 21h6"></path></svg><span style="font-size: 15px; font-weight: 700; color: #2E1203">“Quais itens estão sem estoque?”</span></button>
+<button type="button" onClick="{{try3}}" style="display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px; cursor: pointer; text-align: left"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3M9 21h6"></path></svg><span style="font-size: 15px; font-weight: 700; color: #2E1203">“Procurar tênis na Loja Centro”</span></button>
 </div>
 </sc-if>
 
 <sc-if value="{{ voice }}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #FFE9D2; border-radius: 16px">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3M9 21h6"></path></svg>
-<span style="flex: 1; font-size: 15px; font-weight: 700; color: #4A1F05">Você pediu: “Mostre as roupas com estoque baixo”</span>
+<span style="flex: 1; font-size: 15px; font-weight: 700; color: #4A1F05">Você pediu: “{{voiceText}}”</span>
 </div>
 </sc-if>
 
@@ -91,7 +85,7 @@ Parar
 <span style="font-size: 14px; font-weight: 700; color: #5C3A24">{{countLabel}}</span>
 </div>
 <sc-for list="{{items}}" as="item" hint-placeholder-count="2">
-<a href="EditarItem.dc.html" aria-label="Editar {{item.name}}" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; text-decoration: none; color: inherit">
+<a href="{{item.href}}" aria-label="Abrir {{item.name}}" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; text-decoration: none; color: inherit">
 <div style="width: 52px; height: 52px; flex: none; border-radius: 14px; background: #FFE3C8; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#9C430C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v9l-8 4-8-4z"></path><path d="M4 8l8 4 8-4"></path><path d="M12 12v9"></path></svg>
 </div>
@@ -102,12 +96,12 @@ Parar
 </div>
 <div style="flex: none; display: flex; flex-direction: column; align-items: center; min-width: 44px">
 <span style="font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.1; color: #4A1F05">{{item.qty}}</span>
-<span style="font-size: 12px; font-weight: 700; color: #5C3A24">un.</span>
+<span style="font-size: 12px; font-weight: 700; color: #5C3A24">{{item.unid}}</span>
 </div>
 </a>
 </sc-for>
 <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
-<p style="margin: 24px 0; text-align: center; font-size: 15px; font-weight: 600; color: #5C3A24">Nenhum item encontrado.</p>
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 16px 0"><p style="margin: 0; text-align: center; font-size: 15px; font-weight: 600; color: #5C3A24">Nenhum item encontrado para “{{query}}”.</p><sc-if value="{{ hasSuggestion }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{useSuggestion}}" style="height: 52px; border: 2px solid {{accent}}; border-radius: 16px; background: #FFFFFF; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer">Você quis dizer {{suggestion}}?</button></sc-if><a href="NovoItem.dc.html" style="height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center">Cadastrar novo item</a></div>
 </sc-if>
 </sc-if>
 
@@ -121,44 +115,39 @@ const accent = this.props.accent ?? '#9C430C';
 const st = this.state || {};
 const query = st.query || '';
 const listening = !!st.listening;
-const voice = !!st.voice;
 const hasQuery = query.trim().length > 0;
-const all = [
-{ name: 'Camiseta básica branca M', cat: 'Roupas', store: 'Loja Centro', qty: 48 },
-{ name: 'Calça jeans slim 42', cat: 'Roupas', store: 'Loja Shopping', qty: 6 },
-{ name: 'Tênis casual preto 40', cat: 'Calçados', store: 'Loja Centro', qty: 22 },
-{ name: 'Mochila escolar azul', cat: 'Acessórios', store: 'Loja Norte', qty: 15 },
-{ name: 'Boné aba reta', cat: 'Acessórios', store: 'Loja Shopping', qty: 0 },
-{ name: 'Meias esportivas (par)', cat: 'Roupas', store: 'Loja Norte', qty: 120 },
-{ name: 'Jaqueta corta-vento G', cat: 'Roupas', store: 'Loja Centro', qty: 9 },
-{ name: 'Camiseta polo azul G', cat: 'Roupas', store: 'Loja Norte', qty: 31 },
-{ name: 'Sandália slide 38', cat: 'Calçados', store: 'Loja Shopping', qty: 4 },
-{ name: 'Cinto de couro marrom', cat: 'Acessórios', store: 'Loja Centro', qty: 18 }
-];
+const mode = (/^(entrada|saida)$/.exec(CX.hash()) || [])[1] || '';
+const stores = CX.stores();
 let found = [];
-if (voice) {
-found = all.filter((i) => i.cat === 'Roupas' && i.qty > 0 && i.qty <= 10);
-} else if (hasQuery && !listening) {
-const q = query.trim().toLowerCase();
-found = all.filter((i) => i.name.toLowerCase().includes(q));
-}
+const vmode = st.voice;
+const vtext = { baixo: 'Mostre as roupas com estoque baixo', zero: 'Quais itens estão sem estoque?', tenis: 'Procurar tênis na Loja Centro' };
+if (vmode === 'baixo') found = CX.get().items.filter((i) => i.cat === 'Roupas' && CX.status(i) === 'baixo');
+else if (vmode === 'zero') found = CX.get().items.filter((i) => CX.status(i) === 'zero');
+else if (vmode === 'tenis') found = CX.search('tenis').filter((i) => (i.q.centro || 0) > 0);
+else if (hasQuery && !listening) found = CX.search(query);
 const items = found.map((i) => {
-let chip = 'Em estoque', chipBg = '#DDEFD8', chipFg = '#1F4D1A';
-if (i.qty === 0) { chip = 'Sem estoque'; chipBg = '#FAD2CB'; chipFg = '#7A1E10'; }
-else if (i.qty <= 10) { chip = 'Estoque baixo'; chipBg = '#FFE0A3'; chipFg = '#5A3A00'; }
-return { name: i.name, meta: i.cat + ' · ' + i.store, qty: String(i.qty), chip: chip, chipBg: chipBg, chipFg: chipFg };
+const ch = CX.chip(CX.status(i));
+const split = stores.filter((x) => (i.q[x.id] || 0) > 0).map((x) => x.short + ' ' + i.q[x.id]).join(' · ');
+return { name: i.name, href: mode ? 'Movimentar.dc.html#' + mode + '-' + i.id : 'Item.dc.html#' + i.id, meta: i.cat + ' · ' + i.cod + (split ? ' · ' + split : ''), qty: String(CX.total(i)), unid: i.unid === 'par' ? 'pares' : 'un.', chip: ch.t, chipBg: ch.bg, chipFg: ch.fg };
 });
+const sug = (hasQuery && !vmode && items.length === 0) ? CX.suggest(query) : null;
 const recents = ['Camiseta básica', 'Tênis casual', 'Jaqueta'].map((t) => ({
 text: t,
-pick: () => this.setState({ query: t, voice: false, listening: false })
+pick: () => this.setState({ query: t, voice: '', listening: false })
 }));
-const showList = !listening && (voice || hasQuery);
+const showList = !listening && (!!vmode || hasQuery);
 return {
 accent: accent,
 query: query,
 listening: listening,
-voice: voice,
-idle: !listening && !voice && !hasQuery,
+voice: !!vmode, voiceText: vtext[vmode] || '',
+hasPick: !!mode, pickText: mode === 'entrada' ? 'Escolha o item que recebeu para registrar a entrada.' : 'Escolha o item que saiu para registrar a saída.',
+hasSuggestion: !!sug, suggestion: sug ? sug.name : '', useSuggestion: () => this.setState({ query: sug ? sug.name : '' }),
+try1: () => this.setState({ voice: 'baixo', query: '', listening: false }),
+try2: () => this.setState({ voice: 'zero', query: '', listening: false }),
+try3: () => this.setState({ voice: 'tenis', query: '', listening: false }),
+scan: () => this.setState({ query: 'CAM-0042', voice: false, listening: false }),
+idle: !listening && !vmode && !hasQuery,
 showList: showList,
 items: items,
 isEmpty: showList && items.length === 0,
@@ -166,10 +155,10 @@ countLabel: items.length + (items.length === 1 ? ' item' : ' itens'),
 recents: recents,
 micBg: listening ? accent : 'transparent',
 micStroke: listening ? '#FFFFFF' : accent,
-onSearch: (e) => this.setState({ query: e.target.value, voice: false }),
-toggleMic: () => this.setState({ listening: !listening, voice: false, query: '' }),
-stopMic: () => this.setState({ listening: false, voice: true, query: '' }),
-reset: () => this.setState({ query: '', listening: false, voice: false })
+onSearch: (e) => this.setState({ query: e.target.value, voice: '' }),
+toggleMic: () => this.setState({ listening: !listening, voice: '', query: '' }),
+stopMic: () => this.setState({ listening: false, voice: 'baixo', query: '' }),
+reset: () => this.setState({ query: '', listening: false, voice: '' })
 };
 }
 }

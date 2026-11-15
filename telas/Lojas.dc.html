@@ -4,17 +4,18 @@
 <meta charset="utf-8">
 <title>Caixinha - Escolher lojas</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+body{margin:0;background:#FFF6EC}
 button{font-family:'Nunito',system-ui,sans-serif}
 </style>
 </helmet>
-<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div style="position: relative; z-index: 3; background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; flex-direction: column; gap: 12px">
 <div style="display: flex; align-items: center; gap: 8px">
@@ -92,7 +93,7 @@ button{font-family:'Nunito',system-ui,sans-serif}
 <span style="width: 24px; height: 24px; flex: none; box-sizing: border-box; border-radius: 8px; border: 2px solid {{allBorder}}; background: {{allBg}}; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="{{allCheck}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
 </span>
-<span style="flex: 1; font-size: 16px; font-weight: 800; color: #2E1203">Estoque geral</span>
+<span style="flex: 1; font-size: 16px; font-weight: 800; color: #2E1203">Todas as lojas</span>
 <span style="font-size: 13px; font-weight: 700; color: #5C3A24">{{totalLabel}}</span>
 </button>
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; padding: 0 2px 0 12px">
@@ -110,7 +111,7 @@ renderVals() {
 const accent = this.props.accent ?? '#9C430C';
 const st = this.state || {};
 const allIds = ['centro', 'shopping', 'norte'];
-const defaultSel = ['centro', 'norte'];
+const defaultSel = CX.sel();
 const sel = st.sel || defaultSel;
 const open = st.open === undefined ? true : !!st.open;
 const searching = !!st.search;
@@ -120,18 +121,8 @@ const stores = [
 { id: 'shopping', name: 'Loja Shopping' },
 { id: 'norte', name: 'Loja Norte' }
 ];
-const all = [
-{ name: 'Camiseta básica branca M', cat: 'Roupas', store: 'centro', qty: 48 },
-{ name: 'Calça jeans slim 42', cat: 'Roupas', store: 'shopping', qty: 6 },
-{ name: 'Tênis casual preto 40', cat: 'Calçados', store: 'centro', qty: 22 },
-{ name: 'Mochila escolar azul', cat: 'Acessórios', store: 'norte', qty: 15 },
-{ name: 'Boné aba reta', cat: 'Acessórios', store: 'shopping', qty: 0 },
-{ name: 'Meias esportivas (par)', cat: 'Roupas', store: 'norte', qty: 120 },
-{ name: 'Jaqueta corta-vento G', cat: 'Roupas', store: 'centro', qty: 9 },
-{ name: 'Camiseta polo azul G', cat: 'Roupas', store: 'norte', qty: 31 },
-{ name: 'Sandália slide 38', cat: 'Calçados', store: 'shopping', qty: 4 },
-{ name: 'Cinto de couro marrom', cat: 'Acessórios', store: 'centro', qty: 18 }
-];
+const all = [];
+CX.get().items.forEach((it) => { stores.forEach((s) => { if ((it.q[s.id] || 0) > 0) all.push({ name: it.name, cat: it.cat, store: s.id, qty: it.q[s.id] }); }); });
 const nameOf = (id) => stores.find((s) => s.id === id).name;
 const q = query.trim().toLowerCase();
 const visible = all.filter((i) => sel.includes(i.store) && i.name.toLowerCase().includes(q));
@@ -142,7 +133,7 @@ else if (i.qty <= 10) { chip = 'Estoque baixo'; chipBg = '#FFE0A3'; chipFg = '#5
 return { name: i.name, meta: i.cat + ' · ' + nameOf(i.store), qty: String(i.qty), chip: chip, chipBg: chipBg, chipFg: chipFg };
 });
 const allSelected = sel.length === allIds.length;
-let storeLabel = 'Estoque geral';
+let storeLabel = 'Todas as lojas';
 if (!allSelected) storeLabel = sel.length === 1 ? nameOf(sel[0]) : sel.length + ' lojas';
 const plural = (n) => n + (n === 1 ? ' item' : ' itens');
 const storeRows = stores.map((s) => {
@@ -156,10 +147,12 @@ check: on ? '#FFFFFF' : 'transparent',
 toggle: () => {
 const cur = this.state && this.state.sel ? this.state.sel : defaultSel;
 if (cur.includes(s.id)) {
-if (cur.length === 1) return;
-this.setState({ sel: cur.filter((x) => x !== s.id) });
+if (cur.length === 1) { this.setState({ hint: true }); return; }
+const nx = cur.filter((x) => x !== s.id); CX.setSel(nx);
+this.setState({ sel: nx, hint: false });
 } else {
-this.setState({ sel: cur.concat(s.id) });
+const nx = cur.concat(s.id); CX.setSel(nx);
+this.setState({ sel: nx, hint: false });
 }
 }
 };
@@ -177,14 +170,14 @@ items: items,
 isEmpty: items.length === 0,
 countLabel: plural(items.length),
 totalLabel: plural(all.length),
-selectedLabel: allSelected ? 'Todas as lojas' : (sel.length === 1 ? '1 loja selecionada' : sel.length + ' lojas selecionadas'),
+selectedLabel: st.hint ? 'Escolha pelo menos uma loja' : allSelected ? 'Todas as lojas' : (sel.length === 1 ? '1 loja selecionada' : sel.length + ' lojas selecionadas'),
 storeRows: storeRows,
 allBg: allSelected ? accent : '#FFFFFF',
 allBorder: allSelected ? accent : '#C9A98F',
 allCheck: allSelected ? '#FFFFFF' : 'transparent',
 toggleOpen: () => this.setState({ open: !open }),
 closeSheet: () => this.setState({ open: false }),
-selectAll: () => this.setState({ sel: allIds.slice() }),
+selectAll: () => { CX.setSel(allIds.slice()); this.setState({ sel: allIds.slice(), hint: false }); },
 toggleSearch: () => this.setState({ search: !searching, query: searching ? '' : query }),
 onSearch: (e) => this.setState({ query: e.target.value })
 };

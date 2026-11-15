@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Caixinha - Ponto de venda</title>
+<title>Caixinha - Conexão com o caixa</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -10,16 +10,16 @@
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+body{margin:0;background:#FFF6EC}
 a{text-decoration:none}
 button,input{font-family:'Nunito',system-ui,sans-serif}
 </style>
 </helmet>
-<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div style="flex: none; background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 20px; display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-direction: column">
-<h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.15; color: #FFF1E2">Ponto de venda</h1>
+<h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.15; color: #FFF1E2">Conexão com o caixa</h1>
 <span style="font-size: 13px; font-weight: 700; color: #FFD9B0">Como o seu estoque é atualizado</span>
 </div>
 <div style="display: flex; gap: 4px; padding: 4px; border-radius: 18px; background: #7E3409">
@@ -38,7 +38,7 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#9C430C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg>
 </span>
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
-<span style="font-size: 17px; font-weight: 800; color: #2E1203">PDV do balcão</span>
+<span style="font-size: 17px; font-weight: 800; color: #2E1203">Caixa do balcão</span>
 <span style="font-size: 13px; font-weight: 600; color: #5C3A24">Sincronizado hoje às 13:42</span>
 </span>
 <span style="flex: none; display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; background: #DDEFD8; color: #1F4D1A; font-size: 12px; font-weight: 800"><span style="width: 8px; height: 8px; border-radius: 4px; background: #2E8B2E"></span>Conectado</span>
@@ -49,8 +49,8 @@ button,input{font-family:'Nunito',system-ui,sans-serif}
 <span style="font-size: 12px; font-weight: 700; color: #5C3A24">vendas hoje</span>
 </div>
 <div style="flex: 1; display: flex; flex-direction: column; padding: 10px 12px; border-radius: 14px; background: #FFF6EC">
-<span style="font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 24px; font-weight: 800; line-height: 1.1; color: #4A1F05">342</span>
-<span style="font-size: 12px; font-weight: 700; color: #5C3A24">baixas no estoque</span>
+<span style="font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 24px; font-weight: 800; line-height: 1.1; color: #4A1F05">18</span>
+<span style="font-size: 12px; font-weight: 700; color: #5C3A24">saídas hoje</span>
 </div>
 </div>
 <button type="button" onClick="{{syncNow}}" style="height: 48px; border: 0; border-radius: 14px; background: {{accent}}; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px">
@@ -136,10 +136,10 @@ Conectar outro sistema
 
 <nav aria-label="Navegação principal" style="flex: none; position: relative; z-index: 1; height: 80px; box-sizing: border-box; background: #FFFFFF; border-top: 2px solid #F0DCC8; display: flex; align-items: flex-start; padding: 8px 6px 0 6px">
 <a href="Home.dc.html" aria-label="Estoque" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v9l-8 4-8-4z"></path><path d="M4 8l8 4 8-4"></path><path d="M12 12v9"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Estoque</span></a>
-<a href="Estatisticas.dc.html" aria-label="Estatísticas" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Estatísticas</span></a>
-<a href="Caixinha.dc.html" aria-label="Caixinha, assistente" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: -30px; text-decoration: none"><span style="width: 66px; height: 66px; box-sizing: border-box; border-radius: 33px; background: {{accent}}; border: 4px solid #FFF6EC; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 14px rgba(46, 18, 3, 0.35)"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><path d="M7 19L2 10l15 3 1 6z" fill="#FFB36B"></path><path d="M41 19l5-9-15 3-1 6z" fill="#FFB36B"></path><rect x="7" y="18" width="34" height="25" rx="5" fill="#FA9445"></rect><rect x="7" y="18" width="34" height="6" rx="3" fill="#D9701F"></rect><circle cx="17" cy="31" r="2.3" fill="#2E1203"></circle><path d="M27 31q3-3.2 6 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path><path d="M18 37q6 4.5 12 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: {{accent}}">Caixinha</span></a>
-<a href="PontoDeVenda.dc.html" aria-label="Vendas" aria-current="page" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: #FFE9D2; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="{{accent}}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: {{accent}}">Vendas</span></a>
-<a href="Perfil.dc.html" aria-label="Perfil" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="4"></circle><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Perfil</span></a>
+<a href="Historico.dc.html" aria-label="Histórico" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v14M3 14l4 4 4-4"></path><path d="M17 20V6M13 10l4-4 4 4"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Histórico</span></a>
+<a href="Caixinha.dc.html" aria-label="Assistente Caixinha" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: -30px; text-decoration: none"><span style="width: 66px; height: 66px; box-sizing: border-box; border-radius: 33px; background: {{accent}}; border: 4px solid #FFF6EC; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 14px rgba(46, 18, 3, 0.35)"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><path d="M7 19L2 10l15 3 1 6z" fill="#FFB36B"></path><path d="M41 19l5-9-15 3-1 6z" fill="#FFB36B"></path><rect x="7" y="18" width="34" height="25" rx="5" fill="#FA9445"></rect><rect x="7" y="18" width="34" height="6" rx="3" fill="#D9701F"></rect><circle cx="17" cy="31" r="2.3" fill="#2E1203"></circle><path d="M27 31q3-3.2 6 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path><path d="M18 37q6 4.5 12 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: {{accent}}">Assistente</span></a>
+<a href="Estatisticas.dc.html" aria-label="Relatórios" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Relatórios</span></a>
+<a href="Mais.dc.html" aria-label="Mais" aria-current="page" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: #FFE9D2; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="{{accent}}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle></svg></span><span style="font-size: 12px; font-weight: 800; color: {{accent}}">Mais</span></a>
 </nav>
 
 </div>
@@ -160,9 +160,9 @@ fg: mode === m.id ? '#7E3409' : '#FFD9B0',
 pick: () => this.setState({ mode: m.id })
 }));
 const sw = [
-{ id: 'baixa', title: 'Baixar o estoque a cada venda', hint: 'Cada venda no PDV reduz o estoque aqui' },
-{ id: 'precos', title: 'Atualizar preços pelo PDV', hint: 'Os preços do PDV substituem os do Caixinha' },
-{ id: 'aviso', title: 'Avisar se houver divergência', hint: 'Quando o estoque do PDV e o daqui forem diferentes' }
+{ id: 'baixa', title: 'Baixar o estoque a cada venda', hint: 'Cada venda no caixa reduz o estoque aqui' },
+{ id: 'precos', title: 'Atualizar preços pelo caixa', hint: 'Os preços do caixa substituem os do Caixinha' },
+{ id: 'aviso', title: 'Avisar quando os números do caixa e do app não baterem', hint: 'Quando o estoque do caixa e o daqui forem diferentes' }
 ].map((s) => ({
 title: s.title,
 hint: s.hint,
@@ -188,8 +188,8 @@ stores: [
 ],
 switches: sw,
 options: [
-{ name: 'PDV de balcão', hint: 'Caixa da loja física', icon: 'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6' },
-{ name: 'Sistema de gestão (ERP)', hint: 'Estoque, notas e financeiro', icon: 'M4 5h16v14H4zM4 10h16M9 10v9' },
+{ name: 'Caixa de balcão', hint: 'Caixa da loja física', icon: 'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6' },
+{ name: 'Sistema de gestão', hint: 'Estoque, notas e financeiro', icon: 'M4 5h16v14H4zM4 10h16M9 10v9' },
 { name: 'Loja virtual', hint: 'Pedidos de venda online', icon: 'M5 8h14l-1 12H6zM9 8a3 3 0 0 1 6 0' },
 { name: 'Outro sistema', hint: 'Conexão por chave de API', icon: 'M9 8l-5 4 5 4M15 8l5 4-5 4' }
 ]

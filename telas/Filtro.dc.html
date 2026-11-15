@@ -4,17 +4,18 @@
 <meta charset="utf-8">
 <title>Caixinha - Filtrar itens</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+body{margin:0;background:#FFF6EC}
 button{font-family:'Nunito',system-ui,sans-serif}
 </style>
 </helmet>
-<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div aria-hidden="true" style="display: flex; flex-direction: column; flex: 1; min-height: 0">
 <div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 8px">
@@ -24,7 +25,7 @@ button{font-family:'Nunito',system-ui,sans-serif}
 <div style="flex: 1; min-width: 0; height: 48px; border-radius: 16px; background: #7E3409; padding: 0 12px 0 14px; display: flex; align-items: center; gap: 8px">
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
 <span style="font-size: 12px; font-weight: 700; color: #FFD9B0; line-height: 1.1">Estoque</span>
-<span style="font-size: 16px; font-weight: 800; color: #FFF1E2; line-height: 1.2">Estoque geral</span>
+<span style="font-size: 16px; font-weight: 800; color: #FFF1E2; line-height: 1.2">Todas as lojas</span>
 </span>
 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
 </div>
@@ -115,15 +116,11 @@ class Component extends DCLogic {
 renderVals() {
 const accent = this.props.accent ?? '#9C430C';
 const st = this.state || {};
-const statusSel = st.status || ['baixo'];
-const catSel = st.cat || ['Roupas'];
-const all = [
-{ cat: 'Roupas', qty: 48 }, { cat: 'Roupas', qty: 6 }, { cat: 'Calçados', qty: 22 },
-{ cat: 'Acessórios', qty: 15 }, { cat: 'Acessórios', qty: 0 }, { cat: 'Roupas', qty: 120 },
-{ cat: 'Roupas', qty: 9 }, { cat: 'Roupas', qty: 31 }, { cat: 'Calçados', qty: 4 },
-{ cat: 'Acessórios', qty: 18 }
-];
-const statusOf = (n) => (n === 0 ? 'sem' : (n <= 10 ? 'baixo' : 'em'));
+const fl = CX.filter();
+const statusSel = st.status || fl.status;
+const catSel = st.cat || fl.cat;
+const all = CX.get().items.map((i) => ({ cat: i.cat, key: CX.status(i) === 'ok' ? 'em' : (CX.status(i) === 'baixo' ? 'baixo' : 'sem') }));
+const statusOf = (k) => k;
 const statuses = [
 { key: 'em', label: 'Em estoque', dot: '#5FBF4A' },
 { key: 'baixo', label: 'Estoque baixo', dot: '#F2B705' },
@@ -139,10 +136,12 @@ const statusChips = statuses.map((s) => {
 const on = statusSel.includes(s.key);
 return Object.assign({
 label: s.label, dot: s.dot, on: on,
-count: String(all.filter((i) => statusOf(i.qty) === s.key).length),
+count: String(all.filter((i) => statusOf(i.key) === s.key).length),
 toggle: () => {
-const cur = this.state && this.state.status ? this.state.status : ['baixo'];
-this.setState({ status: cur.includes(s.key) ? cur.filter((x) => x !== s.key) : cur.concat(s.key) });
+const cur = this.state && this.state.status ? this.state.status : CX.filter().status;
+const nx = cur.includes(s.key) ? cur.filter((x) => x !== s.key) : cur.concat(s.key);
+CX.setFilter({ status: nx, cat: (this.state && this.state.cat) || CX.filter().cat });
+this.setState({ status: nx });
 }
 }, style(on));
 });
@@ -152,12 +151,14 @@ return Object.assign({
 label: c, dot: 'transparent', on: on,
 count: String(all.filter((i) => i.cat === c).length),
 toggle: () => {
-const cur = this.state && this.state.cat ? this.state.cat : ['Roupas'];
-this.setState({ cat: cur.includes(c) ? cur.filter((x) => x !== c) : cur.concat(c) });
+const cur = this.state && this.state.cat ? this.state.cat : CX.filter().cat;
+const nx = cur.includes(c) ? cur.filter((x) => x !== c) : cur.concat(c);
+CX.setFilter({ status: (this.state && this.state.status) || CX.filter().status, cat: nx });
+this.setState({ cat: nx });
 }
 }, style(on));
 });
-const n = all.filter((i) => (statusSel.length === 0 || statusSel.includes(statusOf(i.qty))) && (catSel.length === 0 || catSel.includes(i.cat))).length;
+const n = all.filter((i) => (statusSel.length === 0 || statusSel.includes(i.key)) && (catSel.length === 0 || catSel.includes(i.cat))).length;
 const active = statusSel.length + catSel.length;
 return {
 accent: accent,
@@ -165,7 +166,7 @@ statusChips: statusChips,
 catChips: catChips,
 activeLabel: active === 0 ? 'Nenhum filtro ativo' : (active === 1 ? '1 filtro ativo' : active + ' filtros ativos'),
 showLabel: n === 0 ? 'Nenhum item encontrado' : 'Mostrar ' + n + (n === 1 ? ' item' : ' itens'),
-clearAll: () => this.setState({ status: [], cat: [] })
+clearAll: () => { CX.setFilter({ status: [], cat: [] }); this.setState({ status: [], cat: [] }); }
 };
 }
 }

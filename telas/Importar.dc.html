@@ -10,12 +10,12 @@
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+body{margin:0;background:#FFF6EC}
 a{text-decoration:none}
 button{font-family:'Nunito',system-ui,sans-serif}
 </style>
 </helmet>
-<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px">
 <a href="Adicionar.dc.html" aria-label="Voltar" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center">
@@ -157,7 +157,7 @@ track: upd ? accent : '#D9BFA6',
 knob: upd ? 30 : 4,
 ctaLabel: picked ? 'Importar 42 itens' : 'Escolha um arquivo',
 ctaOpacity: picked ? 1 : 0.45,
-columns: ['Nome', 'ID', 'Categoria', 'Termos de busca', 'Loja Centro', 'Loja Shopping', 'Loja Norte'],
+columns: ['Nome', 'Código', 'Categoria', 'Outros nomes', 'Loja Centro', 'Loja Shopping', 'Loja Norte'],
 problems: [
 { title: 'Linha 8: ID repetido', text: 'O ID CAM-0042 aparece duas vezes na planilha.' },
 { title: 'Linha 15: categoria vazia', text: 'Preencha Roupas, Calçados, Acessórios ou outra categoria.' }

@@ -4,18 +4,19 @@
 <meta charset="utf-8">
 <title>Caixinha - Novo item</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+body{margin:0;background:#FFF6EC}
 button{font-family:'Nunito',system-ui,sans-serif}
 input{font-family:'Nunito',system-ui,sans-serif}
 </style>
 </helmet>
-<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px">
 <a href="Adicionar.dc.html" aria-label="Voltar" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; text-decoration: none; display: flex; align-items: center; justify-content: center">
@@ -37,13 +38,13 @@ input{font-family:'Nunito',system-ui,sans-serif}
 <div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome do item</label>
-<input id="nome" type="text" placeholder="Ex.: Camiseta básica branca M" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+<input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" placeholder="Ex.: Camiseta básica branca M" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
-<label for="codigo" style="font-size: 14px; font-weight: 700; color: #4A1F05">ID do item</label>
+<label for="codigo" style="font-size: 14px; font-weight: 700; color: #4A1F05">Código do produto</label>
 <div style="display: flex; gap: 8px">
-<input id="codigo" type="text" placeholder="Ex.: CAM-0042" style="flex: 1; min-width: 0; height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
-<button type="button" aria-label="Ler código de barras" style="width: 48px; height: 48px; flex: none; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
+<input id="codigo" type="text" value="{{cod}}" onChange="{{onCod}}" placeholder="Ex.: CAM-0042" style="flex: 1; min-width: 0; height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+<button type="button" onClick="{{scan}}" aria-label="Ler código de barras" style="width: 48px; height: 48px; flex: none; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"></path><path d="M8 9v6M11 9v6M14 9v6M17 9v6"></path></svg>
 </button>
 </div>
@@ -81,11 +82,12 @@ input{font-family:'Nunito',system-ui,sans-serif}
 <sc-for list="{{cats}}" as="c" hint-placeholder-count="3">
 <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{c.label}}</button>
 </sc-for>
-<button type="button" style="height: 44px; padding: 0 14px; border-radius: 22px; border: 2px dashed #C98A5B; background: transparent; color: {{accent}}; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px">
+<button type="button" onClick="{{toggleNewCat}}" style="height: 44px; padding: 0 14px; border-radius: 22px; border: 2px dashed #C98A5B; background: transparent; color: {{accent}}; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px">
 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="{{accent}}" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
 Nova
 </button>
 </div>
+<sc-if value="{{ newCatOpen }}" hint-placeholder-val="{{ false }}"><div style="display: flex; gap: 8px"><label for="novacat" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Nome da nova categoria</label><input id="novacat" type="text" value="{{newCat}}" onChange="{{onNewCat}}" placeholder="Nome da categoria" style="flex: 1; min-width: 0; height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"><button type="button" onClick="{{addCat}}" style="height: 48px; flex: none; padding: 0 16px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 800; cursor: pointer">Adicionar</button></div></sc-if>
 </div>
 
 <div style="display: flex; flex-direction: column; gap: 10px">
@@ -109,8 +111,10 @@ Nova
 </div>
 </div>
 
+<div style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 14px; font-weight: 700; color: #4A1F05">Unidade de medida</span><div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{unids}}" as="u" hint-placeholder-count="4"><button type="button" onClick="{{u.pick}}" aria-pressed="{{u.on}}" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid {{u.border}}; background: {{u.bg}}; color: {{u.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{u.label}}</button></sc-for></div></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="minimo" style="font-size: 14px; font-weight: 700; color: #4A1F05">Estoque mínimo</label><input id="minimo" type="text" inputmode="numeric" value="{{min}}" onChange="{{onMin}}" placeholder="10" style="width: 100%; height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"><span style="font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">Quando o total chegar a esse número, o item aparece como “Acabando”.</span></div>
 <div style="display: flex; flex-direction: column; gap: 8px">
-<label for="termo" style="font-size: 14px; font-weight: 700; color: #4A1F05">Termos de busca</label>
+<label for="termo" style="font-size: 14px; font-weight: 700; color: #4A1F05">Outros nomes do produto</label>
 <p style="margin: 0; font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">Palavras parecidas ajudam a achar o item mais rápido, na busca por texto ou por voz.</p>
 <div style="display: flex; gap: 8px">
 <input id="termo" type="text" value="{{draft}}" onChange="{{onDraft}}" placeholder="Ex.: blusa, camisa, t-shirt" style="flex: 1; min-width: 0; height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
@@ -128,14 +132,15 @@ Nova
 </div>
 </div>
 
+<sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if>
 </div>
 
 <div style="flex: none; padding: 12px 20px 24px 20px; background: #FFF6EC; border-top: 2px solid #F0DCC8; display: flex; gap: 10px">
 <a href="Home.dc.html" style="flex: none; height: 52px; box-sizing: border-box; padding: 0 20px; border: 2px solid {{accent}}; border-radius: 16px; color: {{accent}}; font-size: 16px; font-weight: 800; text-decoration: none; display: flex; align-items: center">Cancelar</a>
-<a href="Home.dc.html" style="flex: 1; height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px">
+<button type="button" onClick="{{save}}" style="flex: 1; height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; text-decoration: none; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
 Salvar item
-</a>
+</button>
 </div>
 
 </div>
@@ -145,9 +150,19 @@ class Component extends DCLogic {
 renderVals() {
 const accent = this.props.accent ?? '#9C430C';
 const st = this.state || {};
+const EDIT = false;
+const itId = Number((CX.hash() || '').replace(/\D/g, '')) || 0;
+const it = EDIT ? (CX.item(itId) || CX.get().items[0]) : null;
+let base = { nome: '', cod: '', cat: 'Roupas', unid: 'un', min: '10', preco: '', custo: '', terms: [], qty: { centro: 0, shopping: 0, norte: 0 } };
+if (it) base = { nome: it.name, cod: it.cod, cat: it.cat, unid: it.unid, min: String(it.min), preco: it.preco, custo: it.custo, terms: it.apelidos ? it.apelidos.split(',').map((s) => s.trim()).filter(Boolean) : [], qty: Object.assign({}, it.q) };
+const nome = st.nome !== undefined ? st.nome : base.nome;
+const cod = st.cod !== undefined ? st.cod : base.cod;
+const unid = st.unid || base.unid;
+const minStr = st.min !== undefined ? st.min : base.min;
+const catList = ['Roupas', 'Calçados', 'Acessórios'].concat(st.xcats || []);
 const num = (s) => { const n = parseFloat(String(s).replace(/\./g, '').replace(',', '.')); return isNaN(n) ? 0 : n; };
-const priceStr = st.price !== undefined ? st.price : '';
-const costStr = st.cost !== undefined ? st.cost : '';
+const priceStr = st.price !== undefined ? st.price : base.preco;
+const costStr = st.cost !== undefined ? st.cost : base.custo;
 const pr = num(priceStr), co = num(costStr);
 const brl = (n) => 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 let profitLabel = 'Informe o preço de venda e o custo para ver o lucro.', profitBg = '#F6E9DB', profitFg = '#5C3A24';
@@ -156,9 +171,9 @@ const lucro = pr - co;
 profitLabel = 'Lucro de ' + brl(lucro) + ' por unidade · margem de ' + Math.round(lucro / pr * 100) + '%';
 if (lucro >= 0) { profitBg = '#DDEFD8'; profitFg = '#1F4D1A'; } else { profitBg = '#FAD2CB'; profitFg = '#7A1E10'; profitLabel = 'Atenção: o custo é maior que o preço (' + brl(lucro) + ' por unidade)'; }
 }
-const cat = st.cat || 'Roupas';
-const qty = st.qty || { centro: 24, shopping: 12, norte: 0 };
-const terms = st.terms || ['blusa', 'camisa', 't-shirt'];
+const cat = st.cat || base.cat;
+const qty = st.qty || base.qty;
+const terms = st.terms || base.terms;
 const draft = st.draft || '';
 const storeList = [
 { id: 'centro', name: 'Loja Centro' },
@@ -166,12 +181,12 @@ const storeList = [
 { id: 'norte', name: 'Loja Norte' }
 ];
 const setQty = (id, delta) => {
-const cur = this.state && this.state.qty ? this.state.qty : { centro: 24, shopping: 12, norte: 0 };
+const cur = this.state && this.state.qty ? this.state.qty : base.qty;
 const next = Object.assign({}, cur);
 next[id] = Math.max(0, (next[id] || 0) + delta);
 this.setState({ qty: next });
 };
-const cats = ['Roupas', 'Calçados', 'Acessórios'].map((c) => {
+const cats = catList.map((c) => {
 const on = c === cat;
 return {
 label: c, on: on,
@@ -188,6 +203,44 @@ dec: () => setQty(s.id, -1),
 inc: () => setQty(s.id, 1)
 }));
 return {
+nome: nome, cod: cod, min: minStr,
+onNome: (e) => this.setState({ nome: e.target.value, err: '' }),
+onCod: (e) => this.setState({ cod: e.target.value }),
+onMin: (e) => this.setState({ min: String(e.target.value).replace(/\D/g, '').slice(0, 5) }),
+scan: () => this.setState({ cod: '7891000' + String(Math.floor(100000 + Math.random() * 899999)) }),
+unids: [['un', 'Unidade'], ['par', 'Par'], ['kg', 'Quilo'], ['cx', 'Caixa']].map((u) => ({ label: u[1], on: u[0] === unid, bg: u[0] === unid ? accent : '#FFFFFF', fg: u[0] === unid ? '#FFFFFF' : '#2E1203', border: u[0] === unid ? accent : '#D9BFA6', pick: () => this.setState({ unid: u[0] }) })),
+newCatOpen: !!st.newCatOpen, newCat: st.newCat || '',
+toggleNewCat: () => this.setState({ newCatOpen: !st.newCatOpen }),
+onNewCat: (e) => this.setState({ newCat: e.target.value }),
+addCat: () => { const n = (st.newCat || '').trim(); if (!n || catList.indexOf(n) >= 0) { this.setState({ newCat: '', newCatOpen: false, cat: n || cat }); return; } this.setState({ xcats: (st.xcats || []).concat(n), cat: n, newCat: '', newCatOpen: false }); },
+hasErr: !!st.err, err: st.err || '',
+backHref: it ? 'Item.dc.html#' + it.id : 'Home.dc.html',
+confirmDelete: !!st.confirmDelete,
+askDelete: () => this.setState({ confirmDelete: true }),
+keepItem: () => this.setState({ confirmDelete: false }),
+doDelete: () => {
+if (!it) return;
+const s = CX.get(); CX.snapshot();
+s.items = s.items.filter((x) => x.id !== it.id); s.mov = s.mov.filter((m) => m.item !== it.id);
+CX.setToast('Item excluído: ' + it.name, true); CX.go('Home.dc.html');
+},
+save: () => {
+const nm = (nome || '').trim();
+if (!nm) { this.setState({ err: 'Digite o nome do item.' }); return; }
+if (pr < 0 || co < 0 || (String(priceStr).trim() && !(pr > 0))) { this.setState({ err: 'O preço de venda precisa ser um número maior que zero, como 79,90.' }); return; }
+if (String(costStr).trim() && !(co > 0)) { this.setState({ err: 'O custo precisa ser um número maior que zero, como 32,00.' }); return; }
+const mn = Math.max(0, Number(minStr) || 0);
+const fields = { name: nm, cod: (cod || '').trim(), cat: cat, unid: unid, min: mn, preco: String(priceStr).trim(), custo: String(costStr).trim(), apelidos: terms.join(', ') };
+if (EDIT && it) {
+CX.snapshot();
+Object.assign(it, fields);
+storeList.forEach((s) => { const nv = qty[s.id] || 0; if (nv !== (it.q[s.id] || 0)) CX.ajuste(it.id, s.id, nv, 'Edição do cadastro'); });
+const sx = CX.get(); sx.lastId = it.id;
+CX.setToast('Alterações salvas: ' + nm, true); CX.save(); CX.go('Item.dc.html#' + it.id);
+} else {
+const o = Object.assign({ q: qty }, fields); CX.addItem(o); CX.save(); CX.go('Home.dc.html');
+}
+},
 accent: accent,
 price: priceStr,
 cost: costStr,
@@ -203,13 +256,13 @@ draft: draft,
 terms: terms.map((t) => ({
 text: t,
 remove: () => {
-const cur = this.state && this.state.terms ? this.state.terms : ['blusa', 'camisa', 't-shirt'];
+const cur = this.state && this.state.terms ? this.state.terms : base.terms;
 this.setState({ terms: cur.filter((x) => x !== t) });
 }
 })),
 onDraft: (e) => this.setState({ draft: e.target.value }),
 addTerm: () => {
-const cur = this.state && this.state.terms ? this.state.terms : ['blusa', 'camisa', 't-shirt'];
+const cur = this.state && this.state.terms ? this.state.terms : base.terms;
 const d = ((this.state && this.state.draft) || '').trim();
 if (!d || cur.includes(d)) return;
 this.setState({ terms: cur.concat(d), draft: '' });

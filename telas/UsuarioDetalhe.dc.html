@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caixinha - Usuário</title>
+<script src="./support.js"></script>
+<script src="./cx.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+html,body{margin:0;height:100%}
+x-dc{display:block;height:100%}
+a{text-decoration:none}
+button,input,select{font-family:'Nunito',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="flex: none; position: relative; z-index: 3; background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px"><a href="Usuarios.dc.html" aria-label="Voltar" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center; text-decoration: none"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a><div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 12px; font-weight: 700; color: #FFD9B0; line-height: 1.1">{{nameSub}}</span><h1 style="margin: 0; font-size: 20px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Usuário</h1></div></div><div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px 20px 24px 20px; display: flex; flex-direction: column; gap: 18px"><div style="display: flex; flex-direction: column; gap: 6px"><label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome</label><input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" placeholder="Nome da pessoa" autocomplete="off" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"></div><div style="display: flex; flex-direction: column; gap: 6px"><label for="email" style="font-size: 14px; font-weight: 700; color: #4A1F05">E-mail</label><input id="email" type="email" value="{{email}}" onChange="{{onEmail}}" placeholder="pessoa@sualoja.com" autocomplete="off" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"></div><div style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 14px; font-weight: 700; color: #4A1F05">Cargo</span><sc-for list="{{roles}}" as="r" hint-placeholder-count="3"><button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 16px; border: 2px solid {{r.border}}; background: {{r.bg}}; cursor: pointer; text-align: left"><span style="width: 26px; height: 26px; flex: none; box-sizing: border-box; border-radius: 13px; border: 2px solid {{r.dotBorder}}; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><span style="width: 12px; height: 12px; border-radius: 6px; background: {{r.dot}}"></span></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 800; color: #2E1203">{{r.name}}</span><span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">{{r.desc}}</span></span></button></sc-for></div><div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 14px; font-weight: 700; color: #4A1F05">Quais lojas a pessoa vê?</span><sc-if value="{{ lojasLocked }}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 14px; font-weight: 600; color: #5C3A24">Esse cargo vê todas as lojas.</p></sc-if><sc-if value="{{ lojasFree }}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{lojas}}" as="c" hint-placeholder-count="3"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{c.label}}</button></sc-for></div><div style="display: flex; flex-direction: column; gap: 6px; margin-top: 6px"><span style="font-size: 14px; font-weight: 700; color: #4A1F05">Pode ver custo e lucro?</span><div style="display: flex; gap: 8px"><sc-for list="{{custoOpts}}" as="c" hint-placeholder-count="2"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="min-height: 44px; padding: 0 20px; border-radius: 22px; border: 2px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{c.label}}</button></sc-for></div></div></sc-if></div><sc-if value="{{ pendente }}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 16px; background: #FFE0A3"><span style="font-size: 14px; font-weight: 800; color: #5A3A00">Convite pendente: a pessoa ainda não criou a senha.</span><button type="button" onClick="{{resend}}" style="height: 44px; border: 2px solid #5A3A00; border-radius: 12px; background: transparent; color: #5A3A00; font-size: 15px; font-weight: 800; cursor: pointer">{{resendLabel}}</button></div></sc-if><sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if><button type="button" onClick="{{askRemove}}" style="height: 52px; border: 2px solid #B3261E; border-radius: 16px; background: transparent; color: #B3261E; font-size: 16px; font-weight: 800; cursor: pointer">Remover acesso</button></div><div style="flex: none; padding: 12px 20px 24px 20px; background: #FFF6EC; border-top: 2px solid #F0DCC8; display: flex; gap: 10px"><a href="Usuarios.dc.html" style="flex: none; height: 52px; box-sizing: border-box; padding: 0 20px; border: 2px solid {{accent}}; border-radius: 16px; color: {{accent}}; font-size: 16px; font-weight: 800; display: flex; align-items: center">Cancelar</a><button type="button" onClick="{{save}}" style="flex: 1; height: 52px; border: 0; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer">Salvar alterações</button></div><sc-if value="{{ confirmRemove }}" hint-placeholder-val="{{ false }}"><div role="dialog" aria-modal="true" aria-label="Confirmar remoção" style="position: absolute; z-index: 9; left: 0; top: 0; right: 0; bottom: 0; background: rgba(46, 18, 3, 0.6); display: flex; align-items: center; justify-content: center; padding: 24px"><div style="width: 100%; background: #FFF6EC; border-radius: 24px; padding: 22px; display: flex; flex-direction: column; gap: 14px"><h2 style="margin: 0; font-size: 20px; font-weight: 800; line-height: 1.25; color: #2E1203">Remover o acesso de {{nome}}?</h2><p style="margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: #5C3A24">A pessoa não consegue mais entrar no app. O histórico de movimentações continua com o nome dela.</p><div style="display: flex; gap: 10px"><button type="button" onClick="{{keep}}" style="flex: 1; height: 52px; border: 2px solid {{accent}}; border-radius: 16px; background: transparent; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer">Cancelar</button><button type="button" onClick="{{doRemove}}" style="flex: 1; height: 52px; border: 0; border-radius: 16px; background: #B3261E; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer">Remover</button></div></div></div></sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+
+const roles = {
+adm: { label: 'Administrador', bg: '#FFE0A3', fg: '#5A3A00', desc: 'Acesso total: gerencia usuários, lojas, itens e configurações.' },
+ger: { label: 'Gerente', bg: '#DCE8F7', fg: '#173A63', desc: 'Gerencia itens e estoque de todas as lojas, sem mexer nos usuários.' },
+est: { label: 'Estoquista', bg: '#DDEFD8', fg: '#1F4D1A', desc: 'Adiciona itens e atualiza as quantidades em estoque.' }
+};
+
+const EDIT = true;
+const st = this.state || {};
+const uid = Number((CX.hash() || '').replace(/\D/g, '')) || 0;
+const u = EDIT ? (CX.get().users.find((x) => x.id === uid) || CX.get().users[0]) : null;
+const base = u || { nome: '', email: '', role: 'est', lojas: ['centro'], custo: false, status: 'novo' };
+const nome = st.nome !== undefined ? st.nome : base.nome;
+const email = st.email !== undefined ? st.email : base.email;
+const role = st.role || base.role;
+const all = CX.stores().map((x) => x.id);
+const lojasSel = role === 'est' ? (st.lojas || base.lojas) : all;
+const custo = role === 'est' ? (st.custo !== undefined ? st.custo : base.custo) : true;
+const pill = (on) => ({ bg: on ? accent : '#FFFFFF', fg: on ? '#FFFFFF' : '#4A1F05', bd: on ? accent : '#E2C9B2' });
+return {
+accent: accent, nome: nome, email: email, nameSub: u ? roles[u.role].label : '',
+onNome: (e) => this.setState({ nome: e.target.value, err: '' }),
+onEmail: (e) => this.setState({ email: e.target.value, err: '' }),
+roles: Object.keys(roles).map((k) => ({ name: roles[k].label, desc: roles[k].desc, on: role === k, bg: role === k ? '#FFE9D2' : '#FFFFFF', border: role === k ? accent : '#E2C9B2', dotBorder: role === k ? accent : '#B58E72', dot: role === k ? accent : 'transparent', pick: () => this.setState({ role: k, err: '' }) })),
+lojasLocked: role !== 'est', lojasFree: role === 'est',
+lojas: CX.stores().map((s) => Object.assign({ label: s.short, on: lojasSel.indexOf(s.id) >= 0, pick: () => { const cur = lojasSel.slice(); const i = cur.indexOf(s.id); if (i >= 0) { if (cur.length === 1) { this.setState({ err: 'Escolha pelo menos uma loja para essa pessoa.' }); return; } cur.splice(i, 1); } else cur.push(s.id); this.setState({ lojas: cur, err: '' }); } }, pill(lojasSel.indexOf(s.id) >= 0))),
+custoOpts: [['Não', false], ['Sim', true]].map((o) => Object.assign({ label: o[0], on: custo === o[1], pick: () => this.setState({ custo: o[1] }) }, pill(custo === o[1]))),
+hasErr: !!st.err, err: st.err || '',
+pendente: !!(u && u.status === 'pendente'), resendLabel: st.resent ? 'Convite reenviado' : 'Reenviar convite', resend: () => this.setState({ resent: true }),
+confirmRemove: !!st.confirmRemove, askRemove: () => { if (u && u.id === 1) { this.setState({ err: 'Você não pode remover o seu próprio acesso.' }); return; } this.setState({ confirmRemove: true }); },
+keep: () => this.setState({ confirmRemove: false }),
+doRemove: () => { const s = CX.get(); s.users = s.users.filter((x) => x.id !== u.id); CX.setToast('Acesso removido: ' + u.nome, false); CX.go('Usuarios.dc.html'); },
+save: () => {
+if (!nome.trim()) { this.setState({ err: 'Digite o nome da pessoa.' }); return; }
+if (email.indexOf('@') < 1 || email.indexOf('.', email.indexOf('@')) < 0) { this.setState({ err: 'Digite um e-mail válido, como pessoa@sualoja.com.' }); return; }
+const s = CX.get();
+if (EDIT && u) { Object.assign(u, { nome: nome.trim(), email: email.trim(), role: role, lojas: lojasSel, custo: custo }); CX.setToast('Alterações salvas: ' + u.nome, false); }
+else { let id = 1; s.users.forEach((x) => { if (x.id >= id) id = x.id + 1; }); s.users.push({ id: id, nome: nome.trim(), email: email.trim(), role: role, lojas: lojasSel, custo: custo, status: 'pendente' }); CX.setToast('Convite enviado para ' + email.trim(), false); }
+CX.save(); CX.go('Usuarios.dc.html');
+}
+};
+
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caixinha - Histórico</title>
+<script src="./support.js"></script>
+<script src="./cx.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+html,body{margin:0;height:100%}
+x-dc{display:block;height:100%}
+a{text-decoration:none}
+button,input,select{font-family:'Nunito',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="flex: none; background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 14px 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; align-items: center; gap: 12px"><h1 style="flex: 1; min-width: 0; margin: 0; font-size: 22px; font-weight: 800; color: #FFF1E2; line-height: 1.2">Histórico de movimentações</h1><a href="Contagem.dc.html" aria-label="Contar o estoque" style="flex: none; height: 44px; padding: 0 14px; border-radius: 22px; background: #7E3409; color: #FFF1E2; font-size: 14px; font-weight: 800; display: flex; align-items: center">Contar estoque</a></div><div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px"><sc-for list="{{filters}}" as="c" hint-placeholder-count="4"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="flex: none; min-height: 40px; padding: 0 14px; border-radius: 20px; border: 0; background: {{c.bg}}; color: {{c.fg}}; font-size: 14px; font-weight: 800; cursor: pointer">{{c.label}}</button></sc-for></div></div><div style="flex: 1; min-height: 0; overflow-y: auto; padding: 14px 16px 24px 16px; display: flex; flex-direction: column; gap: 8px"><sc-for list="{{rows}}" as="r" hint-placeholder-count="5"><a href="{{r.href}}" style="flex: none; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; color: inherit"><span style="width: 40px; height: 40px; flex: none; border-radius: 12px; background: {{r.bg}}; color: {{r.fg}}; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800">{{r.sign}}</span><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px"><span style="font-size: 15px; font-weight: 800; color: #2E1203">{{r.title}}</span><span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{r.sub}}</span><span style="font-size: 12px; font-weight: 600; color: #7A5C48">{{r.when}}</span></span><span style="font-size: 17px; font-weight: 800; color: {{r.fg}}">{{r.qty}}</span></a></sc-for><sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}"><p style="margin: 24px 0; text-align: center; font-size: 15px; font-weight: 600; color: #5C3A24">Nenhuma movimentação nesse filtro ainda. Registre uma entrada ou saída pela ficha de um item.</p></sc-if></div>
+<nav aria-label="Navegação principal" style="flex: none; position: relative; z-index: 1; height: 80px; box-sizing: border-box; background: #FFFFFF; border-top: 2px solid #F0DCC8; display: flex; align-items: flex-start; padding: 8px 6px 0 6px">
+<a href="Home.dc.html" aria-label="Estoque" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v9l-8 4-8-4z"></path><path d="M4 8l8 4 8-4"></path><path d="M12 12v9"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Estoque</span></a>
+<a href="Historico.dc.html" aria-label="Histórico" aria-current="page" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: #FFE9D2; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="{{accent}}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v14M3 14l4 4 4-4"></path><path d="M17 20V6M13 10l4-4 4 4"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: {{accent}}">Histórico</span></a>
+<a href="Caixinha.dc.html" aria-label="Assistente Caixinha" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: -30px; text-decoration: none"><span style="width: 66px; height: 66px; box-sizing: border-box; border-radius: 33px; background: {{accent}}; border: 4px solid #FFF6EC; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 14px rgba(46, 18, 3, 0.35)"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><path d="M7 19L2 10l15 3 1 6z" fill="#FFB36B"></path><path d="M41 19l5-9-15 3-1 6z" fill="#FFB36B"></path><rect x="7" y="18" width="34" height="25" rx="5" fill="#FA9445"></rect><rect x="7" y="18" width="34" height="6" rx="3" fill="#D9701F"></rect><circle cx="17" cy="31" r="2.3" fill="#2E1203"></circle><path d="M27 31q3-3.2 6 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path><path d="M18 37q6 4.5 12 0" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: {{accent}}">Assistente</span></a>
+<a href="Estatisticas.dc.html" aria-label="Relatórios" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Relatórios</span></a>
+<a href="Mais.dc.html" aria-label="Mais" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Mais</span></a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+
+const st = this.state || {};
+const f = st.f || 'all';
+const s = CX.get();
+const defs = [['all', 'Tudo'], ['entrada', 'Entradas'], ['saida', 'Saídas'], ['transf', 'Transferências'], ['ajuste', 'Ajustes']];
+const rows = s.mov.slice().sort((a, b) => b.t - a.t).filter((m) => f === 'all' || m.tipo === f).map((m) => {
+const it = CX.item(m.item) || { name: 'Item removido', unid: 'un' };
+let sign = '↔', bg = '#FFE9D2', fg = '#4A1F05', qty = String(m.qtd), sub = CX.storeName(m.de) + ' → ' + CX.storeName(m.para);
+if (m.tipo === 'entrada') { sign = '+'; bg = '#DDEFD8'; fg = '#1F4D1A'; qty = '+' + m.qtd; sub = CX.storeName(m.loja) + ' · ' + m.motivo; }
+if (m.tipo === 'saida') { sign = '−'; bg = '#FAD2CB'; fg = '#7A1E10'; qty = '−' + m.qtd; sub = CX.storeName(m.loja) + ' · ' + m.motivo; }
+if (m.tipo === 'ajuste') { sign = '≈'; bg = '#FFE0A3'; fg = '#5A3A00'; qty = (m.sinal > 0 ? '+' : '−') + m.qtd; sub = CX.storeName(m.loja) + ' · Ajuste (' + m.motivo + ')'; }
+return { href: 'Item.dc.html#' + m.item, sign: sign, bg: bg, fg: fg, qty: qty, title: it.name, sub: sub, when: CX.fmt(m.t) + ' · ' + m.quem };
+});
+return {
+accent: accent, rows: rows, empty: rows.length === 0,
+filters: defs.map((d) => ({ label: d[1], on: f === d[0], bg: f === d[0] ? '#FFF1E2' : '#7E3409', fg: f === d[0] ? '#7E3409' : '#FFF1E2', pick: () => this.setState({ f: d[0] }) }))
+};
+
+}
+}
+</script>
+</body>
+</html>

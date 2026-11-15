@@ -2,82 +2,57 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Caixinha - Usuários</title>
 <script src="./support.js"></script>
+<script src="./cx.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+html,body{margin:0;height:100%}
+x-dc{display:block;height:100%}
 a{text-decoration:none}
-button{font-family:'Nunito',system-ui,sans-serif}
+button,input,select{font-family:'Nunito',system-ui,sans-serif}
 </style>
 </helmet>
-<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
-
-<div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px">
-<a href="Menu.dc.html" aria-label="Voltar ao menu" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center">
-<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
-</a>
-<h1 style="flex: 1; margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Usuários</h1>
-<span style="font-size: 14px; font-weight: 800; color: #FFD9B0">5 pessoas</span>
-</div>
-
-<div style="display: flex; align-items: center; gap: 10px; margin: 16px 16px 0 16px; padding: 12px 14px; border-radius: 16px; background: #FFE9D2">
-<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path></svg>
-<span style="font-size: 14px; font-weight: 700; line-height: 1.35; color: #4A1F05">Você é administrador. Aqui você vê e gerencia quem pode entrar nesta loja.</span>
-</div>
-
-<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 16px 16px 110px 16px; display: flex; flex-direction: column; gap: 10px">
-<sc-for list="{{users}}" as="u" hint-placeholder-count="5">
-<div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px">
-<div style="width: 48px; height: 48px; flex: none; border-radius: 24px; background: {{u.avBg}}; color: {{u.avFg}}; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800">{{u.initials}}</div>
-<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
-<span style="font-size: 16px; font-weight: 800; line-height: 1.25; color: #2E1203">{{u.name}}</span>
-<span style="font-size: 13px; font-weight: 600; color: #5C3A24; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{u.email}}</span>
-</div>
-<span style="flex: none; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 800; background: {{u.roleBg}}; color: {{u.roleFg}}">{{u.role}}</span>
-</div>
-</sc-for>
-</div>
-
-<a href="NovoUsuario.dc.html" style="position: absolute; z-index: 1; right: 20px; bottom: 24px; height: 62px; box-sizing: border-box; padding: 0 24px 0 18px; border-radius: 31px; background: #FA9445; display: flex; align-items: center; gap: 10px; color: #2E1203; font-size: 17px; font-weight: 800; box-shadow: 0 6px 16px rgba(46, 18, 3, 0.35)">
-<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c0-3.6 2.9-5.5 6.5-5.5s6.5 1.9 6.5 5.5M19 8v6M16 11h6"></path></svg>
-Adicionar usuário
-</a>
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="flex: none; background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px"><a href="Mais.dc.html" aria-label="Voltar" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a><h1 style="flex: 1; margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Usuários</h1><span style="font-size: 14px; font-weight: 800; color: #FFD9B0">{{countLabel}}</span></div><div style="flex: none; display: flex; align-items: center; gap: 10px; margin: 16px 16px 0 16px; padding: 12px 14px; border-radius: 16px; background: #FFE9D2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path></svg><span style="font-size: 14px; font-weight: 700; line-height: 1.35; color: #4A1F05">Você é administrador. Toque em uma pessoa para mudar o cargo, as lojas ou remover o acesso.</span></div><div style="flex: 1; min-height: 0; overflow-y: auto; padding: 16px 16px 110px 16px; display: flex; flex-direction: column; gap: 10px"><sc-for list="{{users}}" as="u" hint-placeholder-count="5"><a href="{{u.href}}" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; color: inherit"><div style="width: 48px; height: 48px; flex: none; border-radius: 24px; background: {{u.avBg}}; color: {{u.avFg}}; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800">{{u.initials}}</div><div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 800; line-height: 1.25; color: #2E1203">{{u.name}}</span><span style="font-size: 13px; font-weight: 600; color: #5C3A24; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{u.email}}</span><span style="font-size: 12px; font-weight: 700; color: {{u.stFg}}">{{u.status}} · {{u.lojas}}</span></div><span style="flex: none; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 800; background: {{u.roleBg}}; color: {{u.roleFg}}">{{u.role}}</span></a></sc-for></div><a href="NovoUsuario.dc.html" style="position: absolute; z-index: 1; right: 20px; bottom: 24px; height: 62px; box-sizing: border-box; padding: 0 24px 0 18px; border-radius: 31px; background: #FA9445; display: flex; align-items: center; gap: 10px; color: #2E1203; font-size: 17px; font-weight: 800; box-shadow: 0 6px 16px rgba(46, 18, 3, 0.35)"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#2E1203" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c0-3.6 2.9-5.5 6.5-5.5s6.5 1.9 6.5 5.5"></path><path d="M19 8v6M16 11h6"></path></svg>Adicionar usuário</a><sc-if value="{{ showToast }}" hint-placeholder-val="{{ false }}"><div role="status" style="position: absolute; z-index: 6; left: 16px; right: 16px; bottom: 92px; background: #2E1203; color: #FFF1E2; border-radius: 14px; padding: 10px 8px 10px 14px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; line-height: 1.3; box-shadow: 0 8px 20px rgba(46, 18, 3, 0.4)"><span style="flex: 1; min-width: 0">{{toastMsg}}</span><sc-if value="{{ toastUndo }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{undo}}" style="height: 40px; padding: 0 10px; border: 0; background: transparent; color: #FFD9B0; font-size: 14px; font-weight: 800; text-decoration: underline; cursor: pointer">Desfazer</button></sc-if><button type="button" onClick="{{dismissToast}}" aria-label="Fechar aviso" style="width: 40px; height: 40px; border: 0; border-radius: 20px; background: transparent; color: #FFF1E2; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></sc-if>
 
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
 renderVals() {
+const accent = this.props.accent ?? '#9C430C';
+
+if (!this._tInit) { this._tInit = true; this._toast = CX.takeToast(); }
+const toast = (this.state && this.state.toastGone) ? null : this._toast;
+const toastVals = {
+showToast: !!toast, toastMsg: toast ? toast.msg : '', toastUndo: !!(toast && toast.undo),
+undo: () => { CX.undo(); this._toast = CX.takeToast(); this.setState({ toastGone: false, tick: Date.now() }); },
+dismissToast: () => this.setState({ toastGone: true })
+};
+
 const roles = {
-adm: { label: 'Administrador', bg: '#FFE0A3', fg: '#5A3A00' },
-ger: { label: 'Gerente', bg: '#DCE8F7', fg: '#173A63' },
-est: { label: 'Estoquista', bg: '#DDEFD8', fg: '#1F4D1A' }
+adm: { label: 'Administrador', bg: '#FFE0A3', fg: '#5A3A00', desc: 'Acesso total: gerencia usuários, lojas, itens e configurações.' },
+ger: { label: 'Gerente', bg: '#DCE8F7', fg: '#173A63', desc: 'Gerencia itens e estoque de todas as lojas, sem mexer nos usuários.' },
+est: { label: 'Estoquista', bg: '#DDEFD8', fg: '#1F4D1A', desc: 'Adiciona itens e atualiza as quantidades em estoque.' }
 };
-const list = [
-{ name: 'Maria Souza (você)', email: 'maria@sualoja.com', role: 'adm', init: 'MS' },
-{ name: 'Carlos Lima', email: 'carlos@sualoja.com', role: 'adm', init: 'CL' },
-{ name: 'Ana Ribeiro', email: 'ana@sualoja.com', role: 'ger', init: 'AR' },
-{ name: 'João Pereira', email: 'joao@sualoja.com', role: 'est', init: 'JP' },
-{ name: 'Beatriz Alves', email: 'beatriz@sualoja.com', role: 'est', init: 'BA' }
-];
-return {
-accent: this.props.accent ?? '#9C430C',
-users: list.map((u) => ({
-name: u.name,
-email: u.email,
-initials: u.init,
-role: roles[u.role].label,
-roleBg: roles[u.role].bg,
-roleFg: roles[u.role].fg,
-avBg: u.role === 'adm' ? '#9C430C' : '#FFE3C8',
-avFg: u.role === 'adm' ? '#FFFFFF' : '#4A1F05'
-}))
-};
+
+const s = CX.get();
+const lojasTxt = (u) => (u.lojas.length === CX.stores().length ? 'Todas as lojas' : u.lojas.map((id) => CX.storeName(id)).join(', '));
+const users = s.users.map((u) => ({
+href: 'UsuarioDetalhe.dc.html#' + u.id,
+name: u.nome + (u.id === 1 ? ' (você)' : ''), email: u.email || 'sem e-mail', initials: u.nome.split(' ').map((x) => x[0]).slice(0, 2).join('').toUpperCase(),
+role: roles[u.role].label, roleBg: roles[u.role].bg, roleFg: roles[u.role].fg,
+avBg: u.role === 'adm' ? '#9C430C' : '#FFE3C8', avFg: u.role === 'adm' ? '#FFFFFF' : '#4A1F05',
+status: u.status === 'pendente' ? 'Convite pendente' : 'Ativo', stFg: u.status === 'pendente' ? '#8A5A00' : '#1F4D1A', lojas: lojasTxt(u)
+}));
+return Object.assign({ accent: accent, users: users, countLabel: users.length + (users.length === 1 ? ' pessoa' : ' pessoas') }, toastVals);
+
 }
 }
 </script>

@@ -10,15 +10,15 @@
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
-body{margin:0}
+body{margin:0;background:#FFF6EC}
 a{text-decoration:none}
 button{font-family:'Nunito',system-ui,sans-serif}
 </style>
 </helmet>
-<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
+<div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div style="background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 12px">
-<a href="Menu.dc.html" aria-label="Voltar ao menu" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center">
+<a href="Mais.dc.html" aria-label="Voltar ao menu" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </a>
 <h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Ajuda</h1>
@@ -60,10 +60,11 @@ renderVals() {
 const accent = this.props.accent ?? '#9C430C';
 const openId = this.state && this.state.open !== undefined ? this.state.open : 0;
 const defs = [
-{ q: 'Como adiciono um item ao estoque?', a: 'Na tela inicial, toque no botão + e escolha “Adicionar item”. Preencha a foto, o nome, o ID, a categoria, a quantidade em cada loja e os termos de busca, e salve.' },
+{ q: 'Como adiciono um item ao estoque?', a: 'Na tela inicial, toque no botão + e escolha “Adicionar item”. Preencha a foto, o nome, o código do produto, a categoria, o preço de venda, o custo, a quantidade em cada loja e os outros nomes do produto, e salve.' },
+{ q: 'Como registro uma entrada ou saída?', a: 'Toque no item para abrir a ficha e escolha “Entrada” ou “Saída”. Digite a quantidade, escolha a loja e o motivo, e confirme. Se errar, toque em “Desfazer” no aviso que aparece.' },
 { q: 'Como importo uma planilha?', a: 'Toque no botão + e escolha “Importar planilha”. Envie um arquivo XLSX do Excel com os seus itens, e o Caixinha cria os cadastros de uma vez.' },
-{ q: 'Como vejo o estoque de só uma loja?', a: 'Toque no nome da loja no topo da tela inicial. Marque uma ou mais lojas, ou escolha “Estoque geral”, e confirme.' },
-{ q: 'Para que servem os termos de busca?', a: 'São palavras parecidas com o nome do item, como “blusa” para uma camiseta. Elas ajudam a achar o item na busca por texto e por voz.' },
+{ q: 'Como vejo o estoque de só uma loja?', a: 'Toque no nome da loja no topo da tela inicial. Marque uma ou mais lojas, ou escolha “Todas as lojas”, e confirme.' },
+{ q: 'Para que servem os outros nomes do produto?', a: 'São palavras parecidas com o nome do item, como “blusa” para uma camiseta. Eles ajudam a achar o item na busca, mesmo sem acento, e por voz.' },
 { q: 'Como adiciono outra pessoa à loja?', a: 'Só administradores podem fazer isso. Abra o menu, vá em Usuários, toque em “Adicionar usuário” e envie o convite por e-mail.' }
 ];
 return {
