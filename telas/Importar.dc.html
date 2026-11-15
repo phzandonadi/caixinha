@@ -157,15 +157,15 @@ track: upd ? accent : '#D9BFA6',
 knob: upd ? 30 : 4,
 ctaLabel: picked ? 'Importar 42 itens' : 'Escolha um arquivo',
 ctaOpacity: picked ? 1 : 0.45,
-columns: ['Nome', 'Código', 'Categoria', 'Outros nomes', 'Loja Centro', 'Loja Shopping', 'Loja Norte'],
+columns: ['Produto', 'Variação (P, M, G…)', 'SKU', 'Categoria', 'Outros nomes', 'Loja Centro', 'Loja Shopping', 'Loja Norte'],
 problems: [
-{ title: 'Linha 8: ID repetido', text: 'O ID CAM-0042 aparece duas vezes na planilha.' },
+{ title: 'Linha 8: SKU repetido', text: 'O SKU CAM-0042-M aparece duas vezes na planilha.' },
 { title: 'Linha 15: categoria vazia', text: 'Preencha Roupas, Calçados, Acessórios ou outra categoria.' }
 ],
 preview: [
-{ name: 'Camiseta básica branca M', meta: 'Roupas · CAM-0042', qty: '84 un.' },
-{ name: 'Calça jeans slim 42', meta: 'Roupas · CAL-0107', qty: '16 un.' },
-{ name: 'Tênis casual preto 40', meta: 'Calçados · TEN-0031', qty: '22 un.' }
+{ name: 'Camiseta básica branca · 4 variações', meta: 'Roupas · P, M, G, GG', qty: '95 un.' },
+{ name: 'Calça jeans slim · 4 variações', meta: 'Roupas · 38, 40, 42, 44', qty: '28 un.' },
+{ name: 'Boné aba reta', meta: 'Acessórios · BON-0015', qty: '0 un.' }
 ],
 pick: () => this.setState({ picked: true }),
 clear: () => this.setState({ picked: false }),

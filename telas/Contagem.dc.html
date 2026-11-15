@@ -60,7 +60,7 @@ const sys = i.q[loja] || 0, raw = counts[i.id];
 const has = raw !== undefined && String(raw) !== '';
 const dif = has ? Number(raw) - sys : 0;
 if (has && dif !== 0) n++;
-return { id: i.id, name: i.name, sys: String(sys), val: raw === undefined ? '' : String(raw),
+return { id: i.id, name: CX.label(i), sys: String(sys), val: raw === undefined ? '' : String(raw),
 diff: !has ? 'não contado' : (dif === 0 ? 'confere' : (dif > 0 ? 'sobram ' + dif : 'faltam ' + Math.abs(dif))),
 fg: !has ? '#5C3A24' : (dif === 0 ? '#1F4D1A' : '#7A1E10'),
 onCount: (e) => { const c = Object.assign({}, this.state && this.state.counts); c[i.id] = String(e.target.value).replace(/\D/g, '').slice(0, 5); this.setState({ counts: c, err: '' }); } };

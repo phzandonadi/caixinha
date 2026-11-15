@@ -22,7 +22,7 @@ input{font-family:'Nunito',system-ui,sans-serif}
 <a href="{{backHref}}" aria-label="Voltar" style="width: 44px; height: 44px; flex: none; border-radius: 22px; background: #7E3409; text-decoration: none; display: flex; align-items: center; justify-content: center">
 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </a>
-<h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Editar item</h1>
+<h1 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #FFF1E2">Editar produto</h1>
 </div>
 
 <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px 20px 24px 20px; display: flex; flex-direction: column; gap: 22px">
@@ -37,11 +37,11 @@ input{font-family:'Nunito',system-ui,sans-serif}
 
 <div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-direction: column; gap: 6px">
-<label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome do item</label>
-<input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" placeholder="Ex.: Camiseta básica branca M" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
+<label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome do produto</label>
+<input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" placeholder="Ex.: Camiseta básica branca" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
-<label for="codigo" style="font-size: 14px; font-weight: 700; color: #4A1F05">Código do produto</label>
+<label for="codigo" style="font-size: 14px; font-weight: 700; color: #4A1F05">{{codLabel}}</label>
 <div style="display: flex; gap: 8px">
 <input id="codigo" type="text" value="{{cod}}" onChange="{{onCod}}" placeholder="Ex.: CAM-0042" style="flex: 1; min-width: 0; height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203">
 <button type="button" onClick="{{scan}}" aria-label="Ler código de barras" style="width: 48px; height: 48px; flex: none; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center">
@@ -91,6 +91,30 @@ Nova
 </div>
 
 <div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 14px; font-weight: 700; color: #4A1F05">Este produto tem variações?</span>
+<p style="margin: 0; font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">Use para tamanho, cor ou numeração. O produto é um só (ex.: Camiseta básica branca) e cada variação (P, M, G, GG) tem o próprio SKU e o próprio estoque.</p>
+<sc-if value="{{ canToggle }}" hint-placeholder-val="{{ true }}"><div style="display: flex; gap: 8px"><sc-for list="{{varToggle}}" as="o" hint-placeholder-count="2"><button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="min-height: 44px; padding: 0 20px; border-radius: 22px; border: 2px solid {{o.bd}}; background: {{o.bg}}; color: {{o.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{o.label}}</button></sc-for></div></sc-if>
+<sc-if value="{{ useVars }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{presets}}" as="p" hint-placeholder-count="2"><button type="button" onClick="{{p.pick}}" style="min-height: 40px; padding: 0 14px; border-radius: 20px; border: 2px dashed #C98A5B; background: transparent; color: {{accent}}; font-size: 14px; font-weight: 800; cursor: pointer">{{p.label}}</button></sc-for></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; gap: 8px; padding: 0 2px; font-size: 12px; font-weight: 800; color: #5C3A24"><span style="width: 78px">Variação</span><span style="flex: 1">SKU</span><sc-if value="{{ showQtyHead }}" hint-placeholder-val="{{ true }}"><span style="width: 64px">Estoque</span></sc-if><span style="width: 44px"></span></div>
+<sc-for list="{{varRows}}" as="r" hint-placeholder-count="3">
+<div style="display: flex; gap: 8px; align-items: center">
+<input type="text" value="{{r.label}}" onChange="{{r.onLabel}}" aria-label="Nome da variação" placeholder="Ex.: M" style="width: 78px; flex: none; height: 44px; box-sizing: border-box; padding: 0 10px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 15px; color: #2E1203; min-width: 0">
+<input type="text" value="{{r.sku}}" onChange="{{r.onSku}}" aria-label="SKU da variação" placeholder="{{r.skuHint}}" style="flex: 1; height: 44px; box-sizing: border-box; padding: 0 10px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 15px; color: #2E1203; min-width: 0">
+<sc-if value="{{ r.showQty }}" hint-placeholder-val="{{ true }}"><input type="text" inputmode="numeric" value="{{r.qty}}" onChange="{{r.onQty}}" aria-label="Estoque inicial" style="width: 64px; flex: none; height: 44px; box-sizing: border-box; padding: 0 10px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 15px; color: #2E1203; min-width: 0; text-align: center"></sc-if>
+<sc-if value="{{ r.fillQty }}" hint-placeholder-val="{{ false }}"><span style="width: 64px; flex: none"></span></sc-if>
+<button type="button" onClick="{{r.remove}}" aria-label="Remover variação" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 22px; background: #F3DFCB; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#4A1F05" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+</sc-for>
+</div>
+<button type="button" onClick="{{addVar}}" style="height: 44px; border: 2px dashed #C98A5B; border-radius: 14px; background: transparent; color: {{accent}}; font-size: 15px; font-weight: 800; cursor: pointer">+ Adicionar variação</button>
+<p style="margin: 0; font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">{{varHint}}</p>
+</sc-if>
+</div>
+
+<sc-if value="{{ noVars }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 10px">
 <div style="display: flex; align-items: baseline; justify-content: space-between">
 <span style="font-size: 14px; font-weight: 700; color: #4A1F05">Estoque por loja</span>
 <span style="font-size: 14px; font-weight: 800; color: {{accent}}">Total: {{total}} un.</span>
@@ -110,9 +134,10 @@ Nova
 </sc-for>
 </div>
 </div>
+</sc-if>
 
 <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 14px; font-weight: 700; color: #4A1F05">Unidade de medida</span><div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{unids}}" as="u" hint-placeholder-count="4"><button type="button" onClick="{{u.pick}}" aria-pressed="{{u.on}}" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid {{u.border}}; background: {{u.bg}}; color: {{u.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{u.label}}</button></sc-for></div></div>
-<div style="display: flex; flex-direction: column; gap: 6px"><label for="minimo" style="font-size: 14px; font-weight: 700; color: #4A1F05">Estoque mínimo</label><input id="minimo" type="text" inputmode="numeric" value="{{min}}" onChange="{{onMin}}" placeholder="10" style="width: 100%; height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"><span style="font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">Quando o total chegar a esse número, o item aparece como “Acabando”.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="minimo" style="font-size: 14px; font-weight: 700; color: #4A1F05">{{minLabel}}</label><input id="minimo" type="text" inputmode="numeric" value="{{min}}" onChange="{{onMin}}" placeholder="10" style="width: 100%; height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-size: 16px; color: #2E1203"><span style="font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">Quando o total chegar a esse número, o item aparece como “Acabando”.</span></div>
 <div style="display: flex; flex-direction: column; gap: 8px">
 <label for="termo" style="font-size: 14px; font-weight: 700; color: #4A1F05">Outros nomes do produto</label>
 <p style="margin: 0; font-size: 13px; font-weight: 600; line-height: 1.4; color: #5C3A24">Palavras parecidas ajudam a achar o item mais rápido, na busca por texto ou por voz.</p>
@@ -134,7 +159,7 @@ Nova
 
 <button type="button" onClick="{{askDelete}}" style="height: 52px; border: 2px solid #B3261E; border-radius: 16px; background: transparent; color: #B3261E; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px">
 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#B3261E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>
-Excluir item
+Excluir produto
 </button>
 <sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if>
 </div>
@@ -166,8 +191,8 @@ const unid = st.unid || base.unid;
 const minStr = st.min !== undefined ? st.min : base.min;
 const catList = ['Roupas', 'Calçados', 'Acessórios'].concat(st.xcats || []);
 const num = (s) => { const n = parseFloat(String(s).replace(/\./g, '').replace(',', '.')); return isNaN(n) ? 0 : n; };
-const priceStr = st.price !== undefined ? st.price : '79,90';
-const costStr = st.cost !== undefined ? st.cost : '32,00';
+const priceStr = st.price !== undefined ? st.price : base.preco;
+const costStr = st.cost !== undefined ? st.cost : base.custo;
 const pr = num(priceStr), co = num(costStr);
 const brl = (n) => 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 let profitLabel = 'Informe o preço de venda e o custo para ver o lucro.', profitBg = '#F6E9DB', profitFg = '#5C3A24';
@@ -179,6 +204,35 @@ if (lucro >= 0) { profitBg = '#DDEFD8'; profitFg = '#1F4D1A'; } else { profitBg 
 const cat = st.cat || base.cat;
 const qty = st.qty || base.qty;
 const terms = st.terms || base.terms;
+
+const sibs = EDIT && it ? CX.vars(it) : [];
+const useVars = st.useVars !== undefined ? st.useVars : (EDIT && it ? CX.hasVars(it) : false);
+const baseRows = sibs.map((v) => ({ id: v.id, label: v.vlabel, sku: v.cod, qty: '0' }));
+const vars = st.vars || baseRows;
+const setVars = (arr, extra) => this.setState(Object.assign({ vars: arr, err: '' }, extra || {}));
+const skuFor = (r) => { const b = (cod || '').trim(); const l = (r.label || '').trim(); return (b ? b + (l ? '-' + l.toUpperCase().replace(/\s+/g, '') : '') : l.toUpperCase()); };
+const varRows = vars.map((r, ix) => ({
+label: r.label, sku: r.sku, qty: String(r.qty || 0), showQty: !r.id, fillQty: !!r.id && vars.some((x) => !x.id), skuHint: skuFor(r) || 'SKU',
+onLabel: (e) => setVars(vars.map((x, j) => (j === ix ? Object.assign({}, x, { label: e.target.value }) : x))),
+onSku: (e) => setVars(vars.map((x, j) => (j === ix ? Object.assign({}, x, { sku: e.target.value }) : x))),
+onQty: (e) => setVars(vars.map((x, j) => (j === ix ? Object.assign({}, x, { qty: String(e.target.value).replace(/\D/g, '').slice(0, 6) }) : x))),
+remove: () => {
+const cur = r.id ? CX.item(r.id) : null;
+if (cur && CX.total(cur) > 0) { this.setState({ err: 'A variação ' + (r.label || 'sem nome') + ' ainda tem ' + CX.total(cur) + ' em estoque. Zere o estoque antes de remover.' }); return; }
+setVars(vars.filter((x, j) => j !== ix));
+}
+}));
+const addPreset = (list) => () => { const have = vars.map((x) => String(x.label).trim().toUpperCase()); const add = list.filter((l) => have.indexOf(l) < 0).map((l) => ({ label: l, sku: '', qty: '0' })); const keep = vars.filter((x) => x.id || String(x.label).trim() || String(x.sku).trim()); setVars(keep.concat(add)); };
+const canToggle = !(EDIT && sibs.length > 1);
+const varsHint = EDIT ? 'Para mudar as quantidades, use Entrada, Saída ou Contagem na ficha de cada variação.' : 'O estoque inicial de cada variação entra na Loja Centro. Depois, use Transferir para distribuir entre as lojas.';
+const varExtra = {
+useVars: useVars, noVars: !useVars, canToggle: canToggle,
+varToggle: [['Não', false], ['Sim', true]].map((o) => ({ label: o[0], on: useVars === o[1], bg: useVars === o[1] ? accent : '#FFFFFF', fg: useVars === o[1] ? '#FFFFFF' : '#4A1F05', bd: useVars === o[1] ? accent : '#E2C9B2', pick: () => { if (o[1] && !vars.length) setVars([{ label: '', sku: '', qty: '0' }], { useVars: true }); else this.setState({ useVars: o[1], err: '' }); } })),
+presets: [{ label: 'Tamanhos P, M, G, GG', pick: addPreset(['P', 'M', 'G', 'GG']) }, { label: 'Numeração 38 a 44', pick: addPreset(['38', '40', '42', '44']) }],
+varRows: varRows, showQtyHead: vars.some((x) => !x.id), varHint: varsHint,
+addVar: () => setVars(vars.concat([{ label: '', sku: '', qty: '0' }])),
+codLabel: useVars ? 'Código base do produto' : 'Código do produto (SKU)', minLabel: useVars ? 'Estoque mínimo (de cada variação)' : 'Estoque mínimo'
+};
 const draft = st.draft || '';
 const storeList = [
 { id: 'centro', name: 'Loja Centro' },
@@ -208,7 +262,7 @@ dec: () => setQty(s.id, -1),
 inc: () => setQty(s.id, 1)
 }));
 return {
-nome: nome, cod: cod, min: minStr,
+nome: nome, cod: cod, min: minStr, useVars: varExtra.useVars, noVars: varExtra.noVars, canToggle: varExtra.canToggle, varToggle: varExtra.varToggle, presets: varExtra.presets, varRows: varExtra.varRows, showQtyHead: varExtra.showQtyHead, varHint: varExtra.varHint, addVar: varExtra.addVar, codLabel: varExtra.codLabel, minLabel: varExtra.minLabel,
 onNome: (e) => this.setState({ nome: e.target.value, err: '' }),
 onCod: (e) => this.setState({ cod: e.target.value }),
 onMin: (e) => this.setState({ min: String(e.target.value).replace(/\D/g, '').slice(0, 5) }),
@@ -226,8 +280,8 @@ keepItem: () => this.setState({ confirmDelete: false }),
 doDelete: () => {
 if (!it) return;
 const s = CX.get(); CX.snapshot();
-s.items = s.items.filter((x) => x.id !== it.id); s.mov = s.mov.filter((m) => m.item !== it.id);
-CX.setToast('Item excluído: ' + it.name, true); CX.go('Home.dc.html');
+const ids = CX.vars(it).map((x) => x.id); s.items = s.items.filter((x) => ids.indexOf(x.id) < 0); s.mov = s.mov.filter((m) => ids.indexOf(m.item) < 0);
+CX.setToast('Produto excluído: ' + it.name, true); CX.go('Home.dc.html');
 },
 save: () => {
 const nm = (nome || '').trim();
@@ -235,10 +289,42 @@ if (!nm) { this.setState({ err: 'Digite o nome do item.' }); return; }
 if (pr < 0 || co < 0 || (String(priceStr).trim() && !(pr > 0))) { this.setState({ err: 'O preço de venda precisa ser um número maior que zero, como 79,90.' }); return; }
 if (String(costStr).trim() && !(co > 0)) { this.setState({ err: 'O custo precisa ser um número maior que zero, como 32,00.' }); return; }
 const mn = Math.max(0, Number(minStr) || 0);
+
+if (useVars) {
+if (!vars.length) { this.setState({ err: 'Adicione pelo menos uma variação, como P, M, G.' }); return; }
+const seen = {}; const skus = {};
+for (let k = 0; k < vars.length; k++) {
+const r = vars[k]; const lb = String(r.label || '').trim();
+if (!lb) { this.setState({ err: 'Dê um nome para cada variação (ex.: P, M, 42, Azul).' }); return; }
+if (seen[lb.toLowerCase()]) { this.setState({ err: 'A variação ' + lb + ' aparece duas vezes.' }); return; }
+seen[lb.toLowerCase()] = 1;
+const sku = (String(r.sku || '').trim() || skuFor(r));
+if (skus[sku.toLowerCase()] || CX.skuTaken(sku, r.id || -1)) { this.setState({ err: 'O SKU ' + sku + ' já existe. Cada variação precisa de um SKU diferente.' }); return; }
+skus[sku.toLowerCase()] = 1;
+}
+const pf = { name: nm, cat: cat, unid: unid, min: mn, preco: String(priceStr).trim(), custo: String(costStr).trim(), apelidos: terms.join(', ') };
+const rows = vars.map((r) => ({ id: r.id, label: String(r.label).trim(), sku: (String(r.sku || '').trim() || skuFor(r)), qty: Number(r.qty) || 0 }));
+if (EDIT && it) {
+CX.snapshot(); const sx = CX.get();
+const keepIds = rows.filter((r) => r.id).map((r) => r.id);
+sibs.forEach((v) => { if (keepIds.indexOf(v.id) < 0) { sx.items = sx.items.filter((x) => x.id !== v.id); sx.mov = sx.mov.filter((m) => m.item !== v.id); } });
+let focus = it.id;
+rows.forEach((r) => {
+if (r.id) { const t = CX.item(r.id); Object.assign(t, pf, { vlabel: r.label, cod: r.sku }); if (r.id === it.id) focus = r.id; }
+else { const nid = CX.nextId(); sx.items.push(Object.assign({ id: nid, prod: it.prod, vlabel: r.label, cod: r.sku, q: { centro: r.qty, shopping: 0, norte: 0 } }, pf)); if (r.qty > 0) sx.mov.unshift({ t: Date.now(), tipo: 'entrada', item: nid, qtd: r.qty, loja: 'centro', motivo: 'Estoque inicial', quem: sx.userName || 'Você' }); }
+});
+if (!CX.item(focus)) focus = rows.find((r) => r.id) ? rows.find((r) => r.id).id : CX.vars(it)[0].id;
+sx.lastId = focus; CX.setToast('Alterações salvas: ' + nm, true); CX.save(); CX.go('Item.dc.html#' + focus);
+} else {
+const o = Object.assign({ cod: (cod || '').trim(), vars: rows.map((r) => ({ label: r.label, sku: r.sku, q: { centro: r.qty } })) }, pf);
+CX.addProduto(o); CX.save(); CX.go('Home.dc.html');
+}
+return;
+}
 const fields = { name: nm, cod: (cod || '').trim(), cat: cat, unid: unid, min: mn, preco: String(priceStr).trim(), custo: String(costStr).trim(), apelidos: terms.join(', ') };
 if (EDIT && it) {
 CX.snapshot();
-Object.assign(it, fields);
+Object.assign(it, fields, { vlabel: '' });
 storeList.forEach((s) => { const nv = qty[s.id] || 0; if (nv !== (it.q[s.id] || 0)) CX.ajuste(it.id, s.id, nv, 'Edição do cadastro'); });
 const sx = CX.get(); sx.lastId = it.id;
 CX.setToast('Alterações salvas: ' + nm, true); CX.save(); CX.go('Item.dc.html#' + it.id);

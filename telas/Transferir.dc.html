@@ -57,7 +57,7 @@ const a = it.q[de] || 0, b = it.q[para] || 0;
 const bad = qtd > a || de === para;
 const pill = (on) => ({ bg: on ? accent : '#FFFFFF', fg: on ? '#FFFFFF' : '#4A1F05', bd: on ? accent : '#E2C9B2' });
 return {
-accent: accent, nome: it.name, backHref: 'Item.dc.html#' + id, qtdStr: qtdStr,
+accent: accent, nome: CX.label(it), backHref: 'Item.dc.html#' + id, qtdStr: qtdStr,
 onQtd: (e) => this.setState({ qtd: String(e.target.value).replace(/\D/g, '').slice(0, 5), err: '' }),
 dec: () => this.setState({ qtd: String(Math.max(0, qtd - 1)), err: '' }),
 inc: () => this.setState({ qtd: String(qtd + 1), err: '' }),

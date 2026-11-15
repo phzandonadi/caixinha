@@ -39,12 +39,12 @@ const f = st.f || 'all';
 const s = CX.get();
 const defs = [['all', 'Tudo'], ['entrada', 'Entradas'], ['saida', 'Saídas'], ['transf', 'Transferências'], ['ajuste', 'Ajustes']];
 const rows = s.mov.slice().sort((a, b) => b.t - a.t).filter((m) => f === 'all' || m.tipo === f).map((m) => {
-const it = CX.item(m.item) || { name: 'Item removido', unid: 'un' };
+const it = CX.item(m.item) || { name: 'Item removido', unid: 'un', vlabel: '' };
 let sign = '↔', bg = '#FFE9D2', fg = '#4A1F05', qty = String(m.qtd), sub = CX.storeName(m.de) + ' → ' + CX.storeName(m.para);
 if (m.tipo === 'entrada') { sign = '+'; bg = '#DDEFD8'; fg = '#1F4D1A'; qty = '+' + m.qtd; sub = CX.storeName(m.loja) + ' · ' + m.motivo; }
 if (m.tipo === 'saida') { sign = '−'; bg = '#FAD2CB'; fg = '#7A1E10'; qty = '−' + m.qtd; sub = CX.storeName(m.loja) + ' · ' + m.motivo; }
 if (m.tipo === 'ajuste') { sign = '≈'; bg = '#FFE0A3'; fg = '#5A3A00'; qty = (m.sinal > 0 ? '+' : '−') + m.qtd; sub = CX.storeName(m.loja) + ' · Ajuste (' + m.motivo + ')'; }
-return { href: 'Item.dc.html#' + m.item, sign: sign, bg: bg, fg: fg, qty: qty, title: it.name, sub: sub, when: CX.fmt(m.t) + ' · ' + m.quem };
+return { href: 'Item.dc.html#' + m.item, sign: sign, bg: bg, fg: fg, qty: qty, title: CX.label(it), sub: sub, when: CX.fmt(m.t) + ' · ' + m.quem };
 });
 return {
 accent: accent, rows: rows, empty: rows.length === 0,

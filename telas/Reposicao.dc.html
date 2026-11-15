@@ -52,7 +52,7 @@ const s = CX.get();
 const need = s.items.filter((i) => CX.status(i) !== 'ok');
 const map = {};
 need.forEach((i) => { const f = (s.fornecedores && s.fornecedores[i.cat]) || 'Outros'; (map[f] = map[f] || []).push(i); });
-const groups = Object.keys(map).sort().map((f) => ({ name: f, rows: map[f].map((i) => { const have = CX.total(i); return { name: i.name, have: have + ' ' + i.unid, min: i.min, buy: Math.max(i.min * 2 - have, 1) + ' ' + i.unid, href: 'Item.dc.html#' + i.id }; }) }));
+const groups = Object.keys(map).sort().map((f) => ({ name: f, rows: map[f].map((i) => { const have = CX.total(i); return { name: CX.label(i), have: have + ' ' + i.unid, min: i.min, buy: Math.max(i.min * 2 - have, 1) + ' ' + i.unid, href: 'Item.dc.html#' + i.id }; }) }));
 const text = groups.map((g) => g.name + '\n' + g.rows.map((r) => '- ' + r.name + ': ' + r.buy).join('\n')).join('\n\n');
 return {
 accent: accent, groups: groups, empty: need.length === 0, hasList: need.length > 0,

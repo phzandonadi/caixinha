@@ -122,7 +122,7 @@ const stores = [
 { id: 'norte', name: 'Loja Norte' }
 ];
 const all = [];
-CX.get().items.forEach((it) => { stores.forEach((s) => { if ((it.q[s.id] || 0) > 0) all.push({ name: it.name, cat: it.cat, store: s.id, qty: it.q[s.id] }); }); });
+CX.get().items.forEach((it) => { stores.forEach((s) => { if ((it.q[s.id] || 0) > 0) all.push({ name: CX.label(it), cat: it.cat, store: s.id, qty: it.q[s.id] }); }); });
 const nameOf = (id) => stores.find((s) => s.id === id).name;
 const q = query.trim().toLowerCase();
 const visible = all.filter((i) => sel.includes(i.store) && i.name.toLowerCase().includes(q));

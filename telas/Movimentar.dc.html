@@ -64,7 +64,7 @@ const pill = (on) => ({ bg: on ? accent : '#FFFFFF', fg: on ? '#FFFFFF' : '#4A1F
 return {
 accent: accent,
 titulo: isIn ? 'Entrada de estoque' : 'Saída de estoque',
-backHref: 'Item.dc.html#' + id, nome: it.name,
+backHref: 'Item.dc.html#' + id, nome: CX.label(it),
 perguntaQtd: (it.unid === 'par' ? (isIn ? 'Quantos pares chegaram?' : 'Quantos pares saíram?') : (isIn ? 'Quantas unidades chegaram?' : 'Quantas unidades saíram?')),
 perguntaLoja: isIn ? 'Em qual loja?' : 'De qual loja?',
 qtdStr: qtdStr,

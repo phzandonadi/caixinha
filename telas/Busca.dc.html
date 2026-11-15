@@ -128,7 +128,7 @@ else if (hasQuery && !listening) found = CX.search(query);
 const items = found.map((i) => {
 const ch = CX.chip(CX.status(i));
 const split = stores.filter((x) => (i.q[x.id] || 0) > 0).map((x) => x.short + ' ' + i.q[x.id]).join(' · ');
-return { name: i.name, href: mode ? 'Movimentar.dc.html#' + mode + '-' + i.id : 'Item.dc.html#' + i.id, meta: i.cat + ' · ' + i.cod + (split ? ' · ' + split : ''), qty: String(CX.total(i)), unid: i.unid === 'par' ? 'pares' : 'un.', chip: ch.t, chipBg: ch.bg, chipFg: ch.fg };
+return { name: CX.label(i), href: mode ? 'Movimentar.dc.html#' + mode + '-' + i.id : 'Item.dc.html#' + i.id, meta: i.cat + ' · ' + i.cod + (split ? ' · ' + split : ''), qty: String(CX.total(i)), unid: i.unid === 'par' ? 'pares' : 'un.', chip: ch.t, chipBg: ch.bg, chipFg: ch.fg };
 });
 const sug = (hasQuery && !vmode && items.length === 0) ? CX.suggest(query) : null;
 const recents = ['Camiseta básica', 'Tênis casual', 'Jaqueta'].map((t) => ({

@@ -1,7 +1,7 @@
 /* Caixinha: dados de demonstração compartilhados entre as telas.
    Guarda tudo no navegador (localStorage). Se o navegador não deixar, usa a memória da aba. */
 (function () {
-  var KEY = 'caixinha-demo-v2';
+  var KEY = 'caixinha-demo-v3';
   var DAY = 86400000;
   var mem = null;
   var STORES = [
@@ -13,18 +13,32 @@
     var n = Date.now();
     function at(daysAgo, h, m) { var d = new Date(n - daysAgo * DAY); d.setHours(h, m, 0, 0); return d.getTime(); }
     return {
-      v: 2, vazio: false, shopName: 'Moda Express', userName: 'Maria',
+      v: 3, vazio: false, shopName: 'Moda Express', userName: 'Maria',
       items: [
-        { id: 1, name: 'Camiseta básica branca M', cat: 'Roupas', cod: 'CAM-0042', apelidos: 'blusa, camisa, tshirt', unid: 'un', min: 10, preco: '79,90', custo: '32,00', q: { centro: 48, shopping: 0, norte: 0 } },
-        { id: 2, name: 'Calça jeans slim 42', cat: 'Roupas', cod: 'CAL-0107', apelidos: 'jeans, calca', unid: 'un', min: 10, preco: '189,90', custo: '84,00', q: { centro: 0, shopping: 6, norte: 0 } },
-        { id: 3, name: 'Tênis casual preto 40', cat: 'Calçados', cod: 'TEN-0220', apelidos: 'tenis, sapato, sapatenis', unid: 'un', min: 8, preco: '249,90', custo: '118,00', q: { centro: 22, shopping: 0, norte: 0 } },
-        { id: 4, name: 'Mochila escolar azul', cat: 'Acessórios', cod: 'MOC-0031', apelidos: 'bolsa, mochila', unid: 'un', min: 8, preco: '139,90', custo: '61,00', q: { centro: 5, shopping: 0, norte: 10 } },
-        { id: 5, name: 'Boné aba reta', cat: 'Acessórios', cod: 'BON-0015', apelidos: 'bone, chapeu', unid: 'un', min: 10, preco: '59,90', custo: '21,00', q: { centro: 0, shopping: 0, norte: 0 } },
-        { id: 6, name: 'Meias esportivas (par)', cat: 'Roupas', cod: 'MEI-0090', apelidos: 'meia, soquete', unid: 'par', min: 30, preco: '24,90', custo: '8,50', q: { centro: 40, shopping: 30, norte: 50 } },
-        { id: 7, name: 'Jaqueta corta-vento G', cat: 'Roupas', cod: 'JAQ-0058', apelidos: 'casaco, blusa de frio', unid: 'un', min: 4, preco: '219,90', custo: '98,00', q: { centro: 9, shopping: 0, norte: 0 } },
-        { id: 8, name: 'Camiseta polo azul G', cat: 'Roupas', cod: 'POL-0063', apelidos: 'polo, blusa, camisa', unid: 'un', min: 10, preco: '99,90', custo: '40,00', q: { centro: 0, shopping: 11, norte: 20 } },
-        { id: 9, name: 'Sandália slide 38', cat: 'Calçados', cod: 'SAN-0174', apelidos: 'chinelo, sandalia', unid: 'par', min: 8, preco: '69,90', custo: '27,00', q: { centro: 0, shopping: 4, norte: 0 } },
-        { id: 10, name: 'Cinto de couro marrom', cat: 'Acessórios', cod: 'CIN-0021', apelidos: 'cinta', unid: 'un', min: 6, preco: '89,90', custo: '33,00', q: { centro: 18, shopping: 0, norte: 0 } }
+        { id: 1, prod: 1, name: 'Camiseta básica branca', vlabel: 'M', cat: 'Roupas', cod: 'CAM-0042-M', apelidos: 'blusa, camisa, tshirt', unid: 'un', min: 10, preco: '79,90', custo: '32,00', q: { centro: 48, shopping: 0, norte: 0 } },
+        { id: 11, prod: 1, name: 'Camiseta básica branca', vlabel: 'P', cat: 'Roupas', cod: 'CAM-0042-P', apelidos: 'blusa, camisa, tshirt', unid: 'un', min: 10, preco: '79,90', custo: '32,00', q: { centro: 12, shopping: 0, norte: 0 } },
+        { id: 12, prod: 1, name: 'Camiseta básica branca', vlabel: 'G', cat: 'Roupas', cod: 'CAM-0042-G', apelidos: 'blusa, camisa, tshirt', unid: 'un', min: 10, preco: '79,90', custo: '32,00', q: { centro: 30, shopping: 5, norte: 0 } },
+        { id: 13, prod: 1, name: 'Camiseta básica branca', vlabel: 'GG', cat: 'Roupas', cod: 'CAM-0042-GG', apelidos: 'blusa, camisa, tshirt', unid: 'un', min: 10, preco: '79,90', custo: '32,00', q: { centro: 0, shopping: 0, norte: 0 } },
+        { id: 2, prod: 2, name: 'Calça jeans slim', vlabel: '42', cat: 'Roupas', cod: 'CAL-0107-42', apelidos: 'jeans, calca', unid: 'un', min: 10, preco: '189,90', custo: '84,00', q: { centro: 0, shopping: 6, norte: 0 } },
+        { id: 14, prod: 2, name: 'Calça jeans slim', vlabel: '38', cat: 'Roupas', cod: 'CAL-0107-38', apelidos: 'jeans, calca', unid: 'un', min: 6, preco: '189,90', custo: '84,00', q: { centro: 8, shopping: 0, norte: 0 } },
+        { id: 15, prod: 2, name: 'Calça jeans slim', vlabel: '40', cat: 'Roupas', cod: 'CAL-0107-40', apelidos: 'jeans, calca', unid: 'un', min: 6, preco: '189,90', custo: '84,00', q: { centro: 10, shopping: 4, norte: 0 } },
+        { id: 16, prod: 2, name: 'Calça jeans slim', vlabel: '44', cat: 'Roupas', cod: 'CAL-0107-44', apelidos: 'jeans, calca', unid: 'un', min: 6, preco: '189,90', custo: '84,00', q: { centro: 0, shopping: 0, norte: 0 } },
+        { id: 3, prod: 3, name: 'Tênis casual preto', vlabel: '40', cat: 'Calçados', cod: 'TEN-0220-40', apelidos: 'tenis, sapato, sapatenis', unid: 'un', min: 8, preco: '249,90', custo: '118,00', q: { centro: 22, shopping: 0, norte: 0 } },
+        { id: 17, prod: 3, name: 'Tênis casual preto', vlabel: '38', cat: 'Calçados', cod: 'TEN-0220-38', apelidos: 'tenis, sapato, sapatenis', unid: 'un', min: 8, preco: '249,90', custo: '118,00', q: { centro: 0, shopping: 0, norte: 0 } },
+        { id: 18, prod: 3, name: 'Tênis casual preto', vlabel: '42', cat: 'Calçados', cod: 'TEN-0220-42', apelidos: 'tenis, sapato, sapatenis', unid: 'un', min: 8, preco: '249,90', custo: '118,00', q: { centro: 9, shopping: 0, norte: 0 } },
+        { id: 4, prod: 4, name: 'Mochila escolar azul', vlabel: '', cat: 'Acessórios', cod: 'MOC-0031', apelidos: 'bolsa, mochila', unid: 'un', min: 8, preco: '139,90', custo: '61,00', q: { centro: 5, shopping: 0, norte: 10 } },
+        { id: 5, prod: 5, name: 'Boné aba reta', vlabel: '', cat: 'Acessórios', cod: 'BON-0015', apelidos: 'bone, chapeu', unid: 'un', min: 10, preco: '59,90', custo: '21,00', q: { centro: 0, shopping: 0, norte: 0 } },
+        { id: 6, prod: 6, name: 'Meias esportivas (par)', vlabel: '', cat: 'Roupas', cod: 'MEI-0090', apelidos: 'meia, soquete', unid: 'par', min: 30, preco: '24,90', custo: '8,50', q: { centro: 40, shopping: 30, norte: 50 } },
+        { id: 7, prod: 7, name: 'Jaqueta corta-vento', vlabel: 'G', cat: 'Roupas', cod: 'JAQ-0058-G', apelidos: 'casaco, blusa de frio', unid: 'un', min: 4, preco: '219,90', custo: '98,00', q: { centro: 9, shopping: 0, norte: 0 } },
+        { id: 19, prod: 7, name: 'Jaqueta corta-vento', vlabel: 'M', cat: 'Roupas', cod: 'JAQ-0058-M', apelidos: 'casaco, blusa de frio', unid: 'un', min: 4, preco: '219,90', custo: '98,00', q: { centro: 3, shopping: 0, norte: 0 } },
+        { id: 20, prod: 7, name: 'Jaqueta corta-vento', vlabel: 'P', cat: 'Roupas', cod: 'JAQ-0058-P', apelidos: 'casaco, blusa de frio', unid: 'un', min: 4, preco: '219,90', custo: '98,00', q: { centro: 5, shopping: 0, norte: 0 } },
+        { id: 8, prod: 8, name: 'Camiseta polo azul', vlabel: 'G', cat: 'Roupas', cod: 'POL-0063-G', apelidos: 'polo, blusa, camisa', unid: 'un', min: 10, preco: '99,90', custo: '40,00', q: { centro: 0, shopping: 11, norte: 20 } },
+        { id: 21, prod: 8, name: 'Camiseta polo azul', vlabel: 'M', cat: 'Roupas', cod: 'POL-0063-M', apelidos: 'polo, blusa, camisa', unid: 'un', min: 10, preco: '99,90', custo: '40,00', q: { centro: 0, shopping: 6, norte: 0 } },
+        { id: 22, prod: 8, name: 'Camiseta polo azul', vlabel: 'GG', cat: 'Roupas', cod: 'POL-0063-GG', apelidos: 'polo, blusa, camisa', unid: 'un', min: 10, preco: '99,90', custo: '40,00', q: { centro: 0, shopping: 14, norte: 0 } },
+        { id: 9, prod: 9, name: 'Sandália slide', vlabel: '38', cat: 'Calçados', cod: 'SAN-0174-38', apelidos: 'chinelo, sandalia', unid: 'par', min: 8, preco: '69,90', custo: '27,00', q: { centro: 0, shopping: 4, norte: 0 } },
+        { id: 23, prod: 9, name: 'Sandália slide', vlabel: '37', cat: 'Calçados', cod: 'SAN-0174-37', apelidos: 'chinelo, sandalia', unid: 'par', min: 8, preco: '69,90', custo: '27,00', q: { centro: 7, shopping: 0, norte: 0 } },
+        { id: 24, prod: 9, name: 'Sandália slide', vlabel: '39', cat: 'Calçados', cod: 'SAN-0174-39', apelidos: 'chinelo, sandalia', unid: 'par', min: 8, preco: '69,90', custo: '27,00', q: { centro: 0, shopping: 0, norte: 0 } },
+        { id: 10, prod: 10, name: 'Cinto de couro marrom', vlabel: '', cat: 'Acessórios', cod: 'CIN-0021', apelidos: 'cinta', unid: 'un', min: 6, preco: '89,90', custo: '33,00', q: { centro: 18, shopping: 0, norte: 0 } }
       ],
       mov: [
         { t: at(1, 16, 10), tipo: 'saida', item: 1, qtd: 2, loja: 'centro', motivo: 'Venda', quem: 'Ana' },
@@ -46,7 +60,7 @@
   }
   function load() {
     if (mem) return mem;
-    try { var s = window.localStorage.getItem(KEY); if (s) { mem = JSON.parse(s); if (mem && mem.v === 2) return mem; } } catch (e) {}
+    try { var s = window.localStorage.getItem(KEY); if (s) { mem = JSON.parse(s); if (mem && mem.v === 3) return mem; } } catch (e) {}
     mem = seed();
     return mem;
   }
@@ -66,6 +80,39 @@
     save: save,
     reset: function () { mem = seed(); save(); return mem; },
     norm: norm,
+
+    vsort: function (a, b) {
+      var R = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'XGG'], x = String(a.vlabel).toUpperCase(), y = String(b.vlabel).toUpperCase();
+      var nx = parseFloat(x), ny = parseFloat(y);
+      if (!isNaN(nx) && !isNaN(ny)) return nx - ny;
+      var ix = R.indexOf(x), iy = R.indexOf(y);
+      if (ix >= 0 && iy >= 0) return ix - iy;
+      return a.id - b.id;
+    },
+    label: function (it) { return it.vlabel ? it.name + ' · ' + it.vlabel : it.name; },
+    vars: function (it) { var s = load(); return s.items.filter(function (x) { return x.prod === it.prod; }).sort(CX.vsort); },
+    products: function () {
+      var s = load(), map = {}, out = [];
+      s.items.forEach(function (it) { var p = map[it.prod]; if (!p) { p = map[it.prod] = { id: it.prod, name: it.name, cat: it.cat, unid: it.unid, apelidos: it.apelidos, preco: it.preco, custo: it.custo, vars: [] }; out.push(p); } p.vars.push(it); });
+      out.forEach(function (p) { p.vars.sort(CX.vsort); });
+      return out;
+    },
+    hasVars: function (it) { var v = CX.vars(it); return v.length > 1 || !!it.vlabel; },
+    nextId: function () { var id = 1; load().items.forEach(function (i) { if (i.id >= id) id = i.id + 1; }); return id; },
+    nextProd: function () { var id = 1; load().items.forEach(function (i) { if ((i.prod || 0) >= id) id = i.prod + 1; }); return id; },
+    skuTaken: function (sku, exceptId) { var k = norm(sku); return load().items.some(function (i) { return i.id !== exceptId && norm(i.cod) === k && k; }); },
+    addProduto: function (o) {
+      var s = load(), pid = CX.nextProd(), first = null;
+      var vars = (o.vars && o.vars.length) ? o.vars : [{ label: '', sku: o.cod, q: o.q }];
+      vars.forEach(function (v) {
+        var it = { id: CX.nextId(), prod: pid, name: o.name, vlabel: v.label || '', cat: o.cat || 'Roupas', cod: v.sku || o.cod || '', apelidos: o.apelidos || '', unid: o.unid || 'un', min: o.min == null ? 10 : o.min, preco: o.preco || '', custo: o.custo || '', q: { centro: 0, shopping: 0, norte: 0 } };
+        var q = v.q || {}; if (typeof q === 'number') q = { centro: q }; for (var k in q) it.q[k] = Number(q[k]) || 0;
+        s.items.push(it); if (!first) first = it;
+      });
+      s.vazio = false; s.lastId = first.id;
+      CX.setToast('Produto cadastrado: ' + o.name + (vars.length > 1 ? ' (' + vars.length + ' variações)' : ''), false);
+      return first;
+    },
     item: function (id) { var s = load(); for (var i = 0; i < s.items.length; i++) if (s.items[i].id === Number(id)) return s.items[i]; return null; },
     total: function (it) { return (it.q.centro || 0) + (it.q.shopping || 0) + (it.q.norte || 0); },
     status: function (it) { var t = CX.total(it); return t === 0 ? 'zero' : (t <= it.min ? 'baixo' : 'ok'); },
@@ -91,8 +138,9 @@
       var s = load(), toks = norm(q).split(/\s+/).filter(Boolean);
       if (!toks.length) return s.items.slice();
       return s.items.filter(function (it) {
-        var hay = norm(it.name + ' ' + it.cod + ' ' + it.apelidos + ' ' + it.cat);
-        return toks.every(function (t) { return hay.indexOf(t) >= 0; });
+        var hay = norm(it.name + ' ' + (it.vlabel || '') + ' ' + it.cod + ' ' + it.apelidos + ' ' + it.cat);
+        var words = hay.split(/[\s,\-]+/);
+        return toks.every(function (t) { return t.length <= 2 ? words.indexOf(t) >= 0 : hay.indexOf(t) >= 0; });
       });
     },
     suggest: function (q) {
@@ -126,7 +174,7 @@
       CX.snapshot();
       it.q[o.loja] = (it.q[o.loja] || 0) + sign * qtd; s.lastId = it.id;
       s.mov.unshift({ t: Date.now(), tipo: o.tipo, item: it.id, qtd: qtd, loja: o.loja, motivo: o.motivo, quem: s.userName || 'Você' });
-      CX.setToast((sign > 0 ? 'Entrada registrada: +' : 'Saída registrada: −') + qtd + ' ' + it.name, true);
+      CX.setToast((sign > 0 ? 'Entrada registrada: +' : 'Saída registrada: −') + qtd + ' ' + CX.label(it), true);
       return { ok: true };
     },
     transfer: function (o) {
@@ -138,7 +186,7 @@
       CX.snapshot();
       it.q[o.de] -= qtd; it.q[o.para] = (it.q[o.para] || 0) + qtd; s.lastId = it.id;
       s.mov.unshift({ t: Date.now(), tipo: 'transf', item: it.id, qtd: qtd, de: o.de, para: o.para, motivo: 'Transferência', quem: s.userName || 'Você' });
-      CX.setToast('Transferência feita: ' + qtd + ' ' + it.name + ' de ' + CX.storeName(o.de) + ' para ' + CX.storeName(o.para), true);
+      CX.setToast('Transferência feita: ' + qtd + ' ' + CX.label(it) + ' de ' + CX.storeName(o.de) + ' para ' + CX.storeName(o.para), true);
       return { ok: true };
     },
     ajuste: function (id, loja, contado, motivo) {
@@ -148,14 +196,7 @@
       it.q[loja] = contado;
       s.mov.unshift({ t: Date.now(), tipo: 'ajuste', item: it.id, qtd: Math.abs(dif), sinal: dif >= 0 ? 1 : -1, loja: loja, motivo: motivo || 'Contagem', quem: s.userName || 'Você' });
     },
-    addItem: function (o) {
-      var s = load(), id = 1; s.items.forEach(function (i) { if (i.id >= id) id = i.id + 1; });
-      var it = { id: id, name: o.name, cat: o.cat || 'Roupas', cod: o.cod || '', apelidos: o.apelidos || '', unid: o.unid || 'un', min: o.min || 10, preco: o.preco || '', custo: o.custo || '', q: { centro: 0, shopping: 0, norte: 0 } };
-      var q = o.q || {}; for (var k in q) it.q[k] = Number(q[k]) || 0;
-      s.items.push(it); s.vazio = false; s.lastId = it.id;
-      CX.setToast('Item cadastrado: ' + it.name, false);
-      return it;
-    },
+    addItem: function (o) { return CX.addProduto(o); },
     takeLast: function () { var s = load(), l = s.lastId; if (l) { s.lastId = null; save(); } return l; },
     sel: function () { var s = load(); return s.sel && s.sel.length ? s.sel : ['centro', 'shopping', 'norte']; },
     setSel: function (a) { var s = load(); s.sel = a; save(); },
