@@ -33,7 +33,7 @@ button{font-family:'Nunito',system-ui,sans-serif}
 
 <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px 20px 24px 20px; display: flex; flex-direction: column; gap: 18px">
 
-<p style="margin: 0 4px; font-size: 15px; font-weight: 600; line-height: 1.5; color: #5C3A24">Cadastre vários itens de uma vez com uma planilha do Excel (.xlsx) ou um arquivo .csv.</p>
+<p style="margin: 0 4px; font-size: 15px; font-weight: 600; line-height: 1.5; color: #5C3A24">Cadastre vários produtos de uma vez com uma planilha do Excel (.xlsx) ou um arquivo .csv.</p>
 
 <sc-if value="{{ empty }}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column; gap: 14px; padding: 16px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 20px">
@@ -115,7 +115,7 @@ Baixar modelo .xlsx
 </div>
 
 <div style="display: flex; flex-direction: column; gap: 8px">
-<h2 style="margin: 0 4px; font-size: 15px; font-weight: 800; color: #4A1F05">Prévia dos itens</h2>
+<h2 style="margin: 0 4px; font-size: 15px; font-weight: 800; color: #4A1F05">Prévia dos produtos</h2>
 <sc-for list="{{preview}}" as="r" hint-placeholder-count="3">
 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 16px">
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
@@ -129,10 +129,10 @@ Baixar modelo .xlsx
 
 <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px">
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
-<span style="font-size: 15px; font-weight: 800; color: #2E1203">Atualizar itens que já existem</span>
+<span style="font-size: 15px; font-weight: 800; color: #2E1203">Atualizar produtos que já existem</span>
 <span style="font-size: 13px; font-weight: 600; line-height: 1.35; color: #5C3A24">Se o SKU já estiver cadastrado, atualiza em vez de duplicar.</span>
 </span>
-<button type="button" role="switch" aria-checked="{{upd}}" aria-label="Atualizar itens que já existem" onClick="{{flip}}" style="position: relative; width: 56px; height: 44px; flex: none; border: 0; background: transparent; cursor: pointer; padding: 0">
+<button type="button" role="switch" aria-checked="{{upd}}" aria-label="Atualizar produtos que já existem" onClick="{{flip}}" style="position: relative; width: 56px; height: 44px; flex: none; border: 0; background: transparent; cursor: pointer; padding: 0">
 <span style="position: absolute; left: 0; top: 8px; width: 56px; height: 28px; border-radius: 14px; background: {{track}}"></span>
 <span style="position: absolute; left: {{knob}}px; top: 11px; width: 22px; height: 22px; border-radius: 11px; background: #FFFFFF; box-shadow: 0 1px 4px rgba(46, 18, 3, 0.35)"></span>
 </button>
@@ -167,7 +167,7 @@ empty: !picked,
 upd: upd,
 track: upd ? accent : '#D9BFA6',
 knob: upd ? 30 : 4,
-ctaLabel: picked ? 'Importar 42 itens' : 'Escolha um arquivo',
+ctaLabel: picked ? 'Importar 42 produtos' : 'Escolha um arquivo',
 ctaOpacity: picked ? 1 : 0.45,
 modes: [['soma', 'Somar ao que já tem'], ['subst', 'Substituir pela planilha']].map((m) => ({ label: m[1], on: (this.state && this.state.mode || 'soma') === m[0], bg: (this.state && this.state.mode || 'soma') === m[0] ? accent : '#FFFFFF', fg: (this.state && this.state.mode || 'soma') === m[0] ? '#FFFFFF' : '#2E1203', bd: (this.state && this.state.mode || 'soma') === m[0] ? accent : '#E2C9B2', pick: () => this.setState({ mode: m[0] }) })),
 modeHint: (this.state && this.state.mode) === 'subst' ? 'A quantidade da planilha passa a ser o estoque de cada variação.' : 'A quantidade da planilha é somada ao estoque atual de cada variação.',

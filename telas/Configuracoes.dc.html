@@ -96,8 +96,8 @@ const on = st.on || { baixo: true, sem: true, mov: false };
 const limit = st.limit === undefined ? (CX.get().defMin || 10) : st.limit;
 const defs = [
 { id: 'baixo', title: 'Estoque baixo', desc: 'Avisar quando uma variação chegar ao mínimo dela.' },
-{ id: 'sem', title: 'Sem estoque', desc: 'Avisar quando um item zerar em alguma loja.' },
-{ id: 'mov', title: 'Movimentações', desc: 'Avisar quando outro usuário adicionar ou alterar itens.' }
+{ id: 'sem', title: 'Sem estoque', desc: 'Avisar quando uma variação zerar em alguma loja.' },
+{ id: 'mov', title: 'Movimentações', desc: 'Avisar quando outro usuário adicionar ou alterar produtos.' }
 ];
 return {
 accent: accent,

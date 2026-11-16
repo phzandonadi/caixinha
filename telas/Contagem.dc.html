@@ -29,7 +29,7 @@ button,input,select{font-family:'Nunito',system-ui,sans-serif}
 <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 14px 16px 20px 16px; display: flex; flex-direction: column; gap: 12px">
 <span style="font-size: 13px; font-weight: 800; color: #5C3A24; text-transform: uppercase; letter-spacing: 0.04em">Qual loja você está contando?</span>
 <div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{lojas}}" as="c" hint-placeholder-count="3"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">{{c.label}}</button></sc-for></div>
-<p style="margin: 0; font-size: 14px; font-weight: 600; color: #5C3A24">Digite o que você contou em cada item. Deixe em branco o que não contou.</p>
+<p style="margin: 0; font-size: 14px; font-weight: 600; color: #5C3A24">Digite o que você contou em cada variação. Deixe em branco o que não contou.</p>
 <sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
 <div style="flex: none; background: #FFFFFF; border: 2px solid #F0DCC8; border-radius: 18px; padding: 10px 12px; display: flex; align-items: center; gap: 10px">
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 800; color: #2E1203">{{r.name}}</span><span style="font-size: 13px; font-weight: 600; color: #5C3A24">No app: {{r.sys}} · <b style="color: {{r.fg}}">{{r.diff}}</b></span></span>
