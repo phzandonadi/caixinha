@@ -166,7 +166,7 @@ fg: mode === m.id ? '#7E3409' : '#FFD9B0',
 pick: () => this.setState({ mode: m.id })
 }));
 const sw = [
-{ id: 'baixa', title: 'Baixar o estoque a cada venda', hint: 'Cada venda no caixa reduz o estoque aqui' },
+{ id: 'baixa', title: 'Baixar o estoque a cada venda', hint: 'Cada venda reduz o estoque e aparece no Histórico com o selo Caixa' },
 { id: 'precos', title: 'Atualizar preços pelo caixa', hint: 'Os preços do caixa substituem os do Caixinha' },
 { id: 'aviso', title: 'Avisar quando os números do caixa e do app não baterem', hint: 'Quando o estoque do caixa e o daqui forem diferentes' }
 ].map((s) => ({

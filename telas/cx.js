@@ -1,7 +1,7 @@
 /* Caixinha: dados de demonstração compartilhados entre as telas.
    Guarda tudo no navegador (localStorage). Se o navegador não deixar, usa a memória da aba. */
 (function () {
-  var KEY = 'caixinha-demo-v3';
+  var KEY = 'caixinha-demo-v4';
   var DAY = 86400000;
   var mem = null;
   var STORES = [
@@ -13,7 +13,7 @@
     var n = Date.now();
     function at(daysAgo, h, m) { var d = new Date(n - daysAgo * DAY); d.setHours(h, m, 0, 0); return d.getTime(); }
     return {
-      v: 3, vazio: false, shopName: 'Moda Express', userName: 'Maria',
+      v: 4, vazio: false, shopName: 'Moda Express', userName: 'Maria',
       items: [
         { id: 1, prod: 1, name: 'Camiseta básica branca', vlabel: 'M', cat: 'Roupas', cod: 'CAM-0042-M', apelidos: 'blusa, camisa, tshirt', unid: 'un', min: 10, preco: '79,90', custo: '32,00', q: { centro: 48, shopping: 0, norte: 0 } },
         { id: 11, prod: 1, name: 'Camiseta básica branca', vlabel: 'P', cat: 'Roupas', cod: 'CAM-0042-P', apelidos: 'blusa, camisa, tshirt', unid: 'un', min: 10, preco: '79,90', custo: '32,00', q: { centro: 12, shopping: 0, norte: 0 } },
@@ -41,10 +41,12 @@
         { id: 10, prod: 10, name: 'Cinto de couro marrom', vlabel: '', cat: 'Acessórios', cod: 'CIN-0021', apelidos: 'cinta', unid: 'un', min: 6, preco: '89,90', custo: '33,00', q: { centro: 18, shopping: 0, norte: 0 } }
       ],
       mov: [
-        { t: at(1, 16, 10), tipo: 'saida', item: 1, qtd: 2, loja: 'centro', motivo: 'Venda', quem: 'Ana' },
+        { t: at(1, 16, 10), tipo: 'saida', item: 1, qtd: 2, loja: 'centro', motivo: 'Venda no caixa', quem: 'Caixa' },
         { t: at(3, 9, 30), tipo: 'entrada', item: 1, qtd: 20, loja: 'centro', motivo: 'Compra do fornecedor', quem: 'Carlos' },
-        { t: at(0, 10, 5), tipo: 'saida', item: 6, qtd: 4, loja: 'norte', motivo: 'Venda', quem: 'Ana' },
-        { t: at(1, 11, 40), tipo: 'saida', item: 5, qtd: 3, loja: 'shopping', motivo: 'Venda', quem: 'Ana' },
+        { t: at(0, 10, 5), tipo: 'saida', item: 6, qtd: 4, loja: 'norte', motivo: 'Venda no caixa', quem: 'Caixa' },
+        { t: at(1, 11, 40), tipo: 'saida', item: 5, qtd: 3, loja: 'shopping', motivo: 'Venda no caixa', quem: 'Caixa' },
+        { t: at(0, 14, 25), tipo: 'saida', item: 11, qtd: 1, loja: 'centro', motivo: 'Venda no caixa', quem: 'Caixa' },
+        { t: at(0, 13, 10), tipo: 'saida', item: 12, qtd: 2, loja: 'centro', motivo: 'Venda fora do caixa', quem: 'Ana' },
         { t: at(2, 15, 20), tipo: 'transf', item: 4, qtd: 5, de: 'norte', para: 'centro', motivo: 'Transferência', quem: 'Maria' },
         { t: at(2, 8, 50), tipo: 'saida', item: 9, qtd: 1, loja: 'shopping', motivo: 'Avaria', quem: 'Carlos' }
       ],
@@ -60,7 +62,7 @@
   }
   function load() {
     if (mem) return mem;
-    try { var s = window.localStorage.getItem(KEY); if (s) { mem = JSON.parse(s); if (mem && mem.v === 3) return mem; } } catch (e) {}
+    try { var s = window.localStorage.getItem(KEY); if (s) { mem = JSON.parse(s); if (mem && mem.v === 4) return mem; } } catch (e) {}
     mem = seed();
     return mem;
   }
@@ -209,6 +211,10 @@
       s.sel = (s.sel || []).filter(function (l) { return l !== id; });
       CX.setToast('Unidade removida: ' + CX.storeName(id) + (n ? '. ' + n + ' un. foram para ' + CX.storeName(dest) + '.' : '.'), false);
       save(); return { ok: true };
+    },
+    origem: function (m) {
+      var cx = m.quem === 'Caixa';
+      return { oLabel: cx ? 'Caixa' : String(m.quem || '').split(' ')[0], oBg: cx ? '#DCE8F7' : '#F3E4D4', oFg: cx ? '#173A63' : '#4A1F05', oIcon: cx ? 'M4 9h16v10H4zM7 9V5h10v4M8 14h3M14 14h2' : 'M12 12a4 4 0 100-8 4 4 0 000 8zM4 20c0-4 3.6-6 8-6s8 2 8 6', caixa: cx };
     },
     takeLast: function () { var s = load(), l = s.lastId; if (l) { s.lastId = null; save(); } return l; },
     sel: function () { var s = load(); return s.sel && s.sel.length ? s.sel : ['centro', 'shopping', 'norte']; },

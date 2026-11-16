@@ -65,7 +65,7 @@ button,input,select{font-family:'Nunito',system-ui,sans-serif}
 <sc-for list="{{hist}}" as="h" hint-placeholder-count="3">
 <div style="display: flex; flex-direction: column; gap: 1px; padding: 10px 16px; border-bottom: 1px solid #F3E4D4">
 <span style="font-size: 15px; font-weight: 800; color: {{h.color}}">{{h.line}}</span>
-<span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{h.when}}</span>
+<span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px"><span style="font-size: 13px; font-weight: 600; color: #5C3A24">{{h.when}}</span><span style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px 2px 6px; border-radius: 10px; background: {{h.oBg}}; color: {{h.oFg}}; font-size: 12px; font-weight: 800; white-space: nowrap"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{h.oIcon}}"></path></svg>{{h.oLabel}}</span></span>
 </div>
 </sc-for>
 </div>
@@ -112,7 +112,7 @@ if (m.tipo === 'saida') return { line: '−' + m.qtd + ' · ' + lojaDe(m) + ' ·
 if (m.tipo === 'ajuste') return { line: (m.sinal > 0 ? '+' : '−') + m.qtd + ' · ' + lojaDe(m) + ' · Ajuste (' + m.motivo + ')', color: '#5A3A00' };
 return { line: m.qtd + ' · ' + CX.storeName(m.de) + ' → ' + CX.storeName(m.para), color: '#4A1F05' };
 };
-const hist = CX.get().mov.filter((m) => m.item === it.id).slice(0, 4).map((m) => { const d = desc(m); return { line: d.line, color: d.color, when: CX.fmt(m.t) + ' · ' + m.quem }; });
+const hist = CX.get().mov.filter((m) => m.item === it.id).slice(0, 4).map((m) => { const d = desc(m); return { line: d.line, color: d.color, when: CX.fmt(m.t), oBg: CX.origem(m).oBg, oFg: CX.origem(m).oFg, oIcon: CX.origem(m).oIcon, oLabel: CX.origem(m).oLabel }; });
 return Object.assign({
 accent: accent, cat: it.cat, name: it.name + (it.vlabel ? ' · ' + it.vlabel : ''), hasVars: hasVars, varChips: varChips, prodTotal: String(siblings.reduce((a, v) => a + CX.total(v), 0)), totalOf: hasVars ? 'desta variação' : 'no total', cod: it.cod, total: String(CX.total(it)), unid: it.unid,
 chip: ch.t, chipBg: ch.bg, chipFg: ch.fg,
