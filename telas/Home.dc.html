@@ -27,14 +27,14 @@ button,input,select{font-family:'Nunito',system-ui,sans-serif}
 <div style="position: relative; width: 100%; max-width: 390px; height: 100vh; height: 100dvh; max-height: 844px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #FFF6EC; font-family: 'Nunito', system-ui, sans-serif; overflow: hidden">
 
 <div style="flex: none; position: relative; z-index: 3; background: {{accent}}; border-radius: 0 0 24px 24px; padding: 20px 16px 16px 16px; display: flex; align-items: center; gap: 8px">
-<a href="Lojas.dc.html" aria-label="Escolher loja" style="flex: 1; min-width: 0; height: 52px; border-radius: 16px; background: #7E3409; padding: 0 12px 0 16px; display: flex; align-items: center; gap: 8px; text-decoration: none">
+<button type="button" onClick="{{openStores}}" aria-label="Escolher loja" aria-expanded="{{showStores}}" style="border: 0; cursor: pointer; font-family: inherit; text-align: left; padding-top: 0; padding-bottom: 0; flex: 1; min-width: 0; height: 52px; border-radius: 16px; background: #7E3409; padding: 0 12px 0 16px; display: flex; align-items: center; gap: 8px; text-decoration: none">
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
 <span style="font-size: 12px; font-weight: 700; color: #FFD9B0; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{shop}}</span>
 <span style="font-size: 17px; font-weight: 800; color: #FFF1E2; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{storeLabel}}</span>
 </span>
 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
-</a>
-<a href="Filtro.dc.html" aria-label="Filtrar por categoria ou loja" style="width: 48px; height: 48px; flex: none; border-radius: 24px; background: #7E3409; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8z"></path></svg></a>
+</button>
+<button type="button" onClick="{{openFilter}}" aria-label="Filtrar por categoria ou loja" aria-expanded="{{showFilter}}" style="border: 0; cursor: pointer; font-family: inherit; text-align: left; padding-top: 0; padding-bottom: 0; width: 48px; height: 48px; flex: none; border-radius: 24px; background: #7E3409; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8z"></path></svg></button>
 <a href="Busca.dc.html" aria-label="Buscar item" style="width: 48px; height: 48px; flex: none; border-radius: 24px; background: #7E3409; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FFF1E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg></a>
 </div>
 
@@ -93,6 +93,82 @@ button,input,select{font-family:'Nunito',system-ui,sans-serif}
 <a href="Estatisticas.dc.html" aria-label="Relatórios" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"></path></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Relatórios</span></a>
 <a href="Mais.dc.html" aria-label="Mais" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none"><span style="width: 56px; height: 32px; border-radius: 16px; background: transparent; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#6B4A36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle></svg></span><span style="font-size: 12px; font-weight: 800; color: #6B4A36">Mais</span></a>
 </nav>
+<sc-if value="{{ showStores }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{closeOv}}" aria-label="Fechar seleção de lojas" style="position: absolute; z-index: 7; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%; border: 0; padding: 0; background: rgba(46, 18, 3, 0.5); cursor: default"></button>
+<div style="position: absolute; z-index: 8; left: 16px; right: 16px; top: 88px; background: #FFF6EC; border-radius: 22px; padding: 10px; box-sizing: border-box; display: flex; flex-direction: column; gap: 2px; box-shadow: 0 12px 32px rgba(46, 18, 3, 0.35)">
+<p style="margin: 6px 12px 4px 12px; font-size: 13px; font-weight: 700; color: #5C3A24">Qual estoque você quer ver?</p>
+<sc-for list="{{storeRows}}" as="row" hint-placeholder-count="3">
+<button type="button" onClick="{{row.toggle}}" style="display: flex; align-items: center; gap: 12px; width: 100%; height: 54px; box-sizing: border-box; padding: 0 12px; border: 0; border-radius: 14px; background: transparent; cursor: pointer; text-align: left">
+<span style="width: 24px; height: 24px; flex: none; box-sizing: border-box; border-radius: 8px; border: 2px solid {{row.border}}; background: {{row.bg}}; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="{{row.check}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+</span>
+<span style="flex: 1; font-size: 16px; font-weight: 700; color: #2E1203">{{row.name}}</span>
+<span style="font-size: 13px; font-weight: 700; color: #5C3A24">{{row.count}}</span>
+</button>
+</sc-for>
+<div style="height: 2px; margin: 2px 12px; background: #F0DCC8"></div>
+<button type="button" onClick="{{selectAll}}" style="display: flex; align-items: center; gap: 12px; width: 100%; height: 54px; box-sizing: border-box; padding: 0 12px; border: 0; border-radius: 14px; background: transparent; cursor: pointer; text-align: left">
+<span style="width: 24px; height: 24px; flex: none; box-sizing: border-box; border-radius: 8px; border: 2px solid {{allBorder}}; background: {{allBg}}; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="{{allCheck}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+</span>
+<span style="flex: 1; font-size: 16px; font-weight: 800; color: #2E1203">Todas as lojas</span>
+<span style="font-size: 13px; font-weight: 700; color: #5C3A24">{{totalLabel}}</span>
+</button>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; padding: 0 2px 0 12px">
+<span style="font-size: 14px; font-weight: 700; color: #5C3A24">{{selectedLabel}}</span>
+<button type="button" onClick="{{closeOv}}" style="border: 0; cursor: pointer; font-family: inherit; text-align: left; padding-top: 0; padding-bottom: 0; height: 48px; box-sizing: border-box; padding: 0 28px; border-radius: 14px; background: {{accent}}; color: #FFFFFF; font-size: 16px; font-weight: 800; text-decoration: none; display: flex; align-items: center">Confirmar</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ showFilter }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{closeOv}}" aria-label="Fechar filtros" style="position: absolute; z-index: 7; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%; border: 0; padding: 0; background: rgba(46, 18, 3, 0.55); cursor: default"></button>
+<div role="dialog" aria-label="Filtrar produtos" style="position: absolute; z-index: 8; left: 0; right: 0; bottom: 0; box-sizing: border-box; background: #FFF6EC; border-radius: 28px 28px 0 0; padding: 12px 20px 24px 20px; display: flex; flex-direction: column; box-shadow: 0 -8px 32px rgba(46, 18, 3, 0.3)">
+
+<div style="align-self: center; width: 44px; height: 5px; border-radius: 3px; background: #D9BFA6; margin-bottom: 14px"></div>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div>
+<h2 style="margin: 0; font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.2; color: #4A1F05">Filtrar</h2>
+<p style="margin: 0; font-size: 14px; font-weight: 600; color: #5C3A24">{{activeLabel}}</p>
+</div>
+<button type="button" onClick="{{closeOv}}" aria-label="Fechar filtros" style="border: 0; cursor: pointer; font-family: inherit; text-align: left; padding-top: 0; padding-bottom: 0; width: 44px; height: 44px; flex: none; border-radius: 22px; background: #F3DFCB; text-decoration: none; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4A1F05" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+</button>
+</div>
+
+<h3 style="margin: 20px 0 10px 0; font-size: 15px; font-weight: 800; color: #4A1F05">Situação do estoque</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{statusChips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.toggle}}" aria-pressed="{{c.on}}" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 22px; border: 2px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">
+<span style="width: 10px; height: 10px; flex: none; border-radius: 5px; background: {{c.dot}}"></span>
+<span>{{c.label}}</span>
+<span style="font-size: 13px; font-weight: 700">{{c.count}}</span>
+<sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+</sc-if>
+</button>
+</sc-for>
+</div>
+
+<h3 style="margin: 20px 0 10px 0; font-size: 15px; font-weight: 800; color: #4A1F05">Categoria</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{catChips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.toggle}}" aria-pressed="{{c.on}}" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 22px; border: 2px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-size: 15px; font-weight: 800; cursor: pointer">
+<span>{{c.label}}</span>
+<span style="font-size: 13px; font-weight: 700">{{c.count}}</span>
+<sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+</sc-if>
+</button>
+</sc-for>
+</div>
+
+<div style="display: flex; align-items: center; gap: 10px; margin-top: 28px">
+<button type="button" onClick="{{clearAll}}" style="flex: none; height: 52px; padding: 0 20px; border: 2px solid {{accent}}; border-radius: 16px; background: transparent; color: {{accent}}; font-size: 16px; font-weight: 800; cursor: pointer">Limpar</button>
+<button type="button" onClick="{{closeOv}}" style="border: 0; cursor: pointer; font-family: inherit; text-align: left; padding-top: 0; padding-bottom: 0; flex: 1; height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: center">{{showLabel}}</button>
+</div>
+
+</div>
+</sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9C430C"},"$preview":{"width":390,"height":844}}'>
@@ -129,6 +205,7 @@ return { p: p, vs: vs, q: q, nz: nz, nl: nl, multi: multi, status: status, show:
 }).filter((r) => r.show);
 const fl = CX.filter();
 const stKey = (r) => (r.status === 'ok' ? 'em' : (r.status === 'baixo' ? 'baixo' : 'sem'));
+const baseRows = rows.slice();
 rows = rows.filter((r) => (!fl.status.length || fl.status.indexOf(stKey(r)) >= 0) && (!fl.cat.length || fl.cat.indexOf(r.p.cat) >= 0));
 const stName = { em: 'Em estoque', baixo: 'Estoque baixo', sem: 'Sem estoque' };
 const fparts = fl.status.map((k) => stName[k]).concat(fl.cat);
@@ -152,10 +229,37 @@ return { name: r.p.name, href: 'Item.dc.html#' + first.id, meta: r.p.cat + (r.mu
 hasVars: r.multi, vars: r.multi ? r.vs.map((x) => ({ t: x.v.vlabel + ' ' + x.q, bg: pill[x.st][0], fg: pill[x.st][1] })) : [],
 chip: ch.t, chipBg: ch.bg, chipFg: ch.fg, bg: hot ? '#FFF1E2' : '#FFFFFF', bd: hot ? accent : '#F0DCC8' };
 });
+
+const OVMODE = '';
+const ovNow = st.ov === undefined ? OVMODE : st.ov;
+const baseCount = baseRows.length;
+const ovStoreRows = stores.map((x) => { const on = sel.indexOf(x.id) >= 0; const n = prods.filter((p) => p.vars.some((v) => (v.q[x.id] || 0) > 0)).length;
+return { name: x.name, count: plural(n), bg: on ? accent : '#FFFFFF', border: on ? accent : '#C9A98F', check: on ? '#FFFFFF' : 'transparent',
+toggle: () => { const cur = CX.sel(); if (cur.indexOf(x.id) >= 0) { if (cur.length === 1) { this.setState({ hint: true }); return; } CX.setSel(cur.filter((z) => z !== x.id)); } else CX.setSel(cur.concat(x.id)); this.setState({ hint: false, tick: Date.now() }); } }; });
+const ovAll = sel.length === stores.length;
+const stDefs = [{ key: 'em', label: 'Em estoque', dot: '#5FBF4A' }, { key: 'baixo', label: 'Estoque baixo', dot: '#F2B705' }, { key: 'sem', label: 'Sem estoque', dot: '#F0604D' }];
+const cats = ['Roupas', 'Calçados', 'Acessórios'];
+const chipStyle = (on) => ({ bg: on ? accent : '#FFFFFF', fg: on ? '#FFFFFF' : '#2E1203', border: on ? accent : '#D9BFA6' });
+const upd = (o) => { CX.setFilter(Object.assign({ status: CX.filter().status, cat: CX.filter().cat }, o)); this.setState({ tick: Date.now() }); };
+const statusChips = stDefs.map((d) => { const on = fl.status.indexOf(d.key) >= 0; return Object.assign({ label: d.label, dot: d.dot, on: on, count: String(baseRows.filter((r) => stKey(r) === d.key).length), toggle: () => upd({ status: on ? fl.status.filter((z) => z !== d.key) : fl.status.concat(d.key) }) }, chipStyle(on)); });
+const catChips = cats.map((c) => { const on = fl.cat.indexOf(c) >= 0; return Object.assign({ label: c, dot: 'transparent', on: on, count: String(baseRows.filter((r) => r.p.cat === c).length), toggle: () => upd({ cat: on ? fl.cat.filter((z) => z !== c) : fl.cat.concat(c) }) }, chipStyle(on)); });
+const nf = fl.status.length + fl.cat.length;
+const OV = {
+showStores: ovNow === 'stores', showFilter: ovNow === 'filter',
+openStores: () => this.setState({ ov: 'stores', hint: false }), openFilter: () => this.setState({ ov: 'filter' }), closeOv: () => this.setState({ ov: null, hint: false }),
+storeRows: ovStoreRows, allBg: ovAll ? accent : '#FFFFFF', allBorder: ovAll ? accent : '#C9A98F', allCheck: ovAll ? '#FFFFFF' : 'transparent',
+totalLabel: plural(prods.length),
+selectedLabel: st.hint ? 'Escolha pelo menos uma loja' : ovAll ? 'Todas as lojas' : (sel.length === 1 ? '1 loja selecionada' : sel.length + ' lojas selecionadas'),
+selectAll: () => { CX.setSel(stores.map((x) => x.id)); this.setState({ hint: false, tick: Date.now() }); },
+statusChips: statusChips, catChips: catChips,
+activeLabel: nf === 0 ? 'Nenhum filtro ativo' : (nf === 1 ? '1 filtro ativo' : nf + ' filtros ativos'),
+showLabel: rows.length === 0 ? 'Nenhum produto encontrado' : 'Mostrar ' + rows.length + (rows.length === 1 ? ' produto' : ' produtos'),
+clearAll: () => { CX.setFilter({ status: [], cat: [] }); this.setState({ tick: Date.now() }); }
+};
 let storeLabel = 'Todas as lojas';
 if (!allSel) storeLabel = sel.length === 1 ? CX.storeName(sel[0]) : sel.length + ' lojas';
 return Object.assign({
-accent: accent, shop: s.shopName || 'Estoque', storeLabel: storeLabel,
+accent: accent, ...OV, shop: s.shopName || 'Estoque', storeLabel: storeLabel,
 hasItems: s.items.length > 0, noItems: s.items.length === 0,
 hasAttention: att > 0, onlyAttention: only,
 hasFilter: fparts.length > 0, filterText: 'Filtrando: ' + fparts.join(' · '), clearFilter: () => { CX.setFilter({ status: [], cat: [] }); this.setState({ t: Date.now() }); },
