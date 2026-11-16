@@ -10,6 +10,8 @@
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
+/* listas roláveis: nada encolhe nem se sobrepõe */
+[style*="overflow-y: auto"]>*,[style*="overflow: auto"]>*{flex-shrink:0}
 /* toque: alvo mínimo de 52px (~0,8 cm) em todo controle */
 button,a[href],[role=switch],[role=button],select{min-height:52px!important;min-width:52px!important;box-sizing:border-box}
 input:not([type=checkbox]):not([type=radio]){min-height:52px!important;box-sizing:border-box}
