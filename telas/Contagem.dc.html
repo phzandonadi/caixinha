@@ -12,6 +12,10 @@
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
 <style>
+/* toque: alvo mínimo de 52px (~0,8 cm) em todo controle */
+button,a[href],[role=switch],[role=button],select{min-height:52px!important;min-width:52px!important;box-sizing:border-box}
+input:not([type=checkbox]):not([type=radio]){min-height:52px!important;box-sizing:border-box}
+button:not([style*="width"]),a[href]:not([style*="width"]){touch-action:manipulation}
 html,body{margin:0;height:100%}
 x-dc{display:block;height:100%}
 a{text-decoration:none}
