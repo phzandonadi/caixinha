@@ -113,9 +113,8 @@ this.setState({ err: '', info: 'Se existir uma conta com ' + em + ', o link para
 },
 submit: () => {
 const em = (st.email || '').trim(), nm = (st.nome || '').trim();
-if (login) { CX.reset(); CX.go('Home.dc.html'); return; }
-const s = CX.reset(); s.userName = nm || 'Você'; s.vazio = true; s.items = []; s.mov = []; s.shopName = 'Minha loja'; CX.save();
-CX.go('BoasVindas.dc.html');
+const s = CX.reset(); if (!login && nm) { s.userName = nm; CX.save(); }
+CX.go('Home.dc.html');
 }
 };
 }
