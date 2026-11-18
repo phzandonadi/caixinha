@@ -48,10 +48,9 @@ on_u1: (e) => this.setState({ u1: e.target.value, err: '' }),
 on_u2: (e) => this.setState({ u2: e.target.value, err: '' }),
 hasErr: !!st.err, err: st.err || '',
 next: () => {
-if (step === 1) { if (!shop.trim()) { this.setState({ err: 'Digite o nome da sua loja para continuar.' }); return; } this.setState({ step: 2, err: '' }); return; }
+if (step === 1) { this.setState({ step: 2, shop: shop.trim() || 'Minha loja', err: '' }); return; }
 if (step === 2) {
-if (!u1.trim()) { this.setState({ err: 'Digite o nome da primeira unidade.' }); return; }
-const s = CX.get(); s.vazio = true; s.shopName = shop.trim(); s.items = []; s.mov = []; s.toast = null; s.users = [{ id: 1, nome: s.userName || 'Você', email: '', cargo: 'Administrador', lojas: 'Todas as lojas', status: 'Ativo' }];
+const s = CX.get(); s.vazio = true; s.shopName = shop.trim() || 'Minha loja'; s.items = []; s.mov = []; s.toast = null; s.users = [{ id: 1, nome: s.userName || 'Você', email: '', cargo: 'Administrador', lojas: 'Todas as lojas', status: 'Ativo' }];
 CX.save();
 this.setState({ step: 3, err: '' });
 }

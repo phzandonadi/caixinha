@@ -56,19 +56,20 @@ a{color:#9C430C}a:hover{color:#6E2D06}
 <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="nome" style="font-size: 14px; font-weight: 700; color: #4A1F05">Nome</label>
-<input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" placeholder="Como podemos te chamar?" autocomplete="name" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+<input id="nome" type="text" value="{{nome}}" onChange="{{onNome}}" placeholder="Opcional na demonstração" autocomplete="name" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
 </div>
 </sc-if>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="email" style="font-size: 14px; font-weight: 700; color: #4A1F05">E-mail</label>
-<input id="email" type="email" value="{{email}}" onChange="{{onEmail}}" placeholder="voce@sualoja.com" autocomplete="email" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+<input id="email" type="email" value="{{email}}" onChange="{{onEmail}}" placeholder="Opcional na demonstração" autocomplete="email" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="senha" style="font-size: 14px; font-weight: 700; color: #4A1F05">Senha</label>
-<input id="senha" type="password" value="{{senha}}" onChange="{{onSenha}}" placeholder="Mínimo de 8 caracteres" autocomplete="current-password" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
+<input id="senha" type="password" value="{{senha}}" onChange="{{onSenha}}" placeholder="Opcional na demonstração" autocomplete="current-password" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 2px solid #E2C9B2; border-radius: 12px; background: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 16px; color: #2E1203">
 </div>
 </div>
 
+<p style="margin: 0; text-align: center; font-size: 13px; line-height: 1.4; font-weight: 700; color: #5C3A24">Nesta demonstração, é só tocar no botão: não precisa digitar nada.</p>
 <sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #FAD2CB; color: #7A1E10; font-size: 14px; font-weight: 700">{{err}}</p></sc-if>
 <sc-if value="{{ hasInfo }}" hint-placeholder-val="{{ false }}"><p role="status" style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #DDEFD8; color: #1F4D1A; font-size: 14px; font-weight: 700">{{info}}</p></sc-if>
 <button type="button" onClick="{{submit}}" style="height: 52px; border-radius: 16px; background: {{accent}}; color: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none; border: 0; cursor: pointer">{{ctaLabel}}</button>
@@ -111,14 +112,9 @@ if (em.indexOf('@') < 1) { this.setState({ err: 'Digite seu e-mail no campo acim
 this.setState({ err: '', info: 'Se existir uma conta com ' + em + ', o link para criar uma nova senha chega em alguns minutos. Nesta demonstração, nenhum e-mail é enviado.' });
 },
 submit: () => {
-const em = (st.email || '').trim(), pw = st.senha || '', nm = (st.nome || '').trim();
-const fail = (m) => this.setState({ err: m, info: '' });
-if (!login && !nm) return fail('Digite seu nome para criar a conta.');
-if (em.indexOf('@') < 1 || em.indexOf('.', em.indexOf('@')) < 0) return fail('Digite um e-mail válido, como voce@sualoja.com.');
-if (login && !pw) return fail('Digite a sua senha.');
-if (!login && pw.length < 8) return fail('A senha precisa ter pelo menos 8 caracteres.');
+const em = (st.email || '').trim(), nm = (st.nome || '').trim();
 if (login) { CX.reset(); CX.go('Home.dc.html'); return; }
-const s = CX.reset(); s.userName = nm; s.vazio = true; s.items = []; s.mov = []; s.shopName = 'Minha loja'; CX.save();
+const s = CX.reset(); s.userName = nm || 'Você'; s.vazio = true; s.items = []; s.mov = []; s.shopName = 'Minha loja'; CX.save();
 CX.go('BoasVindas.dc.html');
 }
 };
